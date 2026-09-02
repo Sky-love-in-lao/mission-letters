@@ -16,8 +16,6 @@ const DEFAULTS = {
   repoBranch: 'main',
   defaultPassword: '1225',
   defaultHint: '성탄절은 언제인가요?',
-  orgName: '은혜교회 선교부',
-  logo: '',
   portrait: '',
   supportNote: '기도와 후원 감사합니다.',
   supportBank: '국민은행',

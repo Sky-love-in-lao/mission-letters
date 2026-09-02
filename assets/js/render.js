@@ -42,23 +42,12 @@ function figureHTML(block, extraClass = '') {
     </figure>`;
 }
 
-/** 편지지 머리 — 로고와 발행처를 왼쪽, 발행 기간을 오른쪽에 둔 마스트헤드. */
 function mastheadHTML(body, period) {
-  const logo = String(body.logo || '').trim();
-  const org  = String(body.orgName || '').trim();
-  const hasBrand = Boolean(logo || org);
-  if (!hasBrand && !period) return '';
-
-  const logoTag = imageTag(logo, 'masthead__logo', org || '발행처 로고');
+  if (!period) return '';
 
   return `
-    <div class="masthead${hasBrand ? '' : ' masthead--bare'}">
-      ${hasBrand ? `
-        <div class="masthead__brand">
-          ${logoTag}
-          ${org ? `<span class="masthead__org">${esc(org)}</span>` : ''}
-        </div>` : ''}
-      ${period ? `<p class="masthead__period">${esc(period)}</p>` : ''}
+    <div class="masthead masthead--bare">
+      <div class="masthead__period">${esc(period)}</div>
     </div>`;
 }
 

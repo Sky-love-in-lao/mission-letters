@@ -79,8 +79,7 @@ export async function renderWrite(root, editId) {
   if (!state.body.heroSize) state.body.heroSize = 'normal';
 
   if (!state.isEdit) {
-    if (!state.body.orgName) state.body.orgName = settings.orgName || '';
-    if (!state.body.logo) state.body.logo = settings.logo || '';
+
     if (!state.body.portrait) state.body.portrait = settings.portrait || '';
   }
   // 새 편지는 설정에 적어 둔 후원 안내로 시작한다.
@@ -129,20 +128,8 @@ function paint(root) {
             <input id="greeting" type="text" value="${esc(state.body.greeting)}" placeholder="사랑하는 후원자님께">
           </label>
         </div>
-        <div class="field-row">
-          <label class="field">
-            <span class="field__label">발행처 (선택)</span>
-            <input id="orgName" type="text" value="${esc(state.body.orgName || '')}" placeholder="한샘교회 선교부">
-            <span class="field__hint">로고 옆에 함께 나옵니다.</span>
-          </label>
-          <label class="field">
-            <span class="field__label">로고 (선택)</span>
-            <input id="logoLink" type="text" value="${esc(state.body.logo || '')}" placeholder="assets/img/logo.png" autocapitalize="none" spellcheck="false">
-            <span class="field__hint" id="logo-hint"></span>
-          </label>
-        </div>
         <div class="field">
-          <span class="field__label">머리글 사진 (선택)</span>
+          <span class="field__label">대문사진 (선택)</span>
           <div style="display: flex; gap: 8px;">
             <input id="heroLink" type="text" value="${esc(state.body.hero || '')}" placeholder="구글 드라이브 공유 링크" autocapitalize="none" spellcheck="false" style="flex: 1; min-width: 0;">
             <input type="file" id="hero-file" accept="image/*" style="display: none;">
@@ -296,27 +283,6 @@ function bindFields(root) {
     const input = $('#' + id, root);
     input.oninput = () => { state.body.support[key] = input.value; persist(root); };
   }
-  const org = $('#orgName', root);
-  org.oninput = () => { state.body.orgName = org.value; persist(root); };
-
-  const logo = $('#logoLink', root);
-  const logoHint = $('#logo-hint', root);
-  const readLogo = () => {
-    const raw = logo.value.trim();
-    if (!raw) { state.body.logo = ''; logoHint.textContent = '비워 두면 로고 없이 나옵니다.'; return; }
-    const driveId = extractDriveId(raw);
-    if (driveId) {
-      state.body.logo = driveId;
-      logoHint.textContent = '드라이브 파일입니다. “링크가 있는 모든 사용자”로 공유해 주세요.';
-      return;
-    }
-    state.body.logo = raw;                       // 저장소 안의 경로나 주소는 그대로 쓴다
-    logoHint.textContent = /[/.]/.test(raw)
-      ? '저장소에 넣어 둔 그림을 씁니다.'
-      : '경로나 드라이브 링크로 적어 주세요.';
-  };
-  logo.oninput = () => { readLogo(); persist(root); };
-  readLogo();
 
   const heroInput = $('#heroLink', root);
   const heroPick = $('#hero-pick', root);

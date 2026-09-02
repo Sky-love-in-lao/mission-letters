@@ -19,21 +19,6 @@ export function renderSettings(root) {
             <input name="missionaryName" type="text" value="${esc(s.missionaryName)}" placeholder="홍길동 선교사" autocomplete="name">
             <span class="field__hint">편지 머리말에 표시됩니다.</span>
           </label>
-          <div class="field-row">
-            <label class="field">
-              <span class="field__label">발행처 (선택)</span>
-              <input name="orgName" type="text" value="${esc(s.orgName || '')}" placeholder="한샘교회 선교부">
-            </label>
-            <label class="field">
-              <span class="field__label">로고 (선택)</span>
-              <div style="display: flex; gap: 8px;">
-                <input name="logo" type="text" value="${esc(s.logo || '')}" placeholder="assets/img/logo.png" autocapitalize="none" spellcheck="false" style="flex: 1; min-width: 0;">
-                <input type="file" id="logo-file" accept="image/*" style="display: none;">
-                <button type="button" class="btn" id="logo-btn" style="white-space: nowrap;">이미지 선택</button>
-              </div>
-              <span class="field__hint">새 편지에 자동으로 채워집니다. 파일 선택 시 브라우저에 저장됩니다.</span>
-            </label>
-          </div>
           <label class="field">
             <span class="field__label">맺음 사진 (선택)</span>
             <div style="display: flex; gap: 8px;">
@@ -157,7 +142,6 @@ export function renderSettings(root) {
     };
   };
 
-  setupFilePicker('logo-btn', 'logo-file', 'logo');
   setupFilePicker('portrait-btn', 'portrait-file', 'portrait');
 
   form.onsubmit = e => {
@@ -172,8 +156,6 @@ export function renderSettings(root) {
 function readForm(form) {
   return {
     missionaryName: form.missionaryName.value.trim(),
-    orgName: form.orgName.value.trim(),
-    logo: (extractDriveId(form.logo.value) || form.logo.value.trim()),
     portrait: (extractDriveId(form.portrait.value) || form.portrait.value.trim()),
     repoOwner: form.repoOwner.value.trim().replace(/^@/, ''),
     repoName: form.repoName.value.trim(),
