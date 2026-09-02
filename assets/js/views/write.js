@@ -16,7 +16,7 @@ export async function renderWrite(root, editId) {
     id: editId || currentMonthId(),
     isEdit: Boolean(editId),
     password: settings.defaultPassword || '',
-    hint: '',
+    hint: settings.defaultHint || '',
     publishedAt: null,
     body: emptyBody(settings.missionaryName)
   };

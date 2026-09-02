@@ -72,11 +72,17 @@ export function renderSettings(root) {
         <section class="card">
           <h2 class="card__title">3. 기본 비밀번호</h2>
           <p class="card__lead">새 편지를 쓸 때 자동으로 채워집니다. 목록에서 편지 제목을 보여줄 때도 사용합니다.</p>
-          <label class="field">
-            <span class="field__label">비밀번호 (8자 이상)</span>
-            <input name="defaultPassword" type="text" value="${esc(s.defaultPassword)}" placeholder="후원자에게 알려줄 비밀번호" autocapitalize="none" spellcheck="false">
-            <span class="field__hint">후원자에게 링크와 함께 알려주는 값입니다. 숨길 필요가 없어 그대로 보입니다.</span>
-          </label>
+          <div class="field-row">
+            <label class="field">
+              <span class="field__label">비밀번호 (4자 이상)</span>
+              <input name="defaultPassword" type="text" value="${esc(s.defaultPassword)}" placeholder="후원자에게 알려줄 비밀번호" autocapitalize="none" spellcheck="false">
+            </label>
+            <label class="field">
+              <span class="field__label">비밀번호 힌트 (선택)</span>
+              <input name="defaultHint" type="text" value="${esc(s.defaultHint || '')}" placeholder="성탄절은 언제인가요?">
+            </label>
+          </div>
+          <p class="field__hint" style="margin-top:-8px; margin-bottom:16px;">후원자에게 힌트와 비밀번호가 함께 안내됩니다. 힌트는 암호화되지 않습니다.</p>
           <div class="callout">
             <strong>비밀번호를 잊으면 편지를 열 수 없습니다.</strong>
             편지는 이 비밀번호로 암호화되어 저장되며, 복구 수단이 없습니다. 안전한 곳에 적어 두세요.
@@ -173,6 +179,7 @@ function readForm(form) {
     repoName: form.repoName.value.trim(),
     repoBranch: form.repoBranch.value.trim() || 'main',
     defaultPassword: form.defaultPassword.value,
+    defaultHint: form.defaultHint.value,
     supportNote: form.supportNote.value.trim(),
     supportBank: form.supportBank.value.trim(),
     supportAccount: form.supportAccount.value.trim(),
