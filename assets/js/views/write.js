@@ -143,7 +143,11 @@ function paint(root) {
         </div>
         <div class="field">
           <span class="field__label">머리글 사진 (선택)</span>
-          <input id="heroLink" type="text" value="${esc(state.body.hero || '')}" placeholder="구글 드라이브 공유 링크" autocapitalize="none" spellcheck="false">
+          <div style="display: flex; gap: 8px;">
+            <input id="heroLink" type="text" value="${esc(state.body.hero || '')}" placeholder="구글 드라이브 공유 링크" autocapitalize="none" spellcheck="false" style="flex: 1; min-width: 0;">
+            <input type="file" id="hero-file" accept="image/*" style="display: none;">
+            <button type="button" class="btn" id="hero-btn" style="white-space: nowrap;">이미지 선택</button>
+          </div>
           <span class="field__hint" id="hero-hint">편지 맨 위에 크게 깔리고 그 위에 제목이 얹힙니다.</span>
           <div class="hero-pick" id="hero-pick"${state.body.hero ? '' : ' hidden'}>
             <div class="hero-pick__photo">
@@ -341,6 +345,42 @@ function bindFields(root) {
     persist(root);
     paintHero();
   };
+
+  const heroBtn = $('#hero-btn', root);
+  const heroFile = $('#hero-file', root);
+  if (heroBtn && heroFile) {
+    heroBtn.onclick = () => heroFile.click();
+    heroFile.onchange = e => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const r = new FileReader();
+      r.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let w = img.width;
+          let h = img.height;
+          const max = 1200; // 머리글 사진은 조금 더 크게 허용
+          if (w > max || h > max) {
+            if (w > h) { h = Math.round(h * max / w); w = max; }
+            else { w = Math.round(w * max / h); h = max; }
+          }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+          heroInput.value = dataUrl;
+          state.body.hero = dataUrl;
+          persist(root);
+          paintHero();
+        };
+        img.src = r.result;
+      };
+      r.readAsDataURL(f);
+    };
+  }
+
   paintHero();
 
   $$('[data-hero-size]', root).forEach(button => {
