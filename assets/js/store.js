@@ -10,18 +10,18 @@ const READER_PW_SHARED = 'missionletter.readerpw.__shared';
 // 늘 같은 값을 쓴다면 여기에 직접 적어 두어도 된다.
 // ※ GitHub 토큰과 편지 비밀번호는 절대 여기에 적지 말 것 — 공개 저장소에 그대로 올라간다.
 const DEFAULTS = {
-  missionaryName: '',        // 예: '홍길동 선교사'
-  repoOwner: '',             // 예: 'mygithubid'
-  repoName: '',              // 예: 'letters'
+  missionaryName: '요한 선교사',
+  repoOwner: 'Sky-love-in-lao',
+  repoName: 'mission-letters',
   repoBranch: 'main',
-  defaultPassword: '',
-  orgName: '',               // 예: '○○교회 선교부'
-  logo: '',                  // 예: 'assets/img/logo.png'
-  portrait: '',              // 예: 'assets/img/portrait.png'
-  supportNote: '',
-  supportBank: '',
-  supportAccount: '',
-  supportHolder: ''
+  defaultPassword: 'password123',
+  orgName: '은혜교회 선교부',
+  logo: '',
+  portrait: '',
+  supportNote: '기도와 후원 감사합니다.',
+  supportBank: '국민은행',
+  supportAccount: '123-456-789012',
+  supportHolder: '김요한'
 };
 
 function safeParse(raw, fallback) {

@@ -26,13 +26,21 @@ export function renderSettings(root) {
             </label>
             <label class="field">
               <span class="field__label">로고 (선택)</span>
-              <input name="logo" type="text" value="${esc(s.logo || '')}" placeholder="assets/img/logo.png" autocapitalize="none" spellcheck="false">
-              <span class="field__hint">새 편지에 자동으로 채워집니다.</span>
+              <div style="display: flex; gap: 8px;">
+                <input name="logo" type="text" value="${esc(s.logo || '')}" placeholder="assets/img/logo.png" autocapitalize="none" spellcheck="false" style="flex: 1; min-width: 0;">
+                <input type="file" id="logo-file" accept="image/*" style="display: none;">
+                <button type="button" class="btn" id="logo-btn" style="white-space: nowrap;">이미지 선택</button>
+              </div>
+              <span class="field__hint">새 편지에 자동으로 채워집니다. 파일 선택 시 브라우저에 저장됩니다.</span>
             </label>
           </div>
           <label class="field">
             <span class="field__label">맺음 사진 (선택)</span>
-            <input name="portrait" type="text" value="${esc(s.portrait || '')}" placeholder="assets/img/portrait.png" autocapitalize="none" spellcheck="false">
+            <div style="display: flex; gap: 8px;">
+              <input name="portrait" type="text" value="${esc(s.portrait || '')}" placeholder="assets/img/portrait.png" autocapitalize="none" spellcheck="false" style="flex: 1; min-width: 0;">
+              <input type="file" id="portrait-file" accept="image/*" style="display: none;">
+              <button type="button" class="btn" id="portrait-btn" style="white-space: nowrap;">이미지 선택</button>
+            </div>
             <span class="field__hint">편지 맨 끝에 이름과 함께 작은 원형으로 나옵니다.</span>
           </label>
         </section>
@@ -108,6 +116,43 @@ export function renderSettings(root) {
     </div>`;
 
   const form = $('#settings-form', root);
+
+  const setupFilePicker = (btnId, fileId, inputName) => {
+    const btn = $('#' + btnId, root);
+    const file = $('#' + fileId, root);
+    if (!btn || !file) return;
+    btn.onclick = () => file.click();
+    file.onchange = e => {
+      const f = e.target.files[0];
+      if (!f) return;
+      
+      // 이미지 크기를 줄이기 위한 캔버스 처리 (선택사항이나, 로컬스토리지 용량 고려)
+      const r = new FileReader();
+      r.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let w = img.width;
+          let h = img.height;
+          const max = 400; // 로고나 맺음사진은 400px 이면 충분함
+          if (w > max || h > max) {
+            if (w > h) { h = Math.round(h * max / w); w = max; }
+            else { w = Math.round(w * max / h); h = max; }
+          }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          form[inputName].value = canvas.toDataURL('image/jpeg', 0.8);
+        };
+        img.src = r.result;
+      };
+      r.readAsDataURL(f);
+    };
+  };
+
+  setupFilePicker('logo-btn', 'logo-file', 'logo');
+  setupFilePicker('portrait-btn', 'portrait-file', 'portrait');
 
   form.onsubmit = e => {
     e.preventDefault();
