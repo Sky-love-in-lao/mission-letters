@@ -28,7 +28,11 @@ function safeParse(raw, fallback) {
 }
 
 export function getSettings() {
-  return { ...DEFAULTS, ...safeParse(localStorage.getItem(KEY), {}) };
+  const s = { ...DEFAULTS, ...safeParse(localStorage.getItem(KEY), {}) };
+  if (['password123', '12345678'].includes(s.defaultPassword)) {
+    s.defaultPassword = '1225';
+  }
+  return s;
 }
 
 export function saveSettings(patch) {
