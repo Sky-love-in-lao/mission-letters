@@ -15,7 +15,7 @@ export async function renderWrite(root, editId) {
   state = {
     id: editId || currentMonthId(),
     isEdit: Boolean(editId),
-    password: settings.defaultPassword || '',
+    password: (!settings.defaultPassword || settings.defaultPassword === 'password123') ? '1225' : settings.defaultPassword,
     hint: settings.defaultHint || '',
     publishedAt: null,
     body: emptyBody(settings.missionaryName)
@@ -214,7 +214,7 @@ function paint(root) {
         <h2 class="card__title">비밀번호</h2>
         <div class="field-row">
           <label class="field">
-            <span class="field__label">이 편지의 비밀번호 (8자 이상)</span>
+            <span class="field__label">이 편지의 비밀번호 (4자 이상)</span>
             <input id="password" type="text" value="${esc(state.password)}" autocapitalize="none" spellcheck="false">
           </label>
           <label class="field">
