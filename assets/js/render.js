@@ -90,8 +90,6 @@ function prayersHTML(prayers, id) {
           <li class="prayers__item">
             ${p.title ? `<h3 class="prayers__name">${esc(p.title)}</h3>` : ''}
             ${p.text ? `<div class="prayers__text">${paragraphs(p.text)}</div>` : ''}
-            <button type="button" class="prayers__mark no-print"
-                    data-prayed="${esc(String(i))}" data-letter="${esc(id || '')}">기도했습니다</button>
           </li>`).join('')}
       </ol>
     </section>`;
@@ -199,22 +197,7 @@ export function letterHTML(body, meta = {}) {
  * 선교사에게 전달되지 않는다는 점을 문구로 분명히 한다.
  */
 export function bindPrayers(root) {
-  root.querySelectorAll('[data-prayed]').forEach(button => {
-    const key = PRAYED_KEY(button.dataset.letter, button.dataset.prayed);
-    const paint = on => {
-      button.classList.toggle('is-on', on);
-      button.textContent = on ? '기도했습니다 ✓' : '기도했습니다';
-      button.title = on ? '이 기기에만 남는 표시입니다. 다시 누르면 지워집니다.' : '이 기기에만 표시가 남습니다.';
-    };
-    let on = false;
-    try { on = localStorage.getItem(key) === '1'; } catch { /* 저장 못 해도 화면은 돈다 */ }
-    paint(on);
-    button.onclick = () => {
-      on = !on;
-      try { on ? localStorage.setItem(key, '1') : localStorage.removeItem(key); } catch { /* noop */ }
-      paint(on);
-    };
-  });
+  // 기도 버튼이 제거되었으므로 더 이상 바인딩하지 않음
 }
 
 /**
