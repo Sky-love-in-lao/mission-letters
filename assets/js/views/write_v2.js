@@ -4,7 +4,7 @@ import { getSettings, saveDraft, loadDraft, clearDraft } from '../store.js';
 import { emptyBody, openLetter, countPhotos } from '../letters.js';
 import { checkPassword } from '../crypto.js';
 import { extractDriveId, verifyDriveImage, loadDriveImage, SHARE_HELP, SHARE_CONFIRM, PHOTO_LIMIT_HINT } from '../drive.js';
-import { letterHTML, loadLetterImages, bindPrayers } from '../render.js';
+import { letterHTML, loadLetterImages, bindPrayers } from '../render_v2.js';
 import { shareLink } from '../github.js';
 import { navigate } from '../router.js';
 
