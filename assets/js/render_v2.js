@@ -2,7 +2,7 @@
 // 디자인: Sacred Correspondence — Hero(첫 사진) → 에디토리얼 교차 배치 → 기도제목 → 후원 안내.
 
 import { esc, paragraphs, periodLabel } from './util.js';
-import { loadDriveImage, driveViewUrl, SHARE_HELP } from ../drive_v2.js';
+import { loadDriveImage, driveViewUrl, SHARE_HELP } from './drive_v2.js';
 
 const PRAYED_KEY = (id, i) => `missionletter.prayed.${id}.${i}`;
 
