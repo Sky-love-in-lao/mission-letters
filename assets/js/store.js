@@ -19,8 +19,8 @@ const DEFAULTS = {
   portrait: '',
   supportNote: '기도와 후원 감사합니다.',
   supportBank: '국민은행',
-  supportAccount: '123-456-789012',
-  supportHolder: '김요한'
+  supportAccount: '410190-85-890840 (박종진 선교사 가상계좌)',
+  supportHolder: '(재)기독교대한성결교회'
 };
 
 function safeParse(raw, fallback) {
