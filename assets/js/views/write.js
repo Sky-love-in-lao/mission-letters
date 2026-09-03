@@ -284,11 +284,12 @@ function bindFields(root) {
   const loadSupportBtn = $('#load-support-btn', root);
   if (loadSupportBtn) {
     loadSupportBtn.onclick = () => {
+      const currentSettings = getSettings();
       state.body.support = {
-        note: settings.supportNote || '',
-        bank: settings.supportBank || '',
-        account: settings.supportAccount || '',
-        holder: settings.supportHolder || ''
+        note: currentSettings.supportNote || '',
+        bank: currentSettings.supportBank || '',
+        account: currentSettings.supportAccount || '',
+        holder: currentSettings.supportHolder || ''
       };
       $('#supportNote', root).value = state.body.support.note;
       $('#supportBank', root).value = state.body.support.bank;
