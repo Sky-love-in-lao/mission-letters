@@ -3,7 +3,7 @@ import { $, $$, esc, toast, dialog, currentMonthId, periodLabel, copyText } from
 import { getSettings, saveDraft, loadDraft, clearDraft } from '../store.js';
 import { emptyBody, openLetter, countPhotos } from '../letters.js';
 import { checkPassword } from '../crypto.js';
-import { extractDriveId, verifyDriveImage, loadDriveImage, SHARE_HELP, SHARE_CONFIRM, PHOTO_LIMIT_HINT } from '../drive.js';
+import { extractDriveId, verifyDriveImage, loadDriveImage, SHARE_HELP, SHARE_CONFIRM, PHOTO_LIMIT_HINT } from '../drive_v2.js';
 import { letterHTML, loadLetterImages, bindPrayers } from '../render_v2.js';
 import { shareLink } from '../github.js';
 import { navigate } from '../router.js';
@@ -620,7 +620,7 @@ async function addPhoto(root) {
     title: '사진 추가',
     confirmLabel: '이 사진 넣기',
     content: `
-      <p class="dialog__lead">구글 드라이브에서 사진의 <strong>공유 링크</strong>를 복사해 붙여넣어 주세요.</p>
+      <p class="dialog__lead">PC/폰의 사진을 <strong>직접 업로드</strong>하시거나, 구글 드라이브 링크를 붙여넣어 주세요.</p>
       <div class="field">
         <span class="field__label">한 줄에 몇 장</span>
         <div class="block__sizes" id="add-per-row">

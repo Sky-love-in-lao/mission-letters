@@ -32,6 +32,7 @@ export function driveImageUrls(id, width = 1600) {
 
 /** 원본 크기 보기용 (탭하면 확대) */
 export function driveViewUrl(id) {
+  if (id.startsWith('data:image/')) return id;
   return `https://drive.google.com/file/d/${id}/view`;
 }
 
@@ -40,6 +41,20 @@ export function driveViewUrl(id) {
  * @returns {Promise<{ok: boolean, url?: string}>}
  */
 export function loadDriveImage(imgEl, id, width = 1600) {
+  if (id.startsWith('data:image/')) {
+    return new Promise(resolve => {
+      imgEl.onload = () => {
+        delete imgEl.dataset.driveFailed;
+        imgEl.onload = imgEl.onerror = null;
+        resolve({ ok: true, url: id });
+      };
+      imgEl.onerror = () => {
+        imgEl.dataset.driveFailed = 'true';
+        resolve({ ok: false });
+      };
+      imgEl.src = id;
+    });
+  }
   const candidates = driveImageUrls(id, width);
   return new Promise(resolve => {
     let index = 0;
