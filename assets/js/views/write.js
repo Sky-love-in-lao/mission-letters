@@ -188,7 +188,10 @@ function paint(root) {
       </section>
 
       <section class="card">
-        <h2 class="card__title">후원 안내</h2>
+        <h2 class="card__title" style="display:flex; justify-content:space-between; align-items:center;">
+          후원 안내
+          <button type="button" class="btn btn--small" id="load-support-btn">설정에서 불러오기</button>
+        </h2>
         <p class="card__lead">편지 맨 아래에 붙습니다. 비워 두면 이 편지에는 나오지 않습니다.</p>
         <label class="field">
           <span class="field__label">안내 문구</span>
@@ -277,6 +280,25 @@ function bindFields(root) {
       persist(root);
     };
   }
+
+  const loadSupportBtn = $('#load-support-btn', root);
+  if (loadSupportBtn) {
+    loadSupportBtn.onclick = () => {
+      state.body.support = {
+        note: settings.supportNote || '',
+        bank: settings.supportBank || '',
+        account: settings.supportAccount || '',
+        holder: settings.supportHolder || ''
+      };
+      $('#supportNote', root).value = state.body.support.note;
+      $('#supportBank', root).value = state.body.support.bank;
+      $('#supportAccount', root).value = state.body.support.account;
+      $('#supportHolder', root).value = state.body.support.holder;
+      persist(root);
+      toast('기본 설정에서 계좌 정보를 불러왔습니다.', 'good');
+    };
+  }
+
   for (const [id, key] of Object.entries({
     supportNote: 'note', supportBank: 'bank', supportAccount: 'account', supportHolder: 'holder'
   })) {
