@@ -669,7 +669,7 @@ textarea { resize: vertical; line-height: 1.8; }
   color: var(--ink-soft);
   line-height: 1.7;
 }
-.prayers__name { font-family: var(--serif); font-size: 21px; font-weight: 600; color: var(--ink); margin: 0 0 8px; line-height: 1.5; }
+.prayers__name { font-family: var(--serif); font-size: 21px; font-weight: 600; color: #ce1126; margin: 0 0 8px; line-height: 1.5; }
 .prayers__text { font-size: 17px; line-height: 1.85; color: var(--ink-soft); }
 .prayers__text p { margin: 0 0 .8em; }
 .prayers__text p:last-child { margin-bottom: 0; }
