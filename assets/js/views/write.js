@@ -604,9 +604,13 @@ async function addPhoto(root) {
     <div class="photo-slot" data-slot="${i}">
       ${count > 1 ? `<span class="photo-slot__no">${i + 1}번째 사진</span>` : ''}
       <label class="field">
-        <span class="field__label">공유 링크</span>
-        <input class="slot-link" data-i="${i}" type="text"
-               placeholder="https://drive.google.com/file/d/..." autocapitalize="none" spellcheck="false">
+        <span class="field__label">사진 업로드 또는 공유 링크</span>
+        <div style="display: flex; gap: 8px;">
+          <input class="slot-link" data-i="${i}" type="text"
+                 placeholder="https://drive.google.com/..." autocapitalize="none" spellcheck="false" style="flex: 1; min-width: 0;">
+          <input type="file" class="slot-file" data-i="${i}" accept="image/*" style="display: none;">
+          <button type="button" class="btn slot-btn" data-i="${i}" style="white-space: nowrap;">이미지 선택</button>
+        </div>
       </label>
       <div class="photo-check slot-check" data-i="${i}"></div>
       <label class="field">
@@ -645,6 +649,13 @@ async function addPhoto(root) {
 
           if (!value) { check.className = 'photo-check slot-check'; check.dataset.i = index; check.innerHTML = ''; return; }
 
+          if (value.startsWith('data:image/')) {
+            slotState[index].id = value;
+            check.className = 'photo-check slot-check is-good';
+            check.innerHTML = `<img src="${value}" alt="미리보기"><span>사진이 첨부되었습니다.</span>`;
+            return;
+          }
+
           const driveId = extractDriveId(value);
           if (!driveId) {
             check.className = 'photo-check slot-check is-bad';
@@ -674,6 +685,36 @@ async function addPhoto(root) {
           slots.querySelectorAll('.slot-caption').forEach(input => {
             const index = Number(input.dataset.i);
             input.oninput = () => { slotState[index] = { ...(slotState[index] || {}), caption: input.value }; };
+          });
+          slots.querySelectorAll('.slot-btn').forEach(btn => {
+            const index = Number(btn.dataset.i);
+            const fileInput = slots.querySelector(`.slot-file[data-i="${index}"]`);
+            const linkInput = slots.querySelector(`.slot-link[data-i="${index}"]`);
+            btn.onclick = () => fileInput.click();
+            fileInput.onchange = e => {
+              const f = e.target.files[0];
+              if (!f) return;
+              const r = new FileReader();
+              r.onload = () => {
+                const img = new Image();
+                img.onload = () => {
+                  const canvas = document.createElement('canvas');
+                  let w = img.width; let h = img.height;
+                  const max = 1000;
+                  if (w > max || h > max) {
+                    if (w > h) { h = Math.round(h * max / w); w = max; }
+                    else { w = Math.round(w * max / h); h = max; }
+                  }
+                  canvas.width = w; canvas.height = h;
+                  const ctx = canvas.getContext('2d');
+                  ctx.drawImage(img, 0, 0, w, h);
+                  linkInput.value = canvas.toDataURL('image/jpeg', 0.8);
+                  verify(index);
+                };
+                img.src = r.result;
+              };
+              r.readAsDataURL(f);
+            };
           });
         };
 
