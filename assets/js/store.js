@@ -15,7 +15,7 @@ const DEFAULTS = {
   repoName: 'mission-letters',
   repoBranch: 'main',
   defaultPassword: '1225',
-  defaultHint: '성탄절은 언제인가요?',
+  defaultHint: '성탄절의 월/일 4자리는?',
   portrait: '',
   supportNote: '기도와 후원 감사합니다.',
   supportBank: '국민은행',
