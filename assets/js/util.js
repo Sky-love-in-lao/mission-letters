@@ -13,12 +13,12 @@ export function esc(value) {
     .replace(/'/g, '&#39;');
 }
 
-/** 문단 텍스트를 <p>로 — 줄바꿈 보존 */
+/** 문단 텍스트를 <p>로 — 줄바꿈 보존 및 굵은 글씨(**) 파싱 */
 export function paragraphs(text) {
   return String(text ?? '')
     .split(/\n{2,}/)
     .filter(chunk => chunk.trim())
-    .map(chunk => `<p>${esc(chunk).replace(/\n/g, '<br>')}</p>`)
+    .map(chunk => `<p>${esc(chunk).replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`)
     .join('');
 }
 

@@ -84,7 +84,7 @@ function prayersHTML(prayers, id) {
   if (!items.length) return '';
   return `
     <section class="prayers">
-      <h2 class="prayers__title">기도 부탁드립니다</h2>
+      <h2 class="prayers__title">🙏 두 손 모아 기도해 주세요</h2>
       <ol class="prayers__list">
         ${items.map((p, i) => `
           <li class="prayers__item">
