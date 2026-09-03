@@ -18,7 +18,7 @@ export function paragraphs(text) {
   return String(text ?? '')
     .split(/\n{2,}/)
     .filter(chunk => chunk.trim())
-    .map(chunk => `<p>${esc(chunk).replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`)
+    .map(chunk => `<p>${esc(chunk).replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/<\/strong><br>/g, '</strong>')}</p>`)
     .join('');
 }
 

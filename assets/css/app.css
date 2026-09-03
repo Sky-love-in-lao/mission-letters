@@ -489,8 +489,8 @@ textarea { resize: vertical; line-height: 1.8; }
   color: #1e88e5;
   font-size: 1.15em;
   display: block;
-  margin-top: 1.2em;
-  margin-bottom: 0.2em;
+  margin-top: 0.5em;
+  margin-bottom: 0.1em;
 }
 .letter__figure { margin: clamp(36px, 5vw, 56px) 0; }
 .letter__figure a { display: block; border-radius: 10px; overflow: hidden; }

@@ -123,10 +123,6 @@ function paint(root) {
             <span class="field__label">보내는 이</span>
             <input id="authorName" type="text" value="${esc(state.body.authorName)}" placeholder="홍길동 선교사">
           </label>
-          <label class="field">
-            <span class="field__label">인사말</span>
-            <input id="greeting" type="text" value="${esc(state.body.greeting)}" placeholder="사랑하는 후원자님께">
-          </label>
         </div>
         <div class="field">
           <span class="field__label">대문사진 (선택)</span>
@@ -260,7 +256,7 @@ function paint(root) {
 
 function bindFields(root) {
   const map = {
-    period: 'period', title: 'title', authorName: 'authorName', greeting: 'greeting', closing: 'closing'
+    period: 'period', title: 'title', authorName: 'authorName', closing: 'closing'
   };
   for (const [id, key] of Object.entries(map)) {
     const input = $('#' + id, root);

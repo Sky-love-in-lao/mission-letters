@@ -17,7 +17,7 @@ const DEFAULTS = {
   defaultPassword: '1225',
   defaultHint: '성탄절의 월/일 4자리는?',
   portrait: '',
-  supportNote: '기도와 후원 감사합니다.',
+  supportNote: 'ㄱ도와 후원 감사합니다.',
   supportBank: '국민은행',
   supportAccount: '410190-85-890840 (박종진 선교사 가상계좌)',
   supportHolder: '(재)기독교대한성결교회'

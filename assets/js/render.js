@@ -182,12 +182,10 @@ export function letterHTML(body, meta = {}) {
       ${mastheadHTML(body, period)}
       ${heroSrc ? heroHTML(heroSrc, heroSize, body) : plainHeadHTML(body)}
       <div class="letter__sheet">
-        ${body.greeting ? `<p class="letter__greeting">${esc(body.greeting)}</p>` : ''}
         <div class="letter__body">${blocks}</div>
         ${body.closing ? `<div class="letter__closing">${paragraphs(body.closing)}</div>` : ''}
         ${prayersHTML(body.prayers, meta.id)}
         ${supportHTML(body.support)}
-        ${signoffHTML(body)}
       </div>
     </article>`;
 }
