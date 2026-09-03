@@ -447,7 +447,7 @@ textarea { resize: vertical; line-height: 1.8; }
   border-image: linear-gradient(to bottom, #CE1126 15%, #1e40af 15%, #1e40af 85%, #CE1126 85%) 1;
   border-radius: 0;
   box-shadow: none;
-  padding: 0 16px;
+  padding: 32px 16px;
   max-width: var(--measure);
   margin: 0 auto;
 }
