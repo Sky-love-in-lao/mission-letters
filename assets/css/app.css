@@ -578,9 +578,15 @@ textarea { resize: vertical; line-height: 1.8; }
   background: linear-gradient(180deg,
     rgba(26,43,69,.28) 0%, rgba(26,43,69,.52) 52%, rgba(26,43,69,.86) 100%);
 }
-.letter__hero-text { position: relative; padding: clamp(28px, 4vw, 48px); }
+/* 배너 모드일 때는 우측 글씨(원본)를 가리고 앱의 글씨를 잘 보이게 흰/핑크빛 베일을 덮음 */
+.letter__hero--banner .letter__hero-veil {
+  background: linear-gradient(to right, transparent 20%, rgba(251,213,198,0.7) 45%, rgba(251,213,198,1) 60%);
+}
+.letter__hero-text { position: relative; padding: clamp(28px, 4vw, 48px); z-index: 2; }
 .letter--hero .letter__hero .letter__period { color: rgba(251,249,244,.82); }
 .letter--hero .letter__hero .letter__title  { color: #fbf9f4; margin-bottom: 12px; }
+.letter--hero .letter__hero--banner .letter__period { color: var(--ink-soft); }
+.letter--hero .letter__hero--banner .letter__title { color: var(--accent); }
 .letter__head .letter__title { margin-top: 0; }
 .letter--hero .letter__hero .letter__author { color: rgba(251,249,244,.78); }
 
@@ -619,6 +625,8 @@ textarea { resize: vertical; line-height: 1.8; }
 }
 
 /* 히어로 높이 */
+.letter__hero--banner { min-height: auto; aspect-ratio: 1024 / 200; }
+.letter__hero--banner .letter__hero-photo { object-position: left center; }
 .letter__hero--short  { min-height: min(42vh, 360px); }
 .letter__hero--normal { min-height: min(58vh, 520px); }
 .letter__hero--tall   { min-height: min(74vh, 680px); }
@@ -904,6 +912,7 @@ body.is-locked {
   .letter__row { margin: 6mm 0; gap: 3mm; break-inside: avoid; page-break-inside: avoid; }
   .letter__figure--tile .letter__photo { max-height: 60mm; }
   .letter__row figcaption { font-size: 8.5pt; margin-top: 1.5mm; }
+  .letter__hero--banner .letter__hero-photo { max-height: none; } /* keep aspect ratio */
   .letter__hero--short  .letter__hero-photo { max-height: 70mm; }
   .letter__hero--tall   .letter__hero-photo { max-height: 120mm; }
 

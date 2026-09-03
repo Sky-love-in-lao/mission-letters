@@ -139,7 +139,7 @@ function paint(root) {
             </div>
             <div class="block__sizes">
               <span class="block__sizes-label">높이</span>
-              ${[['short', '낮게'], ['normal', '보통'], ['tall', '높게']].map(([value, label]) => `
+              ${[['banner', '배너'], ['short', '낮게'], ['normal', '보통'], ['tall', '높게']].map(([value, label]) => `
                 <button type="button" class="block__size${(state.body.heroSize || 'normal') === value ? ' is-on' : ''}"
                         data-hero-size="${value}">${label}</button>`).join('')}
             </div>
