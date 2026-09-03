@@ -473,6 +473,7 @@ textarea { resize: vertical; line-height: 1.8; }
 }
 .letter__author { display: none; }
 .letter__greeting { font-family: var(--serif); font-size: 20px; line-height: 1.7; margin: 0 0 32px; color: var(--ink); }
+.prayers__item-title { font-size: 1.1em; font-weight: 600; margin: 0 0 8px; color: #ce1126; }
 .letter__body { font-size: 18px; line-height: 1.9; }
 .letter__text p { margin: 0 0 1.5em; }
 .letter__text p:last-child { margin-bottom: 0; }
@@ -578,15 +579,9 @@ textarea { resize: vertical; line-height: 1.8; }
   background: linear-gradient(180deg,
     rgba(26,43,69,.28) 0%, rgba(26,43,69,.52) 52%, rgba(26,43,69,.86) 100%);
 }
-/* 배너 모드일 때는 우측 글씨(원본)를 가리고 앱의 글씨를 잘 보이게 흰/핑크빛 베일을 덮음 */
-.letter__hero--banner .letter__hero-veil {
-  background: linear-gradient(to right, transparent 20%, rgba(251,213,198,0.7) 45%, rgba(251,213,198,1) 60%);
-}
 .letter__hero-text { position: relative; padding: clamp(28px, 4vw, 48px); z-index: 2; }
 .letter--hero .letter__hero .letter__period { color: rgba(251,249,244,.82); }
 .letter--hero .letter__hero .letter__title  { color: #fbf9f4; margin-bottom: 12px; }
-.letter--hero .letter__hero--banner .letter__period { color: var(--ink-soft); }
-.letter--hero .letter__hero--banner .letter__title { color: var(--accent); }
 .letter__head .letter__title { margin-top: 0; }
 .letter--hero .letter__hero .letter__author { color: rgba(251,249,244,.78); }
 
@@ -625,8 +620,20 @@ textarea { resize: vertical; line-height: 1.8; }
 }
 
 /* 히어로 높이 */
-.letter__hero--banner { min-height: auto; aspect-ratio: 1024 / 200; }
-.letter__hero--banner .letter__hero-photo { object-position: left center; }
+.letter__hero--banner {
+  min-height: 0;
+  aspect-ratio: 1024 / 136;
+  background: transparent;
+  padding: 0;
+}
+.letter__hero--banner .letter__hero-veil,
+.letter__hero--banner .letter__hero-text {
+  display: none !important;
+}
+.letter__hero--banner .letter__hero-photo {
+  object-position: center;
+}
+
 .letter__hero--short  { min-height: min(42vh, 360px); }
 .letter__hero--normal { min-height: min(58vh, 520px); }
 .letter__hero--tall   { min-height: min(74vh, 680px); }
