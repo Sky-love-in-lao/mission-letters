@@ -33,7 +33,12 @@
           { title: '언어 훈련에 지혜와 끈기를 주시도록', text: '학원과 과외를 통한 언어 공부의 장벽을 잘 뛰어넘게 하시고, 현지인들과 마음을 나누며 깊이 교제할 수 있도록 소통의 문이 활짝 열리게 하소서.' },
           { title: '자녀들의 낯선 학교 생활 적응을 위하여', text: '노아와 요한이가 언어와 문화가 다른 학교에서도 위축되지 않고 눈치껏 잘 적응하게 하시고, 좋은 친구들과 선생님을 만나 씩씩하게 자라게 하소서.' }
         ],
-        support: { note: 'ㄱ도와 후원 감사합니다.', bank: '', account: '', holder: '' }
+        support: { 
+          note: 'ㄱ도와 후원 감사합니다.', 
+          bank: JSON.parse(localStorage.getItem('missionletter.settings') || '{}').supportBank || '', 
+          account: JSON.parse(localStorage.getItem('missionletter.settings') || '{}').supportAccount || '', 
+          holder: JSON.parse(localStorage.getItem('missionletter.settings') || '{}').supportHolder || '' 
+        }
       }
     };
     
