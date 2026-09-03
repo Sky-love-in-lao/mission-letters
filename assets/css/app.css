@@ -443,9 +443,8 @@ textarea { resize: vertical; line-height: 1.8; }
 /* ── 편지 본문 (읽기 최적화 — PRD §7.3) ───────────────────────── */
 .letter {
   background: transparent;
-  border-left: 12px solid transparent;
-  border-right: 12px solid transparent;
-  border-image: linear-gradient(to bottom, #CE1126 25%, #002868 25%, #002868 75%, #CE1126 75%) 1;
+  border: 12px solid transparent;
+  border-image: linear-gradient(to bottom, #CE1126 15%, #1e40af 15%, #1e40af 85%, #CE1126 85%) 1;
   border-radius: 0;
   box-shadow: none;
   padding: 0 16px;
