@@ -31,11 +31,13 @@ function sizeClass(prefix, value, allowed) {
 }
 
 function figureHTML(block, extraClass = '') {
+  const imgSrc = block.image ? `<img src="${esc(block.image)}" class="letter__photo" alt="${esc(block.caption || '선교 사진')}">` :
+    `<img class="letter__photo" data-drive-id="${esc(block.driveId)}" alt="${esc(block.caption || '선교 사진')}" referrerpolicy="no-referrer">`;
+  const href = block.image ? esc(block.image) : esc(driveViewUrl(block.driveId));
   return `
     <figure class="letter__figure ${extraClass}">
-      <a href="${esc(driveViewUrl(block.driveId))}" target="_blank" rel="noopener noreferrer">
-        <img class="letter__photo" data-drive-id="${esc(block.driveId)}"
-             alt="${esc(block.caption || '선교 사진')}" referrerpolicy="no-referrer">
+      <a href="${href}" target="_blank" rel="noopener noreferrer">
+        ${imgSrc}
       </a>
       <div class="letter__photo-fallback" hidden>${SHARE_HELP}</div>
       ${block.caption ? `<figcaption>${esc(block.caption)}</figcaption>` : ''}
@@ -148,11 +150,11 @@ export function letterHTML(body, meta = {}) {
   while (i < rest.length) {
     const block = rest[i];
 
-    if (block.type === 'image' && block.driveId) {
+    if (block.type === 'image' && (block.driveId || block.image)) {
       const per = perRowOf(block);
       const run = [];
       while (i < rest.length
-             && rest[i].type === 'image' && rest[i].driveId
+             && rest[i].type === 'image' && (rest[i].driveId || rest[i].image)
              && perRowOf(rest[i]) === per) {
         run.push(rest[i]);
         i++;

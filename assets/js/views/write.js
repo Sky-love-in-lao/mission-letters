@@ -479,7 +479,7 @@ function paintBlocks(root) {
         <div class="block block--image" data-i="${index}">
           ${controls}
           <div class="block__photo">
-            <img data-drive-id="${esc(block.driveId || '')}" alt="" referrerpolicy="no-referrer">
+            ${block.image ? `<img src="${esc(block.image)}" alt="">` : `<img data-drive-id="${esc(block.driveId || '')}" alt="" referrerpolicy="no-referrer">`}
             <div class="block__photo-fail" hidden>${SHARE_HELP}</div>
           </div>
           ${sizePickerHTML(index, block)}
