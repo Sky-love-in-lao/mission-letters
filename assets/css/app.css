@@ -444,7 +444,7 @@ textarea { resize: vertical; line-height: 1.8; }
 /* ── 편지 본문 (읽기 최적화 — PRD §7.3) ───────────────────────── */
 .letter {
     border: none !important;
-    padding: 0 8mm !important;
+    padding: 0 2mm !important;
     max-width: none;
     margin: 0;
     background: transparent;
@@ -846,7 +846,7 @@ body.is-locked {
 
   .letter {
     border: none !important;
-    padding: 0 8mm !important;
+    padding: 0 2mm !important;
     max-width: none;
     margin: 0;
     background: transparent;
