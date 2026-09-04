@@ -105,7 +105,7 @@ a { color: var(--accent); }
 .page__head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
 .page__title {
   font-family: var(--serif);
-  font-size: clamp(20px, 5.5vw, 32px);
+  font-size: clamp(18px, 4.5vw, 26px);
   font-weight: 600;
   color: var(--accent);
   margin: 0 0 10px;
@@ -645,7 +645,7 @@ textarea { resize: vertical; line-height: 1.8; }
 }
 .prayers__title {
   font-family: var(--serif);
-  font-size: clamp(20px, 5.5vw, 32px);
+  font-size: clamp(18px, 4.5vw, 26px);
   font-weight: 600;
   color: var(--accent);
   margin: 0;
@@ -669,7 +669,7 @@ textarea { resize: vertical; line-height: 1.8; }
   color: var(--ink-soft);
   line-height: 1.7;
 }
-.prayers__name { font-family: var(--serif); font-size: 21px; font-weight: 600; color: var(--accent); margin: 0 0 8px; line-height: 1.5; }
+.prayers__name { font-family: var(--serif); font-size: 21px; font-weight: 600; color: #cc0000; margin: 0 0 8px; line-height: 1.5; }
 .prayers__text { font-size: 17px; line-height: 1.85; color: var(--ink-soft); }
 .prayers__text p { margin: 0 0 .8em; }
 .prayers__text p:last-child { margin-bottom: 0; }
@@ -697,7 +697,7 @@ textarea { resize: vertical; line-height: 1.8; }
 }
 .support__title {
   font-family: var(--serif);
-  font-size: clamp(20px, 5.5vw, 32px);
+  font-size: clamp(18px, 4.5vw, 26px);
   font-weight: 600;
   color: var(--accent);
   margin: 0 0 20px;
@@ -955,7 +955,7 @@ body.is-locked {
   .prayers__item { display: block; padding: 1.5mm 0; border-top: 1pt dashed #a5d6a7; margin-top: 1mm; }
   .prayers__item:first-child { border-top: none; padding-top: 0; margin-top: 0; }
   .prayers__item::before { content: counter(prayer) ". "; font-size: 11pt; color: #c62828; font-weight: bold; display: inline; }
-  .prayers__name { font-size: calc(10pt * var(--print-scale)); color: #c62828; font-weight: bold; margin: 0; display: inline; }
+  .prayers__name { font-size: calc(10pt * var(--print-scale)); color: #cc0000; font-weight: bold; margin: 0; display: inline; }
   .prayers__text { font-size: calc(9pt * var(--print-scale)); color: #111; display: block; margin-top: 1.5mm; line-height: 1.5; text-align: left; }
   .prayers__text p { margin: 0 0 1mm; border: none; padding: 0; }
 
