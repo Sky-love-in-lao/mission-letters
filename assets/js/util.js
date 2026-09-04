@@ -20,7 +20,7 @@ export function paragraphs(text) {
     .filter(chunk => chunk.trim())
     .map(chunk => {
       let s = esc(chunk).replace(/\n/g, '<br>');
-      s = s.replace(/^\*\*(.*?)\*\*<br>/g, '<strong class="subheading">$1</strong><br>');
+      s = s.replace(/^\*\*(.*?)\*\*(?:<br>|$)/g, '<strong class="subheading">$1</strong>');
       s = s.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
       return `<p>${s}</p>`;
     })
