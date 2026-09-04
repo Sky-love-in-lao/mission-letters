@@ -10,8 +10,8 @@
     const draft = {
       id: '2026-09',
       isEdit: false,
-      password: '1225',
-      hint: '성탄절의 월/일 4자리는?',
+      password: JSON.parse(localStorage.getItem('missionletter.settings.v1') || '{}').defaultPassword || '1225',
+      hint: JSON.parse(localStorage.getItem('missionletter.settings.v1') || '{}').defaultHint || '성탄절의 월/일 4자리는?',
       publishedAt: null,
       body: {
         title: '9월 두손 모음 편지',
@@ -44,9 +44,9 @@
         ],
         support: { 
           note: '※라0스는보안이필요한ㅅ교지이므로,보안처리를합니다.\n이편지는개인ㄱ도와게시용으로열람해주시고인터넷(SNS,블로그등)공유는삼가주시기부탁드립니다.', 
-          bank: JSON.parse(localStorage.getItem('missionletter.settings') || '{}').supportBank || '국민은행', 
-          account: JSON.parse(localStorage.getItem('missionletter.settings') || '{}').supportAccount || '410190-85-890840 (박종진 선교사 가상계좌)', 
-          holder: JSON.parse(localStorage.getItem('missionletter.settings') || '{}').supportHolder || '(재)기독교대한성결교회' 
+          bank: JSON.parse(localStorage.getItem('missionletter.settings.v1') || '{}').supportBank || '국민은행', 
+          account: JSON.parse(localStorage.getItem('missionletter.settings.v1') || '{}').supportAccount || '410190-85-890840 (박종진 선교사 가상계좌)', 
+          holder: JSON.parse(localStorage.getItem('missionletter.settings.v1') || '{}').supportHolder || '(재)기독교대한성결교회' 
         }
       }
     };
