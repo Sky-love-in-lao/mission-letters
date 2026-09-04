@@ -490,6 +490,10 @@ function paintBlocks(root) {
     return `
       <div class="block block--text" data-i="${index}">
         ${controls}
+        <div class="block__format" style="margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
+          <button type="button" class="btn btn--sm" data-action="bold" data-i="${index}" style="font-weight: bold;">B 파란색 소제목 (굵게)</button>
+          <span style="font-size: 13px; color: #666;">글 양쪽에 **별표 두 개**를 감싸면 됩니다</span>
+        </div>
         <textarea data-i="${index}" rows="5" placeholder="이곳에 사역 소식을 적어 주세요.&#10;&#10;빈 줄로 나누면 문단이 나뉩니다.">${esc(block.value || '')}</textarea>
       </div>`;
   }).join('');
@@ -551,6 +555,29 @@ function paintBlocks(root) {
       persist(root);
       paintBlocks(root);
       updatePhotoCount(root);
+    };
+  });
+
+  $$('.block__format button[data-action=bold]', wrap).forEach(button => {
+    button.onclick = () => {
+      const i = Number(button.dataset.i);
+      const textarea = wrap.querySelector(`textarea[data-i="${i}"]`);
+      if (!textarea) return;
+      
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const text = textarea.value;
+      
+      let selectedText = text.substring(start, end);
+      if (!selectedText) selectedText = "소제목";
+      
+      const newText = text.substring(0, start) + "**" + selectedText + "**" + text.substring(end);
+      textarea.value = newText;
+      state.body.blocks[i].value = newText;
+      persist(root);
+      
+      textarea.focus();
+      textarea.setSelectionRange(start + 2, start + 2 + selectedText.length);
     };
   });
 
