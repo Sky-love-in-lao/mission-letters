@@ -444,7 +444,7 @@ textarea { resize: vertical; line-height: 1.8; }
 /* ── 편지 본문 (읽기 최적화 — PRD §7.3) ───────────────────────── */
 .letter {
     border: none !important;
-    padding: 0 6mm !important;
+    padding: 0 8mm !important;
     max-width: none;
     margin: 0;
     background: transparent;
@@ -838,7 +838,7 @@ body.is-locked {
 /* ── A4 인쇄 — PRD §6.3 ───────────────────────────────────────── */
 @page {
   size: A4;
-  margin: 12mm 10mm;
+  margin: 5mm;
 }
 
 @media print {
@@ -851,7 +851,7 @@ body.is-locked {
     content: "";
     position: fixed;
     top: 0; bottom: 0; left: 0; right: 0;
-    border: 2.5mm solid;
+    border: 3.5mm solid;
     border-image: linear-gradient(to bottom, #ce1126 25%, #002868 25%, #002868 75%, #ce1126 75%) 1;
     z-index: 9999;
     pointer-events: none;
@@ -861,7 +861,7 @@ body.is-locked {
 
   .letter {
     border: none !important;
-    padding: 0 6mm !important;
+    padding: 0 8mm !important;
     max-width: none;
     margin: 0;
     background: transparent;
@@ -881,7 +881,7 @@ body.is-locked {
   /* 배너 이미지 인쇄 최적화 */
   .letter__hero {
     display: block;
-    padding-top: 5mm;
+    padding-top: 7mm;
     padding-bottom: 5mm;
     margin: 0;
     height: auto;
@@ -923,14 +923,14 @@ body.is-locked {
   .letter__greeting { font-size: 12pt; margin-bottom: 5mm; color: #cc0000; font-weight: bold; text-align: center; }
   
   .letter__body { font-size: 10.5pt; line-height: 1.6; text-align: justify; word-break: keep-all; }
-  .letter__text p { padding: 1.5mm 0; margin: 0; orphans: 2; widows: 2; }
+  .letter__text p { padding: 2.5mm 0; margin: 0; orphans: 2; widows: 2; }
   .letter__text strong { font-weight: 700; color: #000; }
   .letter__text .subheading { display: block; font-size: 11.5pt; color: #004080; font-weight: bold; padding-top: 4mm; padding-bottom: 1.5mm; margin: 0; break-after: avoid; page-break-after: avoid; }
 
   .letter__row {
     display: flex;
     gap: 3mm;
-    padding: 3mm 0;
+    padding: 4.5mm 0;
     margin: 0;
     break-inside: avoid;
     page-break-inside: avoid;
@@ -944,7 +944,7 @@ body.is-locked {
   .letter__photo { max-width: 100%; height: auto; max-height: 80mm; object-fit: contain; }
 
   .letter__figure {
-    padding: 3mm 0;
+    padding: 4.5mm 0;
     margin: 0;
     break-inside: avoid;
     page-break-inside: avoid;
