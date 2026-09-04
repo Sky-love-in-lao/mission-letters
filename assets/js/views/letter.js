@@ -94,7 +94,6 @@ function showLock(root, meta, id) {
     button.textContent = '여는 중…';
     try {
       const body = await decryptBody(meta, password);
-      // '이 기기에서 기억하기' 기능 삭제
       showLetter(root, meta, body, id);
     } catch (err) {
       error.textContent = err.code === 'WRONG_PASSWORD'
