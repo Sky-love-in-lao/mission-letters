@@ -818,24 +818,27 @@ body.is-locked {
   margin: 0;
 }
 
+
 @media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  
   :root { --bg: #fff; }
   body { background: #fff; font-size: 10.5pt; color: #1a1a1a; margin: 0; padding: 0; }
   .no-print, .nav, .sticky-bar, .reader-actions, .dialog-back, #toast, .lock, .letter-nav, .reader-foot { display: none !important; }
 
-  /* 모든 페이지 사면을 채우는 라오스 국기 테두리 */
+  /* 4-side border restored */
   body::before {
     content: "";
     position: fixed;
     top: 0; bottom: 0; left: 0; right: 0;
-    border-style: solid;
-    border-width: 0 4mm;
+    border: 4mm solid;
     border-image: linear-gradient(to bottom, #ce1126 25%, #002868 25%, #002868 75%, #ce1126 75%) 1;
     z-index: 9999;
     pointer-events: none;
   }
-
-  .page, .page--reader { max-width: none; margin: 0; padding: 0; }
 
   .letter {
     border: none !important;
@@ -845,200 +848,89 @@ body.is-locked {
     background: transparent;
     box-sizing: border-box;
     width: 100%;
-  }
-
-  .letter__head {
-    border-bottom: 1.5pt solid #cc0000;
-    margin-bottom: 6mm;
-    padding-bottom: 4mm;
-    text-align: center;
-  }
-
-  .masthead { display: none; }
-
-  /* 배너 이미지 인쇄 최적화 */
-  
-  .letter__hero-photo {
-    width: 100%;
-    height: auto;
-    max-height: 60mm;
-    object-fit: contain;
-  }
-  
-  /* 배너형일 때는 배경 장막과 HTML 텍스트를 숨김 (이미지에 글자가 있으므로) */
-  .letter__hero--banner .letter__hero-veil,
-  .letter__hero--banner .letter__hero-text {
-    display: none !important;
-  }
-  
-  /* 일반 사진일 때는 장막만 숨기고 텍스트는 인쇄에 맞게 검은색으로 표시 */
-  .letter__hero:not(.letter__hero--banner) .letter__hero-veil { display: none !important; }
-  .letter__hero:not(.letter__hero--banner) .letter__hero-text { padding: 0; text-align: center; }
-  .letter__hero:not(.letter__hero--banner) .letter__title { color: #1a1a1a; text-shadow: none; font-size: 22pt; margin-top: 4mm; font-weight: bold; }
-  .letter__hero:not(.letter__hero--banner) .letter__author { color: #555; text-shadow: none; font-size: 11pt; margin-top: 2mm; }
-
-  .letter__title { font-size: 22pt; color: #1a1a1a; text-align: center; font-weight: bold; margin-bottom: 2mm; }
-  .letter__period { display: inline-block; font-size: 12pt; color: #1a1a1a; margin-bottom: 2mm; margin-right: 5mm; }
-  .letter__author { display: inline-block; font-size: 12pt; color: #1a1a1a; margin-bottom: 2mm; }
-  
-  /* 2단 편집 레이아웃 */
-  .letter__sheet {
     column-count: 2;
     column-gap: 8mm;
-    transform: translateZ(0);
+    transform: translateZ(0); 
   }
 
-  .letter__greeting { font-size: 12pt; margin-bottom: 5mm; color: #cc0000; font-weight: bold; text-align: center; }
-  
-  .letter__body { font-size: 10.5pt; line-height: 1.6; text-align: justify; word-break: keep-all; }
-  
-  .letter__text strong { font-weight: 700; color: #000; }
-  
+  .support { display: none !important; }
 
-  
-  .letter__row 
-  .letter__photo { max-width: 100%; height: auto; max-height: 80mm; object-fit: contain; }
-
-  
-  .letter__figure figcaption { font-size: 9pt; color: #555; text-align: center; margin-top: 1.5mm; }
-  .letter__figure.is-failed { display: none; }
-
-  
-
-  
+  /* Magic push-down trick for fragments on page 2 */
   .letter__text p,
   .letter__row,
-  .letter__figure,
   .letter__text .subheading,
-  .prayers,
-  
-  
-  
-  .letter__row 
-  
-  
-  
-  
-  
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-  
-  /* Allow paragraphs to break to fix huge white spaces! */
-  
-  
-  /* Keep images and special blocks together */
-  .letter__row, .letter__figure, .prayers, 
-  
-  
-  .letter__row 
-  
-  
-  
-  
-  
-  
-
-  /* Add strong text-shadow to text so it remains readable if it overlaps the border at page breaks */
-  .letter__body, .letter__closing, .prayers__text {
-    text-shadow: 
-      -1px -1px 0 #fff,  
-       1px -1px 0 #fff,
-      -1px  1px 0 #fff,
-       1px  1px 0 #fff,
-       0px  2px 4px rgba(255,255,255,0.8);
-  }
-
-  
-  /* Super tight paragraphs, allow breaking to fix white spaces */
-  .letter__text p {
-    margin: 0 0 1.5mm;
-    padding: 0;
+  .letter__closing {
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    border-top: 8mm solid transparent;
+    border-bottom: 8mm solid transparent;
+    margin-top: -8mm;
+    margin-bottom: -5mm; /* Net 3mm margin */
+    background-clip: padding-box;
     break-inside: auto;
     page-break-inside: auto;
     orphans: 2;
     widows: 2;
-    font-size: 10pt;
-    line-height: 1.5;
   }
-  
-  .letter__row, .letter__figure, .prayers, .letter__closing {
-    break-inside: avoid;
-    page-break-inside: avoid;
-    margin: 1.5mm 0;
-  }
-  
-  .letter__row { display: flex; gap: 2mm; width: 100%; }
-  .letter__row .letter__figure { flex: 1; min-width: 0; margin: 0; }
+
+  .letter__row { display: flex; gap: 2mm; width: 100%; break-inside: avoid; page-break-inside: avoid; }
+  .letter__row .letter__figure { flex: 1; min-width: 0; margin: 0; border: none; padding: 0; }
   
   .letter__text .subheading {
     break-after: avoid;
     page-break-after: avoid;
-    font-size: 10.5pt; color: #004080; font-weight: bold;
-    margin-top: 3mm; margin-bottom: 1mm;
+    font-size: 11pt; color: #004080; font-weight: bold;
   }
   
-  .letter__closing { border-top: 1pt solid #ccc; font-size: 10pt; line-height: 1.5; color: #1a1a1a; text-align: justify; padding-top: 2mm; }
+  .letter__closing { 
+    font-size: 10.5pt; 
+    line-height: 1.6; 
+    color: #1a1a1a; 
+    text-align: justify; 
+    word-break: keep-all; 
+    margin-top: -3mm; 
+    position: relative;
+  }
+  .letter__closing::after {
+    content: "";
+    position: absolute;
+    top: -8mm; 
+    left: 0; right: 0;
+    border-top: 1pt solid #ccc;
+  }
   
   .letter__hero {
     display: block;
     height: auto;
     min-height: 0;
-    margin: 0 0 3mm 0;
-    padding-top: 4mm;
-  }
-  
-  .letter { padding: 0 6mm !important; }
-
-  /* 기도제목 (연두색 박스) */
-  .prayers {
-    margin-top: 8mm;
-    padding: 5mm;
-    border: 2pt solid #4caf50;
-    background: #f1f8e9;
+    margin: 0 0 6mm 0; /* More space below hero */
+    padding-top: 10mm; /* Push hero down from top border */
     break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .prayers {
+    break-inside: avoid;
+    page-break-inside: avoid;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    border: 1pt dashed #4caf50;
+    padding: 4mm !important;
+    background: #f1f8e9;
+    border-radius: 8px;
+    margin: 4mm 0;
   }
   .prayers__title { font-size: 13pt; color: #2e7d32; font-weight: bold; margin: 0 0 3mm; text-align: center; display: block; }
   .prayers__list { padding-left: 0; list-style: none; margin: 0; display: block; }
-  .prayers__item { 
-    display: block; 
-    padding: 2mm 0; 
-    border-top: 1pt dashed #a5d6a7; 
-    margin-top: 1mm; 
-  }
+  .prayers__item { display: block; padding: 2mm 0; border-top: 1pt dashed #a5d6a7; margin-top: 1mm; }
   .prayers__item:first-child { border-top: none; padding-top: 0; margin-top: 0; }
-  
-  .prayers__item::before {
-    content: counter(prayer) ". ";
-    font-size: 11pt; color: #c62828; font-weight: bold; display: inline;
-  }
+  .prayers__item::before { content: counter(prayer) ". "; font-size: 11pt; color: #c62828; font-weight: bold; display: inline; }
   .prayers__name { font-size: 11pt; color: #c62828; font-weight: bold; margin: 0; display: inline; }
   .prayers__text { font-size: 10pt; color: #111; display: block; margin-top: 1.5mm; line-height: 1.5; text-align: left; }
-  .prayers__text p { margin: 0 0 1mm; }
-  
-  /* 불필요한 그리드 속성 덮어쓰기 */
-  .prayers__item > * { grid-column: auto; }
+  .prayers__text p { margin: 0 0 1mm; border: none; padding: 0; }
 
-  .support { display: none !important; }
-  .support__title { display: none !important; }
-  .support__account { display: none !important; }
-  .support__row { display: none !important; }
-  .support__row dt { display: none !important; }
-  .support__row dd { display: none !important; }
-  .support__note { display: none !important; }
-
-  a { color: inherit; text-decoration: none; }
+  .letter__hero--banner { height: auto; aspect-ratio: auto; }
+  .letter__hero--banner img { position: relative; height: auto; }
+  .letter__hero--banner .letter__hero-overlay,
+  .letter__hero--banner .letter__hero-content { display: none !important; }
 }
-
-@media screen { .print-only { display: none !important; } }
