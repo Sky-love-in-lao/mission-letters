@@ -23,7 +23,7 @@ function perRowOf(block) {
   const n = Number(block.perRow);
   return PER_ROW.includes(n) ? n : 1;
 }
-const HERO_SIZES  = ['short', 'normal', 'tall'];
+const HERO_SIZES  = ['banner', 'short', 'normal', 'tall'];
 
 function sizeClass(prefix, value, allowed) {
   const size = allowed.includes(value) ? value : 'normal';
