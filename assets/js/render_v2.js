@@ -109,7 +109,6 @@ function supportHTML(support) {
   return `
     <section class="support">
       <h2 class="support__title">사역에 동참하기</h2>
-      ${s.note ? `<div class="support__note">${paragraphs(s.note)}</div>` : ''}
       ${rows.length ? `
         <dl class="support__account">
           ${rows.map(([label, value]) => `
@@ -118,6 +117,7 @@ function supportHTML(support) {
               <dd>${esc(value)}</dd>
             </div>`).join('')}
         </dl>` : ''}
+      ${s.note ? `<div class="support__note">${paragraphs(s.note)}</div>` : ''}
     </section>`;
 }
 
