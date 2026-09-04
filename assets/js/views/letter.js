@@ -56,7 +56,7 @@ function showLock(root, meta, id) {
       <div class="lock">
         <div class="lock__mark" aria-hidden="true">✉︎</div>
         <p class="lock__period">${esc(period)}</p>
-        <h1 class="lock__title">선교편지</h1>
+        <h1 class="lock__title">ㅅ교편지</h1>
         <p class="lock__desc">비밀번호를 입력하면 편지를 읽을 수 있습니다.</p>
         <form class="lock__form" id="lock-form">
           <input type="password" id="pw" placeholder="비밀번호" autocomplete="off"
@@ -66,7 +66,6 @@ function showLock(root, meta, id) {
         ${meta.hint ? `<p class="lock__hint">힌트: ${esc(meta.hint)}</p>` : ''}
         <p class="lock__error" id="lock-error" role="alert"></p>
         <a class="lock__archive" href="#/archive">지난 편지 모두 보기</a>
-        <p class="reader-foot"><a href="#/settings">선교사님이신가요? 편지 쓰러 가기</a></p>
       </div>
     </div>`;
 
@@ -112,10 +111,6 @@ function showLetter(root, meta, body, id) {
   root.innerHTML = `
     <div class="page page--reader">
       ${letterHTML(body, meta)}
-      <div class="reader-actions no-print">
-        <button class="btn btn--ghost" id="print-btn">PDF로 저장 / 인쇄</button>
-        <span class="reader-actions__status" id="print-status"></span>
-      </div>
       <nav class="letter-nav no-print" id="letter-nav" hidden></nav>
     </div>`;
 
@@ -123,16 +118,6 @@ function showLetter(root, meta, body, id) {
   loadLetterImages(article);
   bindPrayers(article);
   paintNeighbors(root, id);
-
-  $('#print-btn', root).onclick = async e => {
-    const button = e.currentTarget;
-    button.disabled = true;
-    try {
-      await printLetter(article, message => { $('#print-status', root).textContent = message; });
-    } finally {
-      button.disabled = false;
-    }
-  };
 }
 
 /** 지난 편지 / 다음 편지 이동 — 후원자가 예전 소식도 이어서 읽을 수 있도록 */

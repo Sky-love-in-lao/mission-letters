@@ -4,7 +4,7 @@ import { getSettings, saveDraft, loadDraft, clearDraft } from '../store.js';
 import { emptyBody, openLetter, countPhotos } from '../letters.js';
 import { checkPassword } from '../crypto.js';
 import { extractDriveId, verifyDriveImage, loadDriveImage, SHARE_HELP, SHARE_CONFIRM, PHOTO_LIMIT_HINT } from '../drive_v2.js';
-import { letterHTML, loadLetterImages, bindPrayers } from '../render_v2.js';
+import { letterHTML, loadLetterImages, bindPrayers, printLetter } from '../render_v2.js';
 import { shareLink } from '../github.js';
 import { navigate } from '../router.js';
 
@@ -227,6 +227,7 @@ function paint(root) {
       <div class="sticky-bar no-print">
         <span class="sticky-bar__status" id="save-status"></span>
         <button type="button" class="btn btn--ghost" id="preview-btn">미리보기</button>
+        <button type="button" class="btn btn--ghost" id="pdf-btn">PDF로 저장</button>
         <button type="button" class="btn btn--primary" id="deploy-btn">${state.isEdit ? '수정본 파일 내려받기' : '발행 파일 내려받기'}</button>
       </div>
     </div>`;
@@ -252,6 +253,25 @@ function paint(root) {
   };
   $('#preview-btn', root).onclick = () => preview();
   $('#deploy-btn', root).onclick = () => deploy(root);
+  $('#pdf-btn', root).onclick = async e => {
+    const button = e.currentTarget;
+    button.disabled = true;
+    const status = $('#save-status', root);
+    const orig = status.textContent;
+    status.textContent = '인쇄 준비 중…';
+    try {
+      const temp = document.createElement('div');
+      temp.className = 'page page--reader print-only';
+      temp.innerHTML = letterHTML(state.body, { id: state.id });
+      document.body.appendChild(temp);
+      loadLetterImages(temp);
+      await printLetter(temp.querySelector('.letter'), message => { status.textContent = message; });
+      temp.remove();
+    } finally {
+      button.disabled = false;
+      status.textContent = orig;
+    }
+  };
 }
 
 function bindFields(root) {
