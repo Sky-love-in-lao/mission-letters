@@ -32,7 +32,7 @@ export function driveImageUrls(id, width = 1600) {
 
 /** 원본 크기 보기용 (탭하면 확대) */
 export function driveViewUrl(id) {
-  if (id.startsWith('data:image/')) return id;
+  if (id && id.startsWith('data:image/')) return id;
   return `https://drive.google.com/file/d/${id}/view`;
 }
 
@@ -41,7 +41,7 @@ export function driveViewUrl(id) {
  * @returns {Promise<{ok: boolean, url?: string}>}
  */
 export function loadDriveImage(imgEl, id, width = 1600) {
-  if (id.startsWith('data:image/')) {
+  if (id && id.startsWith('data:image/')) {
     return new Promise(resolve => {
       imgEl.onload = () => {
         delete imgEl.dataset.driveFailed;
