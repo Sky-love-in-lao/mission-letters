@@ -105,7 +105,7 @@ a { color: var(--accent); }
 .page__head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
 .page__title {
   font-family: var(--serif);
-  font-size: clamp(26px, 3.4vw, 32px);
+  font-size: clamp(20px, 5.5vw, 32px);
   font-weight: 600;
   color: var(--accent);
   margin: 0 0 10px;
@@ -473,7 +473,7 @@ textarea { resize: vertical; line-height: 1.8; }
 .letter__author { display: none; }
 .letter__greeting { font-family: var(--serif); font-size: 20px; line-height: 1.7; margin: 0 0 32px; color: var(--ink); }
 .prayers__item-title { font-size: 1.1em; font-weight: 600; margin: 0 0 8px; color: #ce1126; }
-.letter__body { font-size: 18px; line-height: 1.9; }
+.letter__body { font-size: 18px; line-height: 1.9; text-align: justify; word-break: keep-all; }
 .letter__text p { margin: 0 0 1.5em; }
 .letter__text p:last-child { margin-bottom: 0; }
 /* 문단 블록이 이어지면 문단 사이와 같은 숨을 준다 */
@@ -645,7 +645,7 @@ textarea { resize: vertical; line-height: 1.8; }
 }
 .prayers__title {
   font-family: var(--serif);
-  font-size: clamp(26px, 3.4vw, 32px);
+  font-size: clamp(20px, 5.5vw, 32px);
   font-weight: 600;
   color: var(--accent);
   margin: 0;
@@ -697,7 +697,7 @@ textarea { resize: vertical; line-height: 1.8; }
 }
 .support__title {
   font-family: var(--serif);
-  font-size: clamp(26px, 3.4vw, 32px);
+  font-size: clamp(20px, 5.5vw, 32px);
   font-weight: 600;
   color: var(--accent);
   margin: 0 0 20px;
@@ -886,6 +886,7 @@ body.is-locked {
   .support { display: none !important; }
 
   /* Standard, robust paragraph flow. No negative margin hacks! */
+  .letter__body { text-align: justify; word-break: keep-all; }
   .letter__text p {
     margin: 0 0 3.5mm;
     padding: 0;
