@@ -18,7 +18,12 @@ export function paragraphs(text) {
   return String(text ?? '')
     .split(/\n{2,}/)
     .filter(chunk => chunk.trim())
-    .map(chunk => `<p>${esc(chunk).replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/<\/strong><br>/g, '</strong>')}</p>`)
+    .map(chunk => {
+      let s = esc(chunk).replace(/\n/g, '<br>');
+      s = s.replace(/^\*\*(.*?)\*\*<br>/g, '<strong class="subheading">$1</strong><br>');
+      s = s.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      return `<p>${s}</p>`;
+    })
     .join('');
 }
 

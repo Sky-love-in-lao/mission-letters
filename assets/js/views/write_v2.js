@@ -491,8 +491,8 @@ function paintBlocks(root) {
       <div class="block block--text" data-i="${index}">
         ${controls}
         <div class="block__format" style="margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
-          <button type="button" class="btn btn--sm" data-action="bold" data-i="${index}" style="font-weight: bold;">B 파란색 소제목 (굵게)</button>
-          <span style="font-size: 13px; color: #666;">글 양쪽에 **별표 두 개**를 감싸면 됩니다</span>
+          <button type="button" class="btn btn--sm" data-action="bold" data-i="${index}" style="font-weight: bold;">B 굵게 / 제목</button>
+          <span style="font-size: 13px; color: #666;">단어 강조용. 문단 맨 앞줄이면 파란색 소제목이 됩니다.</span>
         </div>
         <textarea data-i="${index}" rows="5" placeholder="이곳에 사역 소식을 적어 주세요.&#10;&#10;빈 줄로 나누면 문단이 나뉩니다.">${esc(block.value || '')}</textarea>
       </div>`;
