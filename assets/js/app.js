@@ -4,7 +4,7 @@ import { $, esc } from './util.js';
 import { isConfigured, getSettings } from './store.js?v=2';
 import { renderSettings } from './views/settings.js';
 import { renderList } from './views/list.js';
-import { renderWrite } from './views/write_v2.js?v=5';
+import { renderWrite } from './views/write_v2.js?v=6';
 import { renderLetter } from './views/letter.js?v=3';
 import { renderArchive, latestLetterId } from './views/archive.js';
 

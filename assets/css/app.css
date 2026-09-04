@@ -882,8 +882,8 @@ body.is-locked {
   .letter__sheet {
     column-count: 2;
     column-gap: 8mm;
-    column-fill: auto;
-    height: calc(297mm - 55mm); /* 하단까지 꽉 차게 계산 (대략) */
+    
+    
   }
 
   .letter__greeting { font-size: 12pt; margin-bottom: 5mm; color: #cc0000; font-weight: bold; text-align: center; }
@@ -899,7 +899,20 @@ body.is-locked {
     page-break-inside: avoid;
     width: 100%;
   }
-  .letter__photo { max-height: 80mm; width: 100%; object-fit: contain; }
+  .letter__row {
+    display: flex;
+    gap: 3mm;
+    margin: 4mm 0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    width: 100%;
+  }
+  .letter__row .letter__figure {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+  }
+  .letter__photo { max-width: 100%; height: auto; max-height: 80mm; object-fit: contain; }
   .letter__figure figcaption { font-size: 9pt; color: #555; text-align: center; margin-top: 1.5mm; }
   .letter__figure.is-failed { display: none; }
 
