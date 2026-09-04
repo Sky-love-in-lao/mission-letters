@@ -828,7 +828,8 @@ body.is-locked {
     content: "";
     position: fixed;
     top: 0; bottom: 0; left: 0; right: 0;
-    border: 3.5mm solid;
+    border-style: solid;
+    border-width: 1.5mm 4mm;
     border-image: linear-gradient(to bottom, #ce1126 25%, #002868 25%, #002868 75%, #ce1126 75%) 1;
     z-index: 9999;
     pointer-events: none;
@@ -934,19 +935,24 @@ body.is-locked {
   
   /* Allow paragraphs to break to fix huge white spaces! */
   .letter__text p {
-    margin: 0 0 1.5mm;
-    padding: 0;
+    margin: 0 0 3.5mm;
+    padding: 3mm 0;
+    margin-top: -3mm;
+    margin-bottom: 0.5mm;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
     break-inside: auto;
     page-break-inside: auto;
-    orphans: 2;
-    widows: 2;
+    orphans: 3;
+    widows: 3;
+    line-height: 1.65;
   }
   
   /* Keep images and special blocks together */
   .letter__row, .letter__figure, .prayers, .letter__closing {
     break-inside: avoid;
     page-break-inside: avoid;
-    margin: 1.5mm 0;
+    margin: 3.5mm 0;
   }
   
   .letter__row { display: flex; gap: 2mm; width: 100%; }
@@ -955,18 +961,18 @@ body.is-locked {
   .letter__text .subheading {
     break-after: avoid;
     page-break-after: avoid;
-    font-size: 11pt; color: #004080; font-weight: bold;
-    margin-top: 3mm; margin-bottom: 1mm;
+    font-size: 11.5pt; color: #004080; font-weight: bold;
+    margin-top: 5mm; margin-bottom: 1.5mm;
   }
   
-  .letter__closing { border-top: 1pt solid #ccc; font-size: 10pt; line-height: 1.5; color: #1a1a1a; padding-top: 2mm; text-align: justify; word-break: keep-all; }
+  .letter__closing { border-top: 1pt solid #ccc; font-size: 10.5pt; line-height: 1.65; color: #1a1a1a; padding-top: 2mm; text-align: justify; word-break: keep-all; }
   
   .letter__hero {
     display: block;
     height: auto;
     min-height: 0;
     margin: 0 0 3mm 0;
-    padding-top: 5mm; /* Safe space from top border on page 1 */
+    padding-top: 10mm; /* Safe space from top border on page 1 */
   }
 
   /* Add strong text-shadow to text so it remains readable if it overlaps the border at page breaks */
