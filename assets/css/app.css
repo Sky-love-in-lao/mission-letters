@@ -828,7 +828,7 @@ body.is-locked {
     content: "";
     position: fixed;
     top: 0; bottom: 0; left: 0; right: 0;
-    border: 3mm solid;
+    border: 3.5mm solid;
     border-image: linear-gradient(to bottom, #ce1126 25%, #002868 25%, #002868 75%, #ce1126 75%) 1;
     z-index: 9999;
     pointer-events: none;
@@ -921,33 +921,62 @@ body.is-locked {
   
 
   
-  .letter__text p,
-  .letter__row,
-  .letter__figure,
-  .letter__text .subheading,
-  .prayers,
-  .letter__closing {
-    break-inside: avoid;
-    page-break-inside: avoid;
-    border-top: 4mm solid transparent;
-    border-bottom: 4mm solid transparent;
-    margin-top: -4mm;
-    margin-bottom: -2mm;
-    background-clip: padding-box;
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  /* Allow paragraphs to break to fix huge white spaces! */
+  .letter__text p {
+    margin: 0 0 1.5mm;
+    padding: 0;
+    break-inside: auto;
+    page-break-inside: auto;
+    orphans: 2;
+    widows: 2;
   }
   
-  .letter__row { display: flex; gap: 3mm; width: 100%; }
-  .letter__row .letter__figure { flex: 1; min-width: 0; border: none; margin: 0; padding: 0; }
+  /* Keep images and special blocks together */
+  .letter__row, .letter__figure, .prayers, .letter__closing {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin: 1.5mm 0;
+  }
   
-  .letter__text .subheading { font-size: 11pt; color: #004080; font-weight: bold; }
-  .letter__closing { border-top: 1pt solid #ccc; font-size: 10pt; line-height: 1.5; color: #1a1a1a; text-align: justify; word-break: keep-all; }
+  .letter__row { display: flex; gap: 2mm; width: 100%; }
+  .letter__row .letter__figure { flex: 1; min-width: 0; margin: 0; }
+  
+  .letter__text .subheading {
+    break-after: avoid;
+    page-break-after: avoid;
+    font-size: 11pt; color: #004080; font-weight: bold;
+    margin-top: 3mm; margin-bottom: 1mm;
+  }
+  
+  .letter__closing { border-top: 1pt solid #ccc; font-size: 10pt; line-height: 1.5; color: #1a1a1a; padding-top: 2mm; text-align: justify; word-break: keep-all; }
   
   .letter__hero {
     display: block;
     height: auto;
     min-height: 0;
-    margin: 0;
-    border-top: 4mm solid transparent;
+    margin: 0 0 3mm 0;
+    padding-top: 5mm; /* Safe space from top border on page 1 */
+  }
+
+  /* Add strong text-shadow to text so it remains readable if it overlaps the border at page breaks */
+  .letter__body, .letter__closing, .prayers__text {
+    text-shadow: 
+      -1px -1px 0 #fff,  
+       1px -1px 0 #fff,
+      -1px  1px 0 #fff,
+       1px  1px 0 #fff,
+       0px  2px 4px rgba(255,255,255,0.8);
   }
 
   /* 기도제목 (연두색 박스) */
