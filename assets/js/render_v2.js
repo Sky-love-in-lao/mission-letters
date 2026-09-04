@@ -236,5 +236,47 @@ export async function printLetter(root, onStatus) {
   );
   onStatus?.(failed ? `사진 ${total}장 중 ${failed}장을 불러오지 못했습니다.` : '');
   await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  
+  // Auto-fit algorithm
+  onStatus?.('2장 이내 최적화 계산 중...');
+  
+  // Create a hidden clone to measure
+  const clone = root.cloneNode(true);
+  clone.style.position = 'absolute';
+  clone.style.top = '-9999px';
+  clone.style.left = '-9999px';
+  clone.style.width = '210mm'; // A4 width
+  clone.classList.add('is-measuring-print');
+  document.body.appendChild(clone);
+  
+  let scale = 1.0;
+  const A4_HEIGHT_PX = 1122.5; // 297mm at 96dpi
+  const MAX_HEIGHT = A4_HEIGHT_PX * 2.0; // 2 pages max
+  
+  // Iterate to find the best scale
+  for (let i = 0; i < 15; i++) {
+    clone.style.setProperty('--print-scale', scale.toString());
+    // Force layout recalculation
+    const h = clone.scrollHeight;
+    if (h <= MAX_HEIGHT || scale < 0.65) {
+      break; // Fits or hit lower bound!
+    }
+    scale -= 0.03; // reduce by 3%
+  }
+  
+  // Apply final scale to the real root and body for printing
+  document.documentElement.style.setProperty('--print-scale', scale.toString());
+  document.body.style.setProperty('--print-scale', scale.toString());
+  
+  document.body.removeChild(clone);
+  
+  onStatus?.('');
+  await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
   window.print();
+  
+  // Reset scale after print dialog closes
+  setTimeout(() => {
+    document.documentElement.style.removeProperty('--print-scale');
+    document.body.style.removeProperty('--print-scale');
+  }, 1000);
 }

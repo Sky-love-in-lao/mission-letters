@@ -835,6 +835,7 @@ body.is-locked {
 }
 
 @media print {
+  :root { --print-scale: 1; }
   @page {
     size: A4;
     margin: 0;
@@ -886,9 +887,17 @@ body.is-locked {
   .support { display: none !important; }
 
   /* Standard, robust paragraph flow. No negative margin hacks! */
-  .letter__body { text-align: justify; word-break: keep-all; }
+
+  .letter__body { 
+    text-align: justify; 
+    word-break: keep-all; 
+    font-size: calc(10pt * var(--print-scale)) !important; 
+    line-height: 1.5 !important; 
+  }
+
   .letter__text p {
-    margin: 0 0 3.5mm;
+    margin: 0 0 calc(3mm * var(--print-scale));
+    font-size: calc(10pt * var(--print-scale)) !important;
     padding: 0;
     break-inside: auto;
     page-break-inside: auto;
@@ -928,7 +937,7 @@ body.is-locked {
     height: auto;
     min-height: 0;
     margin: 0 0 8mm 0; /* Lots of space below hero image */
-    padding-top: 12mm; margin-top: 4mm; /* Push hero well down from top border */
+    padding-top: 8mm; margin-top: 0mm; /* Push hero well down from top border */
     break-inside: avoid;
     page-break-inside: avoid;
   }
@@ -941,13 +950,13 @@ body.is-locked {
     background: #f1f8e9;
     border-radius: 8px;
   }
-  .prayers__title { font-size: 13pt; color: #2e7d32; font-weight: bold; margin: 0 0 3mm; text-align: center; display: block; }
+  .prayers__title { font-size: calc(12pt * var(--print-scale)); margin: 0 0 1.5mm;  color: #2e7d32; font-weight: bold; margin: 0 0 3mm; text-align: center; display: block; }
   .prayers__list { padding-left: 0; list-style: none; margin: 0; display: block; }
-  .prayers__item { display: block; padding: 2mm 0; border-top: 1pt dashed #a5d6a7; margin-top: 1mm; }
+  .prayers__item { display: block; padding: 1.5mm 0; border-top: 1pt dashed #a5d6a7; margin-top: 1mm; }
   .prayers__item:first-child { border-top: none; padding-top: 0; margin-top: 0; }
   .prayers__item::before { content: counter(prayer) ". "; font-size: 11pt; color: #c62828; font-weight: bold; display: inline; }
-  .prayers__name { font-size: 11pt; color: #c62828; font-weight: bold; margin: 0; display: inline; }
-  .prayers__text { font-size: 10pt; color: #111; display: block; margin-top: 1.5mm; line-height: 1.5; text-align: left; }
+  .prayers__name { font-size: calc(10pt * var(--print-scale)); color: #c62828; font-weight: bold; margin: 0; display: inline; }
+  .prayers__text { font-size: calc(9pt * var(--print-scale)); color: #111; display: block; margin-top: 1.5mm; line-height: 1.5; text-align: left; }
   .prayers__text p { margin: 0 0 1mm; border: none; padding: 0; }
 
   /* Text shadow to protect text overlapping the 1.5mm border */
@@ -964,4 +973,40 @@ body.is-locked {
   .letter__hero--banner img { position: relative; height: auto; }
   .letter__hero--banner .letter__hero-overlay,
   .letter__hero--banner .letter__hero-content { display: none !important; }
+}
+
+
+/* ── Auto-fit Measurement ─────────────────────────────────────── */
+.is-measuring-print {
+  display: block !important;
+  visibility: hidden;
+  font-size: calc(10.5pt * var(--print-scale, 1));
+}
+.is-measuring-print .letter {
+  border: none !important;
+  padding: 0 2mm !important;
+  max-width: none;
+  margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+}
+.is-measuring-print .letter__sheet {
+  column-count: 2;
+  column-gap: 8mm;
+}
+.is-measuring-print .letter__head,
+.is-measuring-print .letter__hero {
+  padding-top: 8mm;
+  margin-top: 0;
+}
+.is-measuring-print .letter__body { 
+  text-align: justify; 
+  word-break: keep-all; 
+  font-size: calc(10pt * var(--print-scale, 1)) !important; 
+  line-height: 1.5 !important; 
+}
+.is-measuring-print .letter__text p {
+  margin: 0 0 calc(3mm * var(--print-scale, 1));
+  font-size: calc(10pt * var(--print-scale, 1)) !important;
+  line-height: 1.6;
 }
