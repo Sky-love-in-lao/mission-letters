@@ -839,7 +839,7 @@ body.is-locked {
 /* ── A4 인쇄 — PRD §6.3 ───────────────────────────────────────── */
 @page {
   size: A4;
-  margin: 16mm 15mm;
+  margin: 10mm 8mm;
 }
 
 @media print {
@@ -851,7 +851,7 @@ body.is-locked {
   body::before {
     content: "";
     position: fixed;
-    top: -8mm; bottom: -8mm; left: -8mm; right: -8mm;
+    top: 0; bottom: 0; left: 0; right: 0;
     border: 2.5mm solid;
     border-image: linear-gradient(to bottom, #ce1126 25%, #002868 25%, #002868 75%, #ce1126 75%) 1;
     z-index: 9999;
@@ -862,7 +862,7 @@ body.is-locked {
 
   .letter {
     border: none !important;
-    padding: 0 !important;
+    padding: 2mm 6mm !important;
     max-width: none;
     margin: 0;
     background: transparent;
@@ -882,6 +882,7 @@ body.is-locked {
   /* 배너 이미지 인쇄 최적화 */
   .letter__hero {
     display: block;
+    margin-top: 4mm;
     height: auto;
     min-height: 0;
     margin-bottom: 6mm;
@@ -917,6 +918,7 @@ body.is-locked {
   .letter__sheet {
     column-count: 2;
     column-gap: 8mm;
+    transform: translateZ(0);
   }
 
   .letter__greeting { font-size: 12pt; margin-bottom: 5mm; color: #cc0000; font-weight: bold; text-align: center; }
