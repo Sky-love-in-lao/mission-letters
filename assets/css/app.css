@@ -834,23 +834,33 @@ body.is-locked {
 
 @media print {
   :root { --bg: #fff; --print-scale: 1; }
-  body { background: #fff; font-size: 9pt; color: #1a1a1a; margin: 0; padding: 0; }
+  body { 
+    background: #fff; 
+    font-size: calc(10.5pt * var(--print-scale, 1)); 
+    color: #1a1a1a; 
+    margin: 0; 
+    padding: 0; 
+  }
   .no-print, .nav, .sticky-bar, .reader-actions, .dialog-back, #toast, .lock, .letter-nav, .reader-foot { display: none !important; }
 
-  /* 메인 컨테이너 폭 제한 및 중앙 배치 */
+  /* 임의 디자인(좌측 빨간 테두리 바, 꾸밈 등) 완전 삭제 및 텍스트 중심 복구 */
+  body::before, body::after { display: none !important; content: none !important; }
+
   .letter {
     border: none !important;
     padding: 0 !important;
-    max-width: 170mm !important;
+    max-width: 100% !important;
     margin: 0 auto !important;
-    background: transparent;
+    background: transparent !important;
     box-sizing: border-box;
     width: 100%;
+    box-shadow: none !important;
   }
 
   .letter__sheet {
-    /* 1단 구조 (1-column) */
+    /* 1단 구조 (Multi-column 해제) */
     column-count: 1 !important;
+    columns: 1 !important;
     max-width: 100%;
     margin: 0 auto;
   }
@@ -863,40 +873,49 @@ body.is-locked {
 
   .support { display: none !important; }
 
-  /* 폰트 크기 1~2pt 축소 및 단락 간 여백 최소화 */
+  /* 본문 폰트 크기 10~11pt (10.5pt) 고정, 단락 간 여백 자연스럽게 */
   .letter__body { 
     text-align: justify; 
     word-break: keep-all; 
-    font-size: calc(9pt * var(--print-scale)) !important; 
-    line-height: 1.45 !important; 
+    font-size: calc(10.5pt * var(--print-scale, 1)) !important; 
+    line-height: 1.55 !important; 
   }
 
   .letter__text p {
-    margin: 0 0 calc(2mm * var(--print-scale)) !important;
-    font-size: calc(9pt * var(--print-scale)) !important;
+    margin: 0 0 2.5mm !important;
+    font-size: calc(10.5pt * var(--print-scale, 1)) !important;
     padding: 0;
-    break-inside: avoid;
-    page-break-inside: avoid;
+    break-inside: auto;
+    page-break-inside: auto;
     orphans: 2;
     widows: 2;
-    line-height: 1.45;
-    text-indent: 8pt; /* 첫 줄 들여쓰기 */
+    line-height: 1.55;
+    text-indent: 10pt; /* 첫 줄 들여쓰기 */
   }
 
-  /* 이미지 강제 정렬 및 다중 이미지 세로 단일 배치 */
+  /* 첫 문단(성경 구절) 2번 파일 스타일 */
+  .letter__body > .letter__text:first-child > p:first-child {
+    color: #c62828 !important;
+    font-weight: 700;
+    text-align: center;
+    text-indent: 0;
+    margin-bottom: 4mm !important;
+  }
+
+  /* 이미지 정렬: display: block; margin: 10px auto; max-width: 90%; clear: both; */
   .letter__row { 
     display: block !important; 
     width: 100% !important; 
     clear: both !important; 
-    margin: 3mm auto !important; 
+    margin: 10px auto !important; 
   }
   
   .letter__figure,
   .letter__row .letter__figure { 
     display: block !important; 
     width: 100% !important; 
-    max-width: 80% !important; 
-    margin: 3mm auto !important; 
+    max-width: 90% !important; 
+    margin: 10px auto !important; 
     border: none !important; 
     padding: 0 !important; 
     clear: both !important; 
@@ -910,38 +929,37 @@ body.is-locked {
   .letter__figure img,
   .letter__row img {
     display: block !important;
-    margin: 0 auto !important;
-    max-width: 100% !important;
-    max-height: 65mm !important;
+    margin: 10px auto !important;
+    max-width: 90% !important;
     height: auto !important;
-    object-fit: contain !important;
-    float: none !important;
     clear: both !important;
+    float: none !important;
+    object-fit: contain;
   }
 
   figcaption {
     text-align: center !important;
-    font-size: calc(8pt * var(--print-scale)) !important;
+    font-size: 9pt !important;
     color: #555 !important;
-    margin-top: 1.5mm !important;
+    margin-top: 4px !important;
     clear: both !important;
   }
 
   .letter__text .subheading {
     break-after: avoid;
     page-break-after: avoid;
-    font-size: calc(10.5pt * var(--print-scale)) !important; 
+    font-size: calc(11.5pt * var(--print-scale, 1)) !important; 
     color: #004080; 
     font-weight: bold;
-    margin-top: 3mm; 
-    margin-bottom: 1.5mm;
-    text-indent: 0; /* 소제목은 들여쓰기 해제 */
+    margin-top: 4mm; 
+    margin-bottom: 2mm;
+    text-indent: 0;
     clear: both !important;
   }
   
   .letter__closing { 
-    font-size: calc(9pt * var(--print-scale)) !important; 
-    line-height: 1.45; 
+    font-size: calc(10.5pt * var(--print-scale, 1)) !important; 
+    line-height: 1.55; 
     color: #1a1a1a; 
     text-align: justify; 
     word-break: keep-all; 
@@ -967,41 +985,63 @@ body.is-locked {
   .letter__hero img,
   .letter__hero-photo {
     display: block !important;
-    margin: 0 auto !important;
-    max-width: 80% !important;
-    max-height: 50mm !important;
+    margin: 10px auto !important;
+    max-width: 90% !important;
     height: auto !important;
     object-fit: contain !important;
+    clear: both !important;
   }
 
+  /* 2번 파일 스타일: 임의 디자인(초록 박스, 점선 등) 삭제, 텍스트 중심 리스트 */
   .prayers {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-    border: 1pt dashed #4caf50;
-    padding: 2.5mm !important;
-    background: #f1f8e9;
-    border-radius: 6px;
-    margin: 3mm auto !important;
+    border: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    margin: 4mm 0 !important;
     max-width: 100%;
     break-inside: avoid;
     page-break-inside: avoid;
     clear: both !important;
   }
   .prayers__title { 
-    font-size: calc(10.5pt * var(--print-scale)); 
-    margin: 0 0 1.5mm;  
-    color: #2e7d32; 
+    font-size: calc(11.5pt * var(--print-scale, 1)) !important; 
+    margin: 0 0 2mm !important;  
+    color: #1a1a1a !important; 
     font-weight: bold; 
-    text-align: center; 
+    text-align: left !important; 
     display: block; 
   }
-  .prayers__list { padding-left: 0; list-style: none; margin: 0; display: block; }
-  .prayers__item { display: block; padding: 1mm 0; border-top: 1pt dashed #a5d6a7; margin-top: 0.8mm; }
-  .prayers__item:first-child { border-top: none; padding-top: 0; margin-top: 0; }
-  .prayers__item::before { content: counter(prayer) ". "; font-size: calc(9.5pt * var(--print-scale)); color: #cc0000; font-weight: bold; display: inline; }
-  .prayers__name { font-size: calc(9.5pt * var(--print-scale)); color: #cc0000; font-weight: bold; margin: 0; display: inline; }
-  .prayers__text { font-size: calc(8.5pt * var(--print-scale)); color: #111; display: block; margin-top: 1mm; line-height: 1.4; text-align: left; }
-  .prayers__text p { margin: 0 0 0.5mm; border: none; padding: 0; text-indent: 0; }
+  .prayers__list { padding-left: 0; list-style: none; margin: 0; display: block; counter-reset: prayer; }
+  .prayers__item { 
+    display: block; 
+    padding: 1.5mm 0 !important; 
+    border: none !important; 
+    margin: 0 !important; 
+  }
+  .prayers__item::before { 
+    content: counter(prayer) ". "; 
+    font-size: calc(10.5pt * var(--print-scale, 1)); 
+    color: #c62828 !important; 
+    font-weight: bold; 
+    display: inline; 
+  }
+  .prayers__name { 
+    font-size: calc(10.5pt * var(--print-scale, 1)) !important; 
+    color: #c62828 !important; 
+    font-weight: bold; 
+    margin: 0; 
+    display: inline; 
+  }
+  .prayers__text { 
+    font-size: calc(10pt * var(--print-scale, 1)) !important; 
+    color: #111; 
+    display: block; 
+    margin-top: 1mm; 
+    line-height: 1.5; 
+    text-align: justify; 
+  }
+  .prayers__text p { margin: 0 0 1mm; border: none; padding: 0; text-indent: 0; }
 
   .letter__hero--banner { height: auto; aspect-ratio: auto; }
   .letter__hero--banner img { position: relative; height: auto; }
@@ -1013,12 +1053,12 @@ body.is-locked {
 .is-measuring-print {
   display: block !important;
   visibility: hidden;
-  font-size: calc(9pt * var(--print-scale, 1));
+  font-size: calc(10.5pt * var(--print-scale, 1));
 }
 .is-measuring-print .letter {
   border: none !important;
   padding: 0 !important;
-  max-width: 170mm !important;
+  max-width: 100% !important;
   margin: 0 auto;
   box-sizing: border-box;
   width: 100%;
@@ -1034,14 +1074,14 @@ body.is-locked {
 .is-measuring-print .letter__body { 
   text-align: justify; 
   word-break: keep-all; 
-  font-size: calc(9pt * var(--print-scale, 1)) !important; 
-  line-height: 1.45 !important; 
+  font-size: calc(10.5pt * var(--print-scale, 1)) !important; 
+  line-height: 1.55 !important; 
 }
 .is-measuring-print .letter__text p {
-  margin: 0 0 calc(2mm * var(--print-scale, 1));
-  font-size: calc(9pt * var(--print-scale, 1)) !important;
-  line-height: 1.45;
-  text-indent: 8pt;
+  margin: 0 0 2.5mm !important;
+  font-size: calc(10.5pt * var(--print-scale, 1)) !important;
+  line-height: 1.55;
+  text-indent: 10pt;
 }
 .is-measuring-print .letter__row {
   display: block !important;
@@ -1049,11 +1089,11 @@ body.is-locked {
 .is-measuring-print .letter__figure,
 .is-measuring-print .letter__row .letter__figure {
   display: block !important;
-  max-width: 80% !important;
-  margin: 3mm auto !important;
+  max-width: 90% !important;
+  margin: 10px auto !important;
 }
 .is-measuring-print .letter__photo,
 .is-measuring-print .letter__figure img,
 .is-measuring-print .letter__row img {
-  max-height: 65mm !important;
+  max-width: 90% !important;
 }
