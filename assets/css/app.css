@@ -819,6 +819,7 @@ body.is-locked {
 }
 
 
+
 @media print {
   @page {
     size: A4;
@@ -829,12 +830,15 @@ body.is-locked {
   body { background: #fff; font-size: 10.5pt; color: #1a1a1a; margin: 0; padding: 0; }
   .no-print, .nav, .sticky-bar, .reader-actions, .dialog-back, #toast, .lock, .letter-nav, .reader-foot { display: none !important; }
 
-  /* 4-side border restored */
+  /* Border is at absolute edge. 
+     Top/bottom are 1mm (ultra thin) to minimize text overlap at page breaks.
+     Left/right are 4mm (thick) for the main pillar look. */
   body::before {
     content: "";
     position: fixed;
     top: 0; bottom: 0; left: 0; right: 0;
-    border: 4mm solid;
+    border-style: solid;
+    border-width: 1.5mm 4mm; 
     border-image: linear-gradient(to bottom, #ce1126 25%, #002868 25%, #002868 75%, #ce1126 75%) 1;
     z-index: 9999;
     pointer-events: none;
@@ -850,36 +854,36 @@ body.is-locked {
     width: 100%;
     column-count: 2;
     column-gap: 8mm;
-    transform: translateZ(0); 
+    /* Removed translateZ to prevent Chrome column-fill bugs */
   }
 
   .support { display: none !important; }
 
-  /* Magic push-down trick for fragments on page 2 */
-  .letter__text p,
-  .letter__row,
-  .letter__text .subheading,
-  .letter__closing {
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
-    border-top: 8mm solid transparent;
-    border-bottom: 8mm solid transparent;
-    margin-top: -8mm;
-    margin-bottom: -5mm; /* Net 3mm margin */
-    background-clip: padding-box;
+  /* Standard, robust paragraph flow. No negative margin hacks! */
+  .letter__text p {
+    margin: 0 0 3.5mm;
+    padding: 0;
     break-inside: auto;
     page-break-inside: auto;
     orphans: 2;
     widows: 2;
+    line-height: 1.6;
   }
 
-  .letter__row { display: flex; gap: 2mm; width: 100%; break-inside: avoid; page-break-inside: avoid; }
+  .letter__row, .letter__figure, .prayers, .letter__closing {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin: 4mm 0;
+  }
+  
+  .letter__row { display: flex; gap: 2mm; width: 100%; }
   .letter__row .letter__figure { flex: 1; min-width: 0; margin: 0; border: none; padding: 0; }
   
   .letter__text .subheading {
     break-after: avoid;
     page-break-after: avoid;
     font-size: 11pt; color: #004080; font-weight: bold;
+    margin-top: 5mm; margin-bottom: 2mm;
   }
   
   .letter__closing { 
@@ -888,14 +892,7 @@ body.is-locked {
     color: #1a1a1a; 
     text-align: justify; 
     word-break: keep-all; 
-    margin-top: -3mm; 
-    position: relative;
-  }
-  .letter__closing::after {
-    content: "";
-    position: absolute;
-    top: -8mm; 
-    left: 0; right: 0;
+    padding-top: 3mm;
     border-top: 1pt solid #ccc;
   }
   
@@ -903,22 +900,19 @@ body.is-locked {
     display: block;
     height: auto;
     min-height: 0;
-    margin: 0 0 6mm 0; /* More space below hero */
-    padding-top: 10mm; /* Push hero down from top border */
+    margin: 0 0 8mm 0; /* Lots of space below hero image */
+    padding-top: 12mm; /* Push hero well down from top border */
     break-inside: avoid;
     page-break-inside: avoid;
   }
 
   .prayers {
-    break-inside: avoid;
-    page-break-inside: avoid;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
     border: 1pt dashed #4caf50;
     padding: 4mm !important;
     background: #f1f8e9;
     border-radius: 8px;
-    margin: 4mm 0;
   }
   .prayers__title { font-size: 13pt; color: #2e7d32; font-weight: bold; margin: 0 0 3mm; text-align: center; display: block; }
   .prayers__list { padding-left: 0; list-style: none; margin: 0; display: block; }
@@ -928,6 +922,16 @@ body.is-locked {
   .prayers__name { font-size: 11pt; color: #c62828; font-weight: bold; margin: 0; display: inline; }
   .prayers__text { font-size: 10pt; color: #111; display: block; margin-top: 1.5mm; line-height: 1.5; text-align: left; }
   .prayers__text p { margin: 0 0 1mm; border: none; padding: 0; }
+
+  /* Text shadow to protect text overlapping the 1.5mm border */
+  .letter__body, .letter__closing {
+    text-shadow: 
+      -1px -1px 0 #fff,  
+       1px -1px 0 #fff,
+      -1px  1px 0 #fff,
+       1px  1px 0 #fff,
+       0px  2px 4px rgba(255,255,255,0.8);
+  }
 
   .letter__hero--banner { height: auto; aspect-ratio: auto; }
   .letter__hero--banner img { position: relative; height: auto; }
