@@ -264,9 +264,12 @@ function paint(root) {
       temp.className = 'page page--reader print-only';
       temp.innerHTML = letterHTML(state.body, { id: state.id });
       document.body.appendChild(temp);
+      const app = document.getElementById('app');
+      if(app) app.style.display = 'none';
       loadLetterImages(temp);
       await printLetter(temp.querySelector('.letter'), message => { status.textContent = message; });
       temp.remove();
+      if(app) app.style.display = '';
     } finally {
       button.disabled = false;
       status.textContent = orig;

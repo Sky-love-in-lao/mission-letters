@@ -67,15 +67,17 @@ function heroHTML(src, size, body) {
       <div class="letter__photo-fallback" hidden>${SHARE_HELP}</div>
       <div class="letter__hero-veil" aria-hidden="true"></div>
       <div class="letter__hero-text">
-        <h1 class="letter__title">${esc(body.title || '선교편지')}</h1>
+        ${period ? `<div class="letter__period print-only">${esc(period)}</div>` : ''}
+      <h1 class="letter__title">${esc(body.title || '선교편지')}</h1>
         ${body.authorName ? `<p class="letter__author">${esc(body.authorName)}</p>` : ''}
       </div>
     </header>`;
 }
 
-function plainHeadHTML(body) {
+function plainHeadHTML(body, period) {
   return `
     <header class="letter__head">
+      ${period ? `<div class="letter__period print-only">${esc(period)}</div>` : ''}
       <h1 class="letter__title">${esc(body.title || '선교편지')}</h1>
       ${body.authorName ? `<p class="letter__author">${esc(body.authorName)}</p>` : ''}
     </header>`;
@@ -182,7 +184,7 @@ export function letterHTML(body, meta = {}) {
   return `
     <article class="letter${heroSrc ? ' letter--hero' : ''}">
       ${mastheadHTML(body, period)}
-      ${heroSrc ? heroHTML(heroSrc, heroSize, body) : plainHeadHTML(body)}
+      ${heroSrc ? heroHTML(heroSrc, heroSize, body) : plainHeadHTML(body, period)}
       <div class="letter__sheet">
         <div class="letter__body">${blocks}</div>
         ${body.closing ? `<div class="letter__closing">${paragraphs(body.closing)}</div>` : ''}

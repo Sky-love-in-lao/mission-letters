@@ -839,131 +839,114 @@ body.is-locked {
 /* ── A4 인쇄 — PRD §6.3 ───────────────────────────────────────── */
 @page {
   size: A4;
-  /* 위아래 25mm, 좌우 25mm — 20mm 면 한 줄이 170mm 로 길어져 읽기 힘들다. */
-  margin: 25mm;
+  margin: 0;
 }
 
 @media print {
   :root { --bg: #fff; }
-  body { background: #fff; font-size: 11pt; color: #1a1a1a; }
+  body { background: #fff; font-size: 10.5pt; color: #1a1a1a; margin: 0; padding: 0; }
   .no-print, .nav, .sticky-bar, .reader-actions, .dialog-back, #toast, .lock, .letter-nav, .reader-foot { display: none !important; }
+
+  
 
   .page, .page--reader { max-width: none; margin: 0; padding: 0; }
 
   .letter {
-    border: none;
+    border: 3.5mm solid #cc0000;
     box-shadow: none;
     border-radius: 0;
-    padding: 0;
+    padding: 12mm 15mm;
     max-width: none;
     margin: 0;
     background: #fff;
-  }
-  .letter__head { border-bottom: 1pt solid #ccc; margin-bottom: 8mm; padding-bottom: 5mm; }
-
-  .masthead { padding-bottom: 3mm; margin-bottom: 6mm; border-bottom: 1pt solid #ccc; break-inside: avoid; }
-  .masthead__logo { height: 14mm; max-width: 60mm; }
-  .masthead__org { font-size: 12pt; color: #1a2b45; }
-  .masthead__period { font-size: 9pt; color: #555; }
-
-  /* Hero — 인쇄에서도 화면처럼 사진 위에 제목을 얹는다.
-     배경(그라데이션)은 기본적으로 인쇄에서 빠지므로 print-color-adjust 로 강제한다.
-     그래도 빠지는 프린터가 있어 제목에는 그림자를 두어 사진 위에서 읽히게 한다. */
-  .letter__hero {
-    display: grid;
-    align-items: end;
-    height: 105mm;
-    min-height: 0;
-    overflow: hidden;
-    border-radius: 0;
-    border-bottom: none;
-    padding-bottom: 0;
-    margin-bottom: 8mm;
-    background: #1a2b45;
-    break-inside: avoid;
-    page-break-inside: avoid;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  .letter__hero-link { position: absolute; inset: 0; display: block; }
-  .letter__hero-photo { width: 100%; height: 100%; max-height: none; object-fit: cover; }
-  .letter__hero-veil {
-    display: block;
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg,
-      rgba(26,43,69,.25) 0%, rgba(26,43,69,.50) 52%, rgba(26,43,69,.84) 100%);
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  .letter__hero-text { position: relative; padding: 8mm; }
-  .letter--hero .letter__hero .letter__title {
-    color: #fbf9f4;
-    font-size: 20pt;
-    margin-bottom: 2mm;
-    text-shadow: 0 1pt 3pt rgba(0,0,0,.6);
-  }
-  .letter--hero .letter__hero .letter__author {
-    color: #fbf9f4;
-    text-shadow: 0 1pt 3pt rgba(0,0,0,.6);
+    min-height: 297mm;
+    box-sizing: border-box;
   }
 
-  /* 사진을 못 불러오면 사진 없이 검은 글씨의 보통 머리말로 돌아간다 */
-  .letter__hero.is-failed {
-    display: block;
-    height: auto;
-    background: none;
-    padding-bottom: 5mm;
-    border-bottom: 1pt solid #ccc;
+  .letter__head {
+    border-bottom: 1.5pt solid #cc0000;
+    margin-bottom: 6mm;
+    padding-bottom: 4mm;
+    text-align: center;
   }
-  .letter__hero.is-failed .letter__hero-link,
-  .letter__hero.is-failed .letter__hero-veil { display: none; }
-  .letter__hero.is-failed .letter__hero-text { padding: 0; }
-  .letter__hero.is-failed .letter__title  { color: #1a2b45; text-shadow: none; }
-  .letter__hero.is-failed .letter__author { color: #555; text-shadow: none; }
 
-  .letter__figure--wide { margin-inline: 0; }
-  .letter__figure--small .letter__photo { max-height: 70mm; }
-  .letter__row { margin: 6mm 0; gap: 3mm; break-inside: avoid; page-break-inside: avoid; }
-  .letter__figure--tile .letter__photo { max-height: 60mm; }
-  .letter__row figcaption { font-size: 8.5pt; margin-top: 1.5mm; }
-  .letter__hero--banner .letter__hero-photo { max-height: none; } /* keep aspect ratio */
-  .letter__hero--short  .letter__hero-photo { max-height: 70mm; }
-  .letter__hero--tall   .letter__hero-photo { max-height: 120mm; }
+  /* 기존 masthead와 hero 이미지 숨김 */
+  .masthead { display: none; }
+  .letter__hero { display: none; }
 
-  .prayers, .support { margin-top: 8mm; padding-top: 4mm; border-top: 1pt solid #ccc; break-inside: avoid; }
-  .letter__signoff { margin-top: 8mm; padding-top: 4mm; border-top: 1pt solid #ccc; break-inside: avoid; }
-  .letter__signoff-photo { width: 20mm; height: 20mm; }
-  .letter__signoff-name { font-size: 10.5pt; color: #1a2b45; }
-  .prayers__title, .support__title { font-size: 13pt; }
-  .prayers__item { padding: 3mm 0; border-top: 1pt solid #ddd; }
-  .prayers__name { font-size: 11.5pt; }
-  .prayers__text, .support__note { font-size: 10.5pt; color: #333; }
-  .support__row { padding: 2mm 0; border-bottom: 1pt solid #ddd; }
-  .letter__title { font-size: 20pt; color: #1a2b45; }
-  .letter__period, .letter__author { font-size: 9.5pt; color: #555; letter-spacing: .08em; }
-  .letter__period { margin-bottom: 3mm; }
-  .letter__greeting { font-size: 12pt; margin-bottom: 6mm; }
-  .letter__body { font-size: 11pt; line-height: 1.75; }
-  .letter__text p { margin: 0 0 3.5mm; orphans: 2; widows: 2; }
+  .letter__title { font-size: 22pt; color: #1a1a1a; text-align: center; font-weight: bold; margin-bottom: 2mm; }
+  .letter__period { display: inline-block; font-size: 12pt; color: #1a1a1a; margin-bottom: 2mm; margin-right: 5mm; }
+  .letter__author { display: inline-block; font-size: 12pt; color: #1a1a1a; margin-bottom: 2mm; }
+  
+  /* 2단 편집 레이아웃 */
+  .letter__sheet {
+    column-count: 2;
+    column-gap: 8mm;
+    column-fill: auto;
+    height: calc(297mm - 55mm); /* 하단까지 꽉 차게 계산 (대략) */
+  }
 
+  .letter__greeting { font-size: 12pt; margin-bottom: 5mm; color: #cc0000; font-weight: bold; text-align: center; }
+  
+  .letter__body { font-size: 10.5pt; line-height: 1.6; text-align: justify; word-break: keep-all; }
+  .letter__text p { margin: 0 0 3mm; orphans: 2; widows: 2; }
+  .letter__text strong { font-weight: 700; color: #000; }
+  .letter__text .subheading { display: block; font-size: 11.5pt; color: #004080; font-weight: bold; margin-top: 4mm; margin-bottom: 1.5mm; }
 
   .letter__figure {
-    margin: 6mm 0;
+    margin: 4mm 0;
     break-inside: avoid;
     page-break-inside: avoid;
+    width: 100%;
   }
-  .letter__photo { max-height: 110mm; object-fit: contain; }
-  .letter__figure figcaption { font-size: 9pt; color: #555; margin-top: 2mm; }
-  .letter__figure.is-failed { display: none; }   /* 실패한 사진은 인쇄에서 제외 */
+  .letter__photo { max-height: 80mm; width: 100%; object-fit: contain; }
+  .letter__figure figcaption { font-size: 9pt; color: #555; text-align: center; margin-top: 1.5mm; }
+  .letter__figure.is-failed { display: none; }
 
-  .letter__closing { margin-top: 8mm; padding-top: 4mm; border-top: 1pt solid #ccc; font-size: 10.5pt; color: #333; }
+  .letter__closing { margin-top: 6mm; padding-top: 4mm; border-top: 1pt solid #ccc; font-size: 10pt; color: #333; text-align: justify; word-break: keep-all; }
+
+  /* 기도제목 (연두색 박스) */
+  .prayers {
+    margin-top: 8mm;
+    padding: 5mm;
+    border: 2pt solid #4caf50;
+    background: #f1f8e9;
+    break-inside: avoid;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .prayers__title { font-size: 13pt; color: #2e7d32; font-weight: bold; margin: 0 0 3mm; text-align: center; display: block; }
+  .prayers__list { padding-left: 0; list-style: none; margin: 0; display: block; }
+  .prayers__item { 
+    display: block; 
+    padding: 2mm 0; 
+    border-top: 1pt dashed #a5d6a7; 
+    margin-top: 1mm; 
+  }
+  .prayers__item:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+  
+  .prayers__item::before {
+    content: counter(prayer) ". ";
+    font-size: 11pt; color: #c62828; font-weight: bold; display: inline;
+  }
+  .prayers__name { font-size: 11pt; color: #c62828; font-weight: bold; margin: 0; display: inline; }
+  .prayers__text { font-size: 10pt; color: #111; display: block; margin-top: 1.5mm; line-height: 1.5; text-align: left; }
+  .prayers__text p { margin: 0 0 1mm; }
+  
+  /* 불필요한 그리드 속성 덮어쓰기 */
+  .prayers__item > * { grid-column: auto; }
+
+  .support {
+    margin-top: 6mm; padding-top: 4mm; border-top: 1pt solid #ccc; break-inside: avoid;
+  }
+  .support__title { font-size: 11pt; font-weight: bold; color: #1a2b45; margin: 0 0 2mm; }
+  .support__account { display: block; margin: 0; }
+  .support__row { display: block; padding: 1mm 0; font-size: 10pt; border-bottom: 1pt dotted #ccc; }
+  .support__row dt { display: inline; font-weight: bold; }
+  .support__row dd { display: inline; margin-left: 2mm; }
+  .support__note { font-size: 9pt; color: #555; margin-top: 2mm; }
 
   a { color: inherit; text-decoration: none; }
 }
 
-.letter__text strong {
-  font-weight: 700;
-}
 @media screen { .print-only { display: none !important; } }
-@media print { body > *:not(.print-only) { display: none !important; } }
