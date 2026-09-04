@@ -64,9 +64,6 @@ function showLock(root, meta, id) {
           <button type="submit" class="btn btn--primary btn--lg">편지 열기</button>
         </form>
         ${meta.hint ? `<p class="lock__hint">힌트: ${esc(meta.hint)}</p>` : ''}
-        <label class="inline-check lock__remember">
-          <input type="checkbox" id="remember" checked> 이 기기에서 기억하기
-        </label>
         <p class="lock__error" id="lock-error" role="alert"></p>
         <a class="lock__archive" href="#/archive">지난 편지 모두 보기</a>
         <p class="reader-foot"><a href="#/settings">선교사님이신가요? 편지 쓰러 가기</a></p>
@@ -97,7 +94,7 @@ function showLock(root, meta, id) {
     button.textContent = '여는 중…';
     try {
       const body = await decryptBody(meta, password);
-      if ($('#remember', root).checked) rememberReaderPassword(id, password);
+      // '이 기기에서 기억하기' 기능 삭제
       showLetter(root, meta, body, id);
     } catch (err) {
       error.textContent = err.code === 'WRONG_PASSWORD'
