@@ -514,6 +514,8 @@ textarea { resize: vertical; line-height: 1.8; }
   border-top: 1px solid var(--line);
   font-size: 17px;
   line-height: 1.85;
+  text-align: justify;
+  word-break: keep-all;
   color: var(--ink-soft);
 }
 .letter__closing p { margin: 0 0 .9em; }
