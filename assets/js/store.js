@@ -72,24 +72,14 @@ export function clearDraft(id) {
 // ── 열람자 비밀번호 기억 (P1-15) ────────────────────────────────────
 
 export function rememberReaderPassword(id, password) {
-  for (const store of [sessionStorage, localStorage]) {
-    try {
-      store.setItem(READER_PW(id), password);
-      store.setItem(READER_PW_SHARED, password);   // 지난 편지도 같은 비밀번호면 바로 열린다
-    } catch { /* noop */ }
-  }
+  // 사용자의 요청으로 비밀번호 자동 저장 기능을 제거했습니다.
 }
 
 /** 이 편지 전용 비밀번호 → 없으면 마지막으로 통한 비밀번호 */
 export function recallReaderPassword(id) {
-  return sessionStorage.getItem(READER_PW(id))
-      || localStorage.getItem(READER_PW(id))
-      || sessionStorage.getItem(READER_PW_SHARED)
-      || localStorage.getItem(READER_PW_SHARED)
-      || '';
+  return '';
 }
 
 export function forgetReaderPassword(id) {
-  sessionStorage.removeItem(READER_PW(id));
-  localStorage.removeItem(READER_PW(id));
+  // no-op
 }
