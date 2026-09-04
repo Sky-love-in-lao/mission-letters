@@ -765,7 +765,6 @@ textarea { resize: vertical; line-height: 1.8; }
 .archive__period {
   font-size: 13px; font-weight: 500; color: var(--ink-soft);
   letter-spacing: .14em; text-transform: uppercase;
-}
 .archive__badge {
   display: inline-block; margin-left: 10px; padding: 3px 10px;
   background: transparent; color: var(--ink-soft);
@@ -834,17 +833,16 @@ body.is-locked {
 }
 
 @media print {
-  :root { --bg: #fff; }
-  body { background: #fff; font-size: 10.5pt; color: #1a1a1a; margin: 0; padding: 0; }
+  :root { --bg: #fff; --print-scale: 1; }
+  body { background: #fff; font-size: 9pt; color: #1a1a1a; margin: 0; padding: 0; }
   .no-print, .nav, .sticky-bar, .reader-actions, .dialog-back, #toast, .lock, .letter-nav, .reader-foot { display: none !important; }
 
-  /* Removed absolute edge border; using standard margin now */
-
+  /* 메인 컨테이너 폭 제한 및 중앙 배치 */
   .letter {
     border: none !important;
     padding: 0 !important;
-    max-width: none;
-    margin: 0;
+    max-width: 170mm !important;
+    margin: 0 auto !important;
     background: transparent;
     box-sizing: border-box;
     width: 100%;
@@ -852,100 +850,158 @@ body.is-locked {
 
   .letter__sheet {
     /* 1단 구조 (1-column) */
-    column-count: 1;
+    column-count: 1 !important;
+    max-width: 100%;
+    margin: 0 auto;
   }
 
   .letter__head {
     padding-top: 0;
     margin-top: 0;
-    margin-bottom: 8mm;
+    margin-bottom: 5mm;
   }
 
   .support { display: none !important; }
 
-  /* Standard, robust paragraph flow with auto-fit scale */
+  /* 폰트 크기 1~2pt 축소 및 단락 간 여백 최소화 */
   .letter__body { 
     text-align: justify; 
     word-break: keep-all; 
-    font-size: calc(10.5pt * var(--print-scale)) !important; 
-    line-height: 1.6 !important; 
+    font-size: calc(9pt * var(--print-scale)) !important; 
+    line-height: 1.45 !important; 
   }
 
   .letter__text p {
-    margin: 0 0 calc(4mm * var(--print-scale));
-    font-size: calc(10.5pt * var(--print-scale)) !important;
+    margin: 0 0 calc(2mm * var(--print-scale)) !important;
+    font-size: calc(9pt * var(--print-scale)) !important;
     padding: 0;
     break-inside: avoid;
     page-break-inside: avoid;
     orphans: 2;
     widows: 2;
-    line-height: 1.6;
-    text-indent: 10pt; /* 첫 줄 들여쓰기 */
+    line-height: 1.45;
+    text-indent: 8pt; /* 첫 줄 들여쓰기 */
   }
 
-  .letter__row, .letter__figure, .prayers, .letter__closing {
-    break-inside: avoid;
-    page-break-inside: avoid;
-    margin: 4mm 0;
+  /* 이미지 강제 정렬 및 다중 이미지 세로 단일 배치 */
+  .letter__row { 
+    display: block !important; 
+    width: 100% !important; 
+    clear: both !important; 
+    margin: 3mm auto !important; 
   }
   
-  .letter__row { display: flex; gap: 2mm; width: 100%; }
-  .letter__row .letter__figure { flex: 1; min-width: 0; margin: 0; border: none; padding: 0; }
-  
+  .letter__figure,
+  .letter__row .letter__figure { 
+    display: block !important; 
+    width: 100% !important; 
+    max-width: 80% !important; 
+    margin: 3mm auto !important; 
+    border: none !important; 
+    padding: 0 !important; 
+    clear: both !important; 
+    float: none !important; 
+    break-inside: avoid;
+    page-break-inside: avoid;
+    text-align: center;
+  }
+
+  .letter__photo,
+  .letter__figure img,
+  .letter__row img {
+    display: block !important;
+    margin: 0 auto !important;
+    max-width: 100% !important;
+    max-height: 65mm !important;
+    height: auto !important;
+    object-fit: contain !important;
+    float: none !important;
+    clear: both !important;
+  }
+
+  figcaption {
+    text-align: center !important;
+    font-size: calc(8pt * var(--print-scale)) !important;
+    color: #555 !important;
+    margin-top: 1.5mm !important;
+    clear: both !important;
+  }
+
   .letter__text .subheading {
     break-after: avoid;
     page-break-after: avoid;
-    font-size: calc(12pt * var(--print-scale)); color: #004080; font-weight: bold;
-    margin-top: 5mm; margin-bottom: 2mm;
+    font-size: calc(10.5pt * var(--print-scale)) !important; 
+    color: #004080; 
+    font-weight: bold;
+    margin-top: 3mm; 
+    margin-bottom: 1.5mm;
     text-indent: 0; /* 소제목은 들여쓰기 해제 */
+    clear: both !important;
   }
   
   .letter__closing { 
-    font-size: calc(10.5pt * var(--print-scale)); 
-    line-height: 1.6; 
+    font-size: calc(9pt * var(--print-scale)) !important; 
+    line-height: 1.45; 
     color: #1a1a1a; 
     text-align: justify; 
     word-break: keep-all; 
-    padding-top: 3mm;
+    padding-top: 2mm;
     border-top: 1pt solid #ccc;
+    margin-top: 3mm;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    clear: both !important;
   }
   
   .letter__hero {
     display: block;
     height: auto;
     min-height: 0;
-    margin: 0 0 8mm 0;
+    margin: 0 auto 5mm auto;
     padding-top: 0; 
     break-inside: avoid;
     page-break-inside: avoid;
+    clear: both !important;
+    text-align: center;
+  }
+  .letter__hero img,
+  .letter__hero-photo {
+    display: block !important;
+    margin: 0 auto !important;
+    max-width: 80% !important;
+    max-height: 50mm !important;
+    height: auto !important;
+    object-fit: contain !important;
   }
 
   .prayers {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
     border: 1pt dashed #4caf50;
-    padding: 4mm !important;
+    padding: 2.5mm !important;
     background: #f1f8e9;
-    border-radius: 8px;
+    border-radius: 6px;
+    margin: 3mm auto !important;
+    max-width: 100%;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    clear: both !important;
   }
-  .prayers__title { font-size: calc(12pt * var(--print-scale)); margin: 0 0 1.5mm;  color: #2e7d32; font-weight: bold; margin: 0 0 3mm; text-align: center; display: block; }
+  .prayers__title { 
+    font-size: calc(10.5pt * var(--print-scale)); 
+    margin: 0 0 1.5mm;  
+    color: #2e7d32; 
+    font-weight: bold; 
+    text-align: center; 
+    display: block; 
+  }
   .prayers__list { padding-left: 0; list-style: none; margin: 0; display: block; }
-  .prayers__item { display: block; padding: 1.5mm 0; border-top: 1pt dashed #a5d6a7; margin-top: 1mm; }
+  .prayers__item { display: block; padding: 1mm 0; border-top: 1pt dashed #a5d6a7; margin-top: 0.8mm; }
   .prayers__item:first-child { border-top: none; padding-top: 0; margin-top: 0; }
-  .prayers__item::before { content: counter(prayer) ". "; font-size: 11pt; color: #c62828; font-weight: bold; display: inline; }
-  .prayers__name { font-size: calc(10pt * var(--print-scale)); color: #cc0000; font-weight: bold; margin: 0; display: inline; }
-  .prayers__text { font-size: calc(9pt * var(--print-scale)); color: #111; display: block; margin-top: 1.5mm; line-height: 1.5; text-align: left; }
-  .prayers__text p { margin: 0 0 1mm; border: none; padding: 0; }
-
-  /* Text shadow to protect text overlapping the 1.5mm border */
-  .letter__body, .letter__closing {
-    text-shadow: 
-      -1px -1px 0 #fff,  
-       1px -1px 0 #fff,
-      -1px  1px 0 #fff,
-       1px  1px 0 #fff,
-       0px  2px 4px rgba(255,255,255,0.8);
-  }
+  .prayers__item::before { content: counter(prayer) ". "; font-size: calc(9.5pt * var(--print-scale)); color: #cc0000; font-weight: bold; display: inline; }
+  .prayers__name { font-size: calc(9.5pt * var(--print-scale)); color: #cc0000; font-weight: bold; margin: 0; display: inline; }
+  .prayers__text { font-size: calc(8.5pt * var(--print-scale)); color: #111; display: block; margin-top: 1mm; line-height: 1.4; text-align: left; }
+  .prayers__text p { margin: 0 0 0.5mm; border: none; padding: 0; text-indent: 0; }
 
   .letter__hero--banner { height: auto; aspect-ratio: auto; }
   .letter__hero--banner img { position: relative; height: auto; }
@@ -953,18 +1009,17 @@ body.is-locked {
   .letter__hero--banner .letter__hero-content { display: none !important; }
 }
 
-
 /* ── Auto-fit Measurement ─────────────────────────────────────── */
 .is-measuring-print {
   display: block !important;
   visibility: hidden;
-  font-size: calc(10.5pt * var(--print-scale, 1));
+  font-size: calc(9pt * var(--print-scale, 1));
 }
 .is-measuring-print .letter {
   border: none !important;
   padding: 0 !important;
-  max-width: none;
-  margin: 0;
+  max-width: 170mm !important;
+  margin: 0 auto;
   box-sizing: border-box;
   width: 100%;
 }
@@ -979,12 +1034,26 @@ body.is-locked {
 .is-measuring-print .letter__body { 
   text-align: justify; 
   word-break: keep-all; 
-  font-size: calc(10.5pt * var(--print-scale, 1)) !important; 
-  line-height: 1.6 !important; 
+  font-size: calc(9pt * var(--print-scale, 1)) !important; 
+  line-height: 1.45 !important; 
 }
 .is-measuring-print .letter__text p {
-  margin: 0 0 calc(4mm * var(--print-scale, 1));
-  font-size: calc(10.5pt * var(--print-scale, 1)) !important;
-  line-height: 1.6;
-  text-indent: 10pt;
+  margin: 0 0 calc(2mm * var(--print-scale, 1));
+  font-size: calc(9pt * var(--print-scale, 1)) !important;
+  line-height: 1.45;
+  text-indent: 8pt;
+}
+.is-measuring-print .letter__row {
+  display: block !important;
+}
+.is-measuring-print .letter__figure,
+.is-measuring-print .letter__row .letter__figure {
+  display: block !important;
+  max-width: 80% !important;
+  margin: 3mm auto !important;
+}
+.is-measuring-print .letter__photo,
+.is-measuring-print .letter__figure img,
+.is-measuring-print .letter__row img {
+  max-height: 65mm !important;
 }
