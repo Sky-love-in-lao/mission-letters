@@ -34,10 +34,9 @@ export async function renderLetter(root, id) {
   }
 
   const meta = found.file;
-  const settings = getSettings();
 
-  // 저장된 비밀번호가 있으면 곧바로 열어 본다.
-  const remembered = recallReaderPassword(id) || settings.defaultPassword;
+  // 저장된 비밀번호가 있으면 곧바로 열어 본다. (기존에는 설정된 기본 비밀번호로 자동 진입했으나 제거함)
+  const remembered = recallReaderPassword(id);
   if (remembered) {
     try {
       const body = await decryptBody(meta, remembered);
