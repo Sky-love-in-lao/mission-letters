@@ -830,80 +830,57 @@ body.is-locked {
 /* ── A4 인쇄 — PRD §6.3 ───────────────────────────────────────── */
 @page {
   size: A4;
-  /* 위아래 25mm, 좌우 25mm — 20mm 면 한 줄이 170mm 로 길어져 읽기 힘들다. */
-  margin: 25mm;
+  margin: 15mm;
 }
 
 @media print {
-  :root { --print-scale: 1; }
-  @page {
-    size: A4;
-    margin: 0;
-  }
-  
   :root { --bg: #fff; }
   body { background: #fff; font-size: 10.5pt; color: #1a1a1a; margin: 0; padding: 0; }
   .no-print, .nav, .sticky-bar, .reader-actions, .dialog-back, #toast, .lock, .letter-nav, .reader-foot { display: none !important; }
 
-  /* Border is at absolute edge. 
-     Top/bottom are 1mm (ultra thin) to minimize text overlap at page breaks.
-     Left/right are 4mm (thick) for the main pillar look. */
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0; bottom: 0; left: 0; right: 0;
-    border-style: solid;
-    border-width: 1.5mm 4mm; 
-    border-image: linear-gradient(to bottom, #ce1126 25%, #002868 25%, #002868 75%, #ce1126 75%) 1;
-    z-index: 9999;
-    pointer-events: none;
-  }
+  /* Removed absolute edge border; using standard margin now */
 
   .letter {
     border: none !important;
-    padding: 0 2mm !important;
+    padding: 0 !important;
     max-width: none;
     margin: 0;
     background: transparent;
     box-sizing: border-box;
     width: 100%;
-    
-    /* Removed translateZ to prevent Chrome column-fill bugs */
   }
 
-  
   .letter__sheet {
-    column-count: 2;
-    column-gap: 8mm;
+    /* 1단 구조 (1-column) */
+    column-count: 1;
   }
 
-  
   .letter__head {
-    padding-top: 12mm;
-    margin-top: 4mm;
+    padding-top: 0;
+    margin-top: 0;
     margin-bottom: 8mm;
   }
 
   .support { display: none !important; }
 
-  /* Standard, robust paragraph flow. No negative margin hacks! */
-
+  /* Standard, robust paragraph flow with auto-fit scale */
   .letter__body { 
     text-align: justify; 
     word-break: keep-all; 
-    font-size: calc(10pt * var(--print-scale)) !important; 
-    line-height: 1.5 !important; 
+    font-size: calc(10.5pt * var(--print-scale)) !important; 
+    line-height: 1.6 !important; 
   }
 
   .letter__text p {
-    margin: 0 0 calc(3mm * var(--print-scale));
-    font-size: calc(10pt * var(--print-scale)) !important;
+    margin: 0 0 calc(4mm * var(--print-scale));
+    font-size: calc(10.5pt * var(--print-scale)) !important;
     padding: 0;
-    break-inside: auto;
-    page-break-inside: auto;
+    break-inside: avoid;
+    page-break-inside: avoid;
     orphans: 2;
     widows: 2;
     line-height: 1.6;
+    text-indent: 10pt; /* 첫 줄 들여쓰기 */
   }
 
   .letter__row, .letter__figure, .prayers, .letter__closing {
@@ -918,12 +895,13 @@ body.is-locked {
   .letter__text .subheading {
     break-after: avoid;
     page-break-after: avoid;
-    font-size: 11pt; color: #004080; font-weight: bold;
+    font-size: calc(12pt * var(--print-scale)); color: #004080; font-weight: bold;
     margin-top: 5mm; margin-bottom: 2mm;
+    text-indent: 0; /* 소제목은 들여쓰기 해제 */
   }
   
   .letter__closing { 
-    font-size: 10.5pt; 
+    font-size: calc(10.5pt * var(--print-scale)); 
     line-height: 1.6; 
     color: #1a1a1a; 
     text-align: justify; 
@@ -936,8 +914,8 @@ body.is-locked {
     display: block;
     height: auto;
     min-height: 0;
-    margin: 0 0 8mm 0; /* Lots of space below hero image */
-    padding-top: 8mm; margin-top: 0mm; /* Push hero well down from top border */
+    margin: 0 0 8mm 0;
+    padding-top: 0; 
     break-inside: avoid;
     page-break-inside: avoid;
   }
@@ -984,29 +962,29 @@ body.is-locked {
 }
 .is-measuring-print .letter {
   border: none !important;
-  padding: 0 2mm !important;
+  padding: 0 !important;
   max-width: none;
   margin: 0;
   box-sizing: border-box;
   width: 100%;
 }
 .is-measuring-print .letter__sheet {
-  column-count: 2;
-  column-gap: 8mm;
+  column-count: 1; /* 1단 구조 측정 */
 }
 .is-measuring-print .letter__head,
 .is-measuring-print .letter__hero {
-  padding-top: 8mm;
+  padding-top: 0;
   margin-top: 0;
 }
 .is-measuring-print .letter__body { 
   text-align: justify; 
   word-break: keep-all; 
-  font-size: calc(10pt * var(--print-scale, 1)) !important; 
-  line-height: 1.5 !important; 
+  font-size: calc(10.5pt * var(--print-scale, 1)) !important; 
+  line-height: 1.6 !important; 
 }
 .is-measuring-print .letter__text p {
-  margin: 0 0 calc(3mm * var(--print-scale, 1));
-  font-size: calc(10pt * var(--print-scale, 1)) !important;
+  margin: 0 0 calc(4mm * var(--print-scale, 1));
+  font-size: calc(10.5pt * var(--print-scale, 1)) !important;
   line-height: 1.6;
+  text-indent: 10pt;
 }

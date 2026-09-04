@@ -245,13 +245,16 @@ export async function printLetter(root, onStatus) {
   clone.style.position = 'absolute';
   clone.style.top = '-9999px';
   clone.style.left = '-9999px';
-  clone.style.width = '210mm'; // A4 width
+  // A4 width minus 15mm margins on left and right (210 - 30 = 180mm)
+  clone.style.width = '180mm'; 
   clone.classList.add('is-measuring-print');
   document.body.appendChild(clone);
   
   let scale = 1.0;
-  const A4_HEIGHT_PX = 1122.5; // 297mm at 96dpi
-  const MAX_HEIGHT = A4_HEIGHT_PX * 2.0; // 2 pages max
+  // A4 height minus 15mm margins on top and bottom (297 - 30 = 267mm)
+  // 267mm at 96dpi = 1009.13px
+  const CONTENT_HEIGHT_PX = 1009.13; 
+  const MAX_HEIGHT = CONTENT_HEIGHT_PX * 2.0; // 2 pages max
   
   // Iterate to find the best scale
   for (let i = 0; i < 15; i++) {
