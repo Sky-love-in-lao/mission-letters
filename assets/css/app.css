@@ -845,12 +845,62 @@ body.is-locked {
 }
 
 /* ── A4 인쇄 — PRD §6.3 ───────────────────────────────────────── */
-@page {
-  size: A4;
-  margin: 15mm;
-}
+@page { size: A4 portrait; margin: 0 !important; }
 
 @media print {
+  /* 기도편지 박스 스타일 (녹색 바탕) */
+  .print-prayer-box {
+    background-color: #f0fdf4 !important;
+    border: 1px solid #166534 !important;
+    padding: 15px !important;
+    margin-top: 10px !important;
+    break-inside: avoid !important;
+    display: block !important;
+  }
+  .print-prayer-title-wrapper {
+    background-color: #fff !important;
+    border: 1px solid #166534 !important;
+    padding: 4px 8px !important;
+    display: inline-block !important;
+    margin-bottom: 10px !important;
+  }
+  .print-prayer-box .prayers__title {
+    margin: 0 !important;
+    font-size: calc(13pt * var(--print-scale, 1)) !important;
+    color: #000 !important;
+    font-weight: 800 !important;
+  }
+  .print-prayer-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+  }
+  .print-prayer-item {
+    margin-bottom: 8px !important;
+    display: block !important;
+  }
+  .print-prayer-item::before {
+    display: none !important; /* Hide original counters */
+  }
+  .print-prayer-num {
+    color: #dc2626 !important;
+    font-size: calc(10pt * var(--print-scale, 1)) !important;
+    font-weight: bold !important;
+    display: block !important;
+  }
+  .print-prayer-desc {
+    margin: 2px 0 0 0 !important;
+    font-size: calc(9pt * var(--print-scale, 1)) !important;
+    color: #000 !important;
+    line-height: 1.4 !important;
+  }
+  
+  /* 동참하기(후원계좌) 인쇄에서 숨기기 */
+  .support {
+    display: none !important;
+  }
+
   :root { --bg: #fff; --print-scale: 1; }
   body { 
     background: #fff; 
@@ -1149,3 +1199,44 @@ body.is-locked {
   margin: 0 0 0.5mm !important;
   padding: 0 !important;
 }
+
+.print-prayer-box {
+  background-color: #f0fdf4;
+  border: 1px solid #166534;
+  padding: 15px;
+  margin-top: 10px;
+}
+.print-prayer-title-wrapper {
+  background-color: #fff;
+  border: 1px solid #166534;
+  padding: 4px 8px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.print-prayer-box .prayers__title {
+  margin: 0;
+  font-size: 18px;
+  color: #000;
+  font-weight: 800;
+}
+.print-prayer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.print-prayer-item {
+  margin-bottom: 8px;
+}
+.print-prayer-num {
+  color: #dc2626;
+  font-size: 15px;
+  font-weight: bold;
+  display: block;
+}
+.print-prayer-desc {
+  margin: 2px 0 0 0;
+  font-size: 14px;
+  color: #000;
+  line-height: 1.4;
+}
+.print-prayer-item::before { display: none; }

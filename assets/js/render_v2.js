@@ -87,14 +87,17 @@ function prayersHTML(prayers, id) {
   const items = (prayers || []).filter(p => String(p?.title || p?.text || '').trim());
   if (!items.length) return '';
   return `
-    <section class="prayers">
-      <h2 class="prayers__title">🙏 두 손 모아 ㄱ도해 주세요</h2>
-      <ol class="prayers__list">
+    <section class="prayers print-prayer-box">
+      <div class="print-prayer-title-wrapper">
+        <h2 class="prayers__title">두손모아주세요요</h2>
+      </div>
+      <ol class="prayers__list print-prayer-list">
         ${items.map((p, i) => `
-          <li class="prayers__item">
-            ${p.title ? `<h3 class="prayers__name">${esc(p.title)}</h3>` : ''}
-            ${p.text ? `<div class="prayers__text">${paragraphs(p.text)}</div>` : ''}
-          </li>`).join('')}
+          <li class="prayers__item print-prayer-item">
+            <strong class="prayers__subtitle print-prayer-num">${i + 1}. ${esc(p.title || '')}</strong>
+            <p class="prayers__text print-prayer-desc">${esc(p.text || '')}</p>
+          </li>
+        `).join('')}
       </ol>
     </section>`;
 }
@@ -189,7 +192,7 @@ export function letterHTML(body, meta = {}) {
         <div class="letter__body">${blocks}</div>
         ${body.closing ? `<div class="letter__closing">${paragraphs(body.closing)}</div>` : ''}
         ${prayersHTML(body.prayers, meta.id)}
-        ${supportHTML(body.support)}
+        
       </div>
     </article>`;
 }
@@ -285,11 +288,11 @@ export async function printLetter(root, onStatus) {
     const createPage = () => {
       let p = document.createElement('div');
       p.className = 'a4-print-page';
-      p.style.height = PAGE_HEIGHT_MM + 'mm';
-      p.style.width = '210mm';
+      p.style.height = '296mm';
+      p.style.width = '100%';
       p.style.position = 'relative';
       p.style.background = 'linear-gradient(to bottom, #CE1126 15%, #1e40af 15%, #1e40af 85%, #CE1126 85%)';
-      p.style.padding = '14px'; /* Border thickness */
+      p.style.padding = '12px'; /* Slightly thinner border to save space */
       p.style.boxSizing = 'border-box';
       
       let inner = document.createElement('div');
@@ -325,6 +328,25 @@ export async function printLetter(root, onStatus) {
       if (clone.style) {
         clone.style.maxWidth = '100%';
         clone.style.boxSizing = 'border-box';
+        
+        // Hardcode font size to guarantee scaling works in Chrome Print
+        if (clone.classList.contains('letter__text')) {
+           const pTag = clone.querySelector('p');
+           if (pTag) {
+             pTag.style.fontSize = (10 * s) + 'pt';
+             pTag.style.margin = '0 0 1.5mm 0'; // Reduce paragraph spacing
+             pTag.style.lineHeight = '1.4';
+           }
+        }
+        if (clone.classList.contains('letter__row')) {
+           clone.style.margin = '1mm 0'; // Reduce photo gap
+           clone.style.gap = '1mm';
+        }
+        if (clone.classList.contains('prayers')) {
+           // scale prayers text
+           clone.querySelectorAll('.prayers__subtitle').forEach(el => el.style.fontSize = (11 * s) + 'pt');
+           clone.querySelectorAll('.prayers__text').forEach(el => el.style.fontSize = (10 * s) + 'pt');
+        }
       }
       currentPage.querySelector(".a4-inner-page").appendChild(clone);
       
