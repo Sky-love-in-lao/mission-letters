@@ -228,7 +228,6 @@ export async function loadLetterImages(root) {
 export async function printLetter(root, onStatus) {
   onStatus?.('사진을 불러오는 중입니다…');
   const { failed, total } = await loadLetterImages(root);
-  // 디코딩까지 끝나야 인쇄에 반영된다.
   await Promise.all(
     Array.from(root.querySelectorAll('img[data-drive-id]'))
       .filter(img => img.src && !img.dataset.driveFailed)
@@ -237,49 +236,113 @@ export async function printLetter(root, onStatus) {
   onStatus?.(failed ? `사진 ${total}장 중 ${failed}장을 불러오지 못했습니다.` : '');
   await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
   
-  // Auto-fit algorithm
-  onStatus?.('2장 이내 최적화 계산 중...');
+  onStatus?.('A4 2단 레이아웃 최적화 중...');
   
-  // Create a hidden clone to measure
-  const clone = root.cloneNode(true);
-  clone.style.position = 'absolute';
-  clone.style.top = '-9999px';
-  clone.style.left = '-9999px';
-  // A4 width minus 15mm margins on left and right (210 - 30 = 180mm)
-  clone.style.width = '180mm'; 
-  clone.classList.add('is-measuring-print');
-  document.body.appendChild(clone);
+  const container = document.createElement('div');
+  container.style.position = 'absolute';
+  container.style.top = '-99999px';
+  container.style.left = '-99999px';
+  container.style.width = '180mm';
+  container.classList.add('is-measuring-print');
+  document.body.appendChild(container);
+
+  const PAGE_HEIGHT_MM = 267;
   
-  let scale = 1.0;
-  // A4 height minus 15mm margins on top and bottom (297 - 30 = 267mm)
-  // 267mm at 96dpi = 1009.13px
-  const CONTENT_HEIGHT_PX = 1009.13; 
-  const MAX_HEIGHT = CONTENT_HEIGHT_PX * 2.0; // 2 pages max
-  
-  // Iterate to find the best scale
-  for (let i = 0; i < 15; i++) {
-    clone.style.setProperty('--print-scale', scale.toString());
-    // Force layout recalculation
-    const h = clone.scrollHeight;
-    if (h <= MAX_HEIGHT || scale < 0.65) {
-      break; // Fits or hit lower bound!
+  const sheet = root.querySelector('.letter__sheet');
+  let currentBlocks = [];
+  if (sheet) {
+    for (const block of Array.from(sheet.children)) {
+      if (block.classList.contains('letter__body')) {
+        currentBlocks.push(...Array.from(block.children));
+      } else {
+        currentBlocks.push(block);
+      }
     }
-    scale -= 0.03; // reduce by 3%
+  }
+
+  let bestScale = 1.0;
+  let finalPages = [];
+  
+  for (let s = 1.0; s >= 0.60; s -= 0.04) {
+    container.innerHTML = '';
+    container.style.setProperty('--print-scale', s.toString());
+    
+    let pages = [];
+    let pageIndex = 0;
+    
+    const createPage = () => {
+      let p = document.createElement('div');
+      p.className = 'a4-print-page';
+      p.style.height = PAGE_HEIGHT_MM + 'mm';
+      p.style.columnCount = '2';
+      p.style.columnGap = '7mm';
+      p.style.columnFill = 'auto';
+      p.style.overflow = 'hidden';
+      p.style.position = 'relative';
+      p.style.border = '12px solid transparent';
+      p.style.borderImage = 'linear-gradient(to bottom, #CE1126 15%, #1e40af 15%, #1e40af 85%, #CE1126 85%) 1';
+      p.style.padding = '0 4mm';
+      p.style.boxSizing = 'border-box';
+      return p;
+    };
+
+    let currentPage = createPage();
+    if (pageIndex === 0) {
+      const head = root.querySelector('.letter__head, .letter__hero');
+      if (head) {
+        const header = head.cloneNode(true);
+        header.style.columnSpan = 'all';
+        currentPage.appendChild(header);
+      }
+    }
+    container.appendChild(currentPage);
+    pages.push(currentPage);
+
+    for (const block of currentBlocks) {
+      const clone = block.cloneNode(true);
+      currentPage.appendChild(clone);
+      
+      if (currentPage.scrollWidth > currentPage.clientWidth + 5 || currentPage.scrollHeight > currentPage.clientHeight + 5) {
+        currentPage.removeChild(clone);
+        pageIndex++;
+        currentPage = createPage();
+        container.appendChild(currentPage);
+        pages.push(currentPage);
+        currentPage.appendChild(clone);
+      }
+    }
+    
+    if (pages.length <= 2 || s < 0.65) {
+      bestScale = s;
+      finalPages = pages.map(p => p.cloneNode(true));
+      break;
+    }
   }
   
-  // Apply final scale to the real root and body for printing
-  document.documentElement.style.setProperty('--print-scale', scale.toString());
-  document.body.style.setProperty('--print-scale', scale.toString());
+  document.body.removeChild(container);
   
-  document.body.removeChild(clone);
+  root.innerHTML = '';
+  root.style.border = 'none';
+  root.style.padding = '0';
+  root.style.maxWidth = '100%';
+  
+  for (const page of finalPages) {
+    page.style.breakAfter = 'page';
+    page.style.pageBreakAfter = 'always';
+    page.style.margin = '0 auto';
+    root.appendChild(page);
+  }
+  
+  document.documentElement.style.setProperty('--print-scale', bestScale.toString());
+  document.body.style.setProperty('--print-scale', bestScale.toString());
   
   onStatus?.('');
   await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
   window.print();
   
-  // Reset scale after print dialog closes
   setTimeout(() => {
     document.documentElement.style.removeProperty('--print-scale');
     document.body.style.removeProperty('--print-scale');
   }, 1000);
 }
+
