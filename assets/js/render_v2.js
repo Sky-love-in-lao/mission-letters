@@ -286,16 +286,25 @@ export async function printLetter(root, onStatus) {
       let p = document.createElement('div');
       p.className = 'a4-print-page';
       p.style.height = PAGE_HEIGHT_MM + 'mm';
-      p.style.width = '210mm'; /* Full A4 width */
-      p.style.columnCount = '2';
-      p.style.columnGap = '7mm';
-      p.style.columnFill = 'auto';
-      p.style.overflow = 'hidden';
+      p.style.width = '210mm';
       p.style.position = 'relative';
-      p.style.border = '14px solid transparent'; /* slightly thicker border */
-      p.style.borderImage = 'linear-gradient(to bottom, #CE1126 15%, #1e40af 15%, #1e40af 85%, #CE1126 85%) 1';
-      p.style.padding = '12mm 10mm'; /* Internal padding replacing the @page margin */
+      p.style.background = 'linear-gradient(to bottom, #CE1126 15%, #1e40af 15%, #1e40af 85%, #CE1126 85%)';
+      p.style.padding = '14px'; /* Border thickness */
       p.style.boxSizing = 'border-box';
+      
+      let inner = document.createElement('div');
+      inner.style.height = '100%';
+      inner.style.width = '100%';
+      inner.style.background = '#ffffff';
+      inner.style.columnCount = '2';
+      inner.style.columnGap = '7mm';
+      inner.style.columnFill = 'auto';
+      inner.style.overflow = 'hidden';
+      inner.style.padding = '8mm 6mm';
+      inner.style.boxSizing = 'border-box';
+      inner.className = 'a4-inner-page';
+      
+      p.appendChild(inner);
       return p;
     };
 
@@ -305,7 +314,7 @@ export async function printLetter(root, onStatus) {
       if (head) {
         const header = head.cloneNode(true);
         header.style.columnSpan = 'all';
-        currentPage.appendChild(header);
+        currentPage.querySelector(".a4-inner-page").appendChild(header);
       }
     }
     container.appendChild(currentPage);
@@ -313,15 +322,20 @@ export async function printLetter(root, onStatus) {
 
     for (const block of currentBlocks) {
       const clone = block.cloneNode(true);
-      currentPage.appendChild(clone);
+      if (clone.style) {
+        clone.style.maxWidth = '100%';
+        clone.style.boxSizing = 'border-box';
+      }
+      currentPage.querySelector(".a4-inner-page").appendChild(clone);
       
-      if (currentPage.scrollWidth > currentPage.clientWidth + 5 || currentPage.scrollHeight > currentPage.clientHeight + 5) {
-        currentPage.removeChild(clone);
+      // Use 15px tolerance for minor flex/grid overflow bugs in Chrome columns
+      if (currentPage.querySelector(".a4-inner-page").scrollWidth > currentPage.querySelector(".a4-inner-page").clientWidth + 15) {
+        currentPage.querySelector(".a4-inner-page").removeChild(clone);
         pageIndex++;
         currentPage = createPage();
         container.appendChild(currentPage);
         pages.push(currentPage);
-        currentPage.appendChild(clone);
+        currentPage.querySelector(".a4-inner-page").appendChild(clone);
       }
     }
     
@@ -340,6 +354,7 @@ export async function printLetter(root, onStatus) {
   root.style.maxWidth = '100%';
   
   for (const page of finalPages) {
+    page.style.setProperty('--print-scale', bestScale.toString());
     page.style.breakAfter = 'page';
     page.style.pageBreakAfter = 'always';
     page.style.margin = '0 auto';
