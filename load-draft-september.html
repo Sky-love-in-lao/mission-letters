@@ -52,7 +52,7 @@
     };
     
     localStorage.setItem('missionletter.draft.2026-09', JSON.stringify({ ...draft, savedAt: new Date().toISOString() }));
-    window.location.href = './#/write';
+    window.location.href = './?v=' + Date.now() + '#/write';
   </script>
 </body>
 </html>
