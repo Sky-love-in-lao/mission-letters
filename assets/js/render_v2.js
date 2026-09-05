@@ -94,7 +94,7 @@ function prayersHTML(prayers, id) {
       <ol class="prayers__list print-prayer-list">
         ${items.map((p, i) => `
           <li class="prayers__item print-prayer-item">
-            <strong class="prayers__subtitle print-prayer-num">${i + 1}. ${esc((p.title || '').replace(/^\d+\.\s*/, ''))}</strong>
+            <strong class="prayers__subtitle print-prayer-num" style="color: #dc2626;">${esc((p.title || '').replace(/^\d+\.\s*/, ''))}</strong>
             <p class="prayers__text print-prayer-desc">${esc(p.text || '')}</p>
           </li>
         `).join('')}
@@ -250,6 +250,7 @@ export async function printLetter(root, onStatus) {
   }
   styleEl.innerHTML = `
     @media print {
+      html, body { margin: 0 !important; padding: 0 !important; height: 100% !important; overflow: hidden !important; }
       .print-prayer-box {
         background-color: #f0fdf4 !important;
         border: 1px solid #166534 !important;
@@ -285,9 +286,7 @@ export async function printLetter(root, onStatus) {
         margin-bottom: 8px !important;
         display: block !important;
       }
-      .print-prayer-item::before {
-        display: none !important;
-      }
+
       .print-prayer-num {
         color: #dc2626 !important;
         font-size: calc(10pt * var(--print-scale, 1)) !important;
@@ -527,13 +526,10 @@ export async function printLetter(root, onStatus) {
     page.style.borderTop = 'none';
     page.style.borderBottom = 'none';
     
-    if (i < finalPages.length - 1) {
-      page.style.breakAfter = 'page';
-      page.style.pageBreakAfter = 'always';
-    } else {
-      page.style.breakAfter = 'auto';
-      page.style.pageBreakAfter = 'auto';
-    }
+    // REMOVED pageBreakAfter: always. 
+    // Since height is 100vh, natural flow will perfectly paginate without creating blank pages!
+    page.style.breakAfter = 'auto';
+    page.style.pageBreakAfter = 'auto';
     page.style.margin = '0 auto';
     
     root.appendChild(page);
