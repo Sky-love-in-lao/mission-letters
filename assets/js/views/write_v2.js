@@ -902,7 +902,7 @@ function preview() {
 // ── 배포 — 브라우저는 저장소에 직접 쓰지 않는다(github.js?v=1788590728 writeBlocked).
 // 여기서는 scripts/publish-letter.mjs 가 그대로 먹는 내용 파일을 내려주고, 발행은 저장소에서 한다.
 function deployFileName() {
-  return `letter-${state.id}.js?v=1788590728on`;
+  return `letter-${state.id}.json`;
 }
 
 function deployPayload() {

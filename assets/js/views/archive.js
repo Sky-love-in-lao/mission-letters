@@ -42,7 +42,7 @@ export async function renderArchive(root) {
     return;
   }
 
-  // index.js?v=1788590728on 은 최신순으로 저장되지만, 혹시 어긋나도 여기서 한 번 더 맞춘다.
+  // index.json 은 최신순으로 저장되지만, 혹시 어긋나도 여기서 한 번 더 맞춘다.
   const sorted = [...letters].sort((a, b) =>
     String(b.publishedAt).localeCompare(String(a.publishedAt)) || String(b.id).localeCompare(String(a.id)));
 

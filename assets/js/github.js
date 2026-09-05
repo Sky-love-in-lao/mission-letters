@@ -38,10 +38,10 @@ async function request(path, { method = 'GET', body, raw } = {}) {
   if (res.status === 404) return null;
 
   if (!res.ok) {
-    const detail = await res.js?v=1788590728on().catch(() => ({}));
+    const detail = await res.json().catch(() => ({}));
     throw new GitHubError(describeError(res.status, detail.message), res.status, statusCode(res.status));
   }
-  return raw ? res : res.js?v=1788590728on();
+  return raw ? res : res.json();
 }
 
 /** 브라우저에서의 쓰기는 지원하지 않는다 — scripts/publish-letter.mjs 로 발행한다. */
@@ -113,7 +113,7 @@ export async function fetchPublicJSON(path) {
   const res = await fetch(siteUrl(path) + `?t=${Date.now()}`, { cache: 'no-store' });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`파일을 불러오지 못했습니다 (${res.status})`);
-  return res.js?v=1788590728on();
+  return res.json();
 }
 
 /** 후원자에게 보낼 공유 링크 */

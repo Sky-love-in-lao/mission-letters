@@ -89,7 +89,7 @@ function bindRows(root) {
 
 /**
  * 목록 제목 표시 — PRD §7.1
- * index.js?v=1788590728on 에는 제목이 없다(공개 파일이라 일부러 넣지 않음).
+ * index.json 에는 제목이 없다(공개 파일이라 일부러 넣지 않음).
  * 기본 비밀번호로 각 편지를 복호화해 제목을 보여주고, 실패하면 자물쇠로 표시한다.
  */
 async function revealTitles(root, letters) {
