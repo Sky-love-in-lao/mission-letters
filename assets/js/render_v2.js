@@ -89,7 +89,7 @@ function prayersHTML(prayers, id) {
   return `
     <section class="prayers print-prayer-box">
       <div class="print-prayer-title-wrapper">
-        <h2 class="prayers__title">두 손 모아 기도해 주세요</h2>
+        <h2 class="prayers__title">ㄱ도해 주세요!</h2>
       </div>
       <ol class="prayers__list print-prayer-list">
         ${items.map((p, i) => `
@@ -348,7 +348,7 @@ export async function printLetter(root, onStatus) {
   let bestScale = 1.0;
   let finalPages = [];
   
-  for (let s = 1.0; s >= 0.50; s -= 0.04) {
+  for (let s = 1.0; s >= 0.50; s -= 0.02) {
     container.innerHTML = '';
     container.style.setProperty('--print-scale', s.toString());
     
@@ -360,7 +360,7 @@ export async function printLetter(root, onStatus) {
       let p = document.createElement('div');
       p.className = 'a4-print-page';
       p.style.height = '295mm'; 
-      p.style.width = '208mm';  
+      p.style.width = '100%';  
       p.style.position = 'relative';
       p.style.background = 'linear-gradient(to bottom, #CE1126 15%, #1e40af 15%, #1e40af 85%, #CE1126 85%)';
       p.style.borderTop = '12px solid #CE1126';    // GUARANTEED red top
@@ -432,7 +432,7 @@ export async function printLetter(root, onStatus) {
         if (clone.classList.contains('letter__text')) {
            const pTag = clone.querySelector('p');
            if (pTag) {
-             pTag.style.fontSize = (10 * s) + 'pt';
+             pTag.style.fontSize = (11 * s) + 'pt';
              pTag.style.margin = '0 0 1.5mm 0';
              pTag.style.lineHeight = '1.4';
              
@@ -456,8 +456,9 @@ export async function printLetter(root, onStatus) {
            clone.style.gap = '1mm';
         }
         if (clone.classList.contains('prayers')) {
-           clone.querySelectorAll('.prayers__subtitle').forEach(el => el.style.fontSize = (11 * s) + 'pt');
-           clone.querySelectorAll('.prayers__text').forEach(el => el.style.fontSize = (10 * s) + 'pt');
+           clone.querySelectorAll('.prayers__title').forEach(el => el.style.fontSize = (15 * s) + 'pt');
+           clone.querySelectorAll('.prayers__subtitle').forEach(el => el.style.fontSize = (13 * s) + 'pt');
+           clone.querySelectorAll('.prayers__text').forEach(el => el.style.fontSize = (12 * s) + 'pt');
            clone.style.marginTop = '4mm';
            clone.style.breakBefore = 'column'; // Force it to the right column!
            clone.style.pageBreakBefore = 'always'; // Fallback
