@@ -228,7 +228,7 @@ export async function loadLetterImages(root) {
  * A4 인쇄 — PRD §6.3
  * 사진 로딩이 끝나기 전에 print() 를 부르면 사진 없는 PDF 가 만들어진다. 반드시 기다린다.
  */
-export async function printLetter(root, onStatus) {
+export async function printLetter(root, onStatus, isPreview = false) {
   onStatus?.('사진을 불러오는 중입니다…');
   const { failed, total } = await loadLetterImages(root);
   await Promise.all(
@@ -519,8 +519,8 @@ export async function printLetter(root, onStatus) {
     
     // Prevent 4-page Chrome split bug using 100vh
     page.style.position = 'relative';
-    page.style.height = '100vh';
-    page.style.width = '100%';
+    page.style.height = '1122px'; // EXACTLY 1px under Chrome A4 pixel height to prevent overflow blank pages!
+    page.style.width = '793px'; // EXACTLY under A4 pixel width
     page.style.breakInside = 'avoid';
     page.style.pageBreakInside = 'avoid';
     // Use inset box-shadow for borders so it NEVER expands the 100vh height!
@@ -540,6 +540,20 @@ export async function printLetter(root, onStatus) {
   
   onStatus?.('');
   await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  if (isPreview) {
+      document.body.style.background = '#525659';
+      document.body.style.padding = '20px';
+      root.style.display = 'flex';
+      root.style.flexDirection = 'column';
+      root.style.gap = '20px';
+      root.style.alignItems = 'center';
+      for (const page of finalPages) {
+          // Combine drop shadow with the inner red borders!
+          page.style.boxShadow = '0 4px 12px rgba(0,0,0,0.5), inset 0 14px 0 0 #CE1126, inset 0 -14px 0 0 #CE1126';
+          page.style.marginBottom = '20px';
+      }
+      return;
+  }
   window.print();
   
   setTimeout(() => {
