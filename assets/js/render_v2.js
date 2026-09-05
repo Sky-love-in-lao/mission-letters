@@ -250,7 +250,12 @@ export async function printLetter(root, onStatus, isPreview = false) {
   }
   styleEl.innerHTML = `
     @media print {
-      html, body { margin: 0 !important; padding: 0 !important; }
+      html, body { 
+         margin: 0 !important; 
+         padding: 0 !important; 
+         background-color: #CE1126 !important;
+         -webkit-print-color-adjust: exact;
+      }
       .print-prayer-box {
         background-color: #f0fdf4 !important;
         border: 1px solid #166534 !important;
@@ -460,20 +465,19 @@ export async function printLetter(root, onStatus, isPreview = false) {
            clone.querySelectorAll('.prayers__title, .print-prayer-title-wrapper').forEach(el => el.style.fontSize = (15 * s) + 'pt');
            clone.querySelectorAll('.prayers__title, .print-prayer-title-wrapper').forEach(el => el.style.fontSize = (22 * s) + 'pt');
            clone.querySelectorAll('.prayers__subtitle').forEach(el => {
-               el.style.fontSize = (18 * s) + 'pt';
+               el.style.fontSize = (20 * s) + 'pt';
                el.style.lineHeight = '1.4';
                el.style.display = 'block';
                el.style.marginBottom = '4px';
            });
            clone.querySelectorAll('.prayers__text').forEach(el => {
-               el.style.fontSize = (16.5 * s) + 'pt';
+               el.style.fontSize = (18.5 * s) + 'pt';
                el.style.lineHeight = '1.6';
            });
            clone.querySelectorAll('.print-prayer-item').forEach(el => el.style.marginBottom = '22px');
            
            clone.style.marginTop = '2mm';
-           clone.style.breakBefore = 'column'; // Force it to the right column!
-           clone.style.pageBreakBefore = 'always'; // Fallback
+           clone.style.breakBefore = 'column'; // Force it to the next column safely!
         }
       }
       
@@ -509,16 +513,16 @@ export async function printLetter(root, onStatus, isPreview = false) {
     const page = finalPages[i];
     page.style.setProperty('--print-scale', bestScale.toString());
     
-    // Prevent 4-page Chrome split bug using 100vh
+    // Ultimate 2-page border fix
     page.style.position = 'relative';
-    page.style.height = '100vh';
-    page.style.width = '100%';
+    page.style.height = '1122px'; // Exact pixel height slightly under A4 to prevent blank pages
+    page.style.width = '793px';
+    page.style.boxSizing = 'border-box';
     page.style.breakInside = 'avoid';
     page.style.pageBreakInside = 'avoid';
-    // Use inset box-shadow for borders so it NEVER expands the 100vh height!
-    page.style.boxShadow = 'inset 0 14px 0 0 #CE1126, inset 0 -14px 0 0 #CE1126';
-    page.style.borderTop = 'none';
-    page.style.borderBottom = 'none';
+    page.style.borderTop = '14px solid #CE1126';
+    page.style.borderBottom = '14px solid #CE1126';
+    page.style.boxShadow = 'none'; // Fixes red square corners!
     
     page.style.breakAfter = 'auto';
     page.style.pageBreakAfter = 'auto';
