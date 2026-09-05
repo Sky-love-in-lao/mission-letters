@@ -398,7 +398,7 @@ export async function printLetter(root, onStatus) {
         // Hero Image adjustments to prevent cropping and push to top
         const heroImg = header.querySelector('img');
         if (heroImg) {
-          heroImg.style.maxHeight = '40mm';
+          heroImg.style.maxHeight = '28mm';
           heroImg.style.width = '100%';
           heroImg.style.objectFit = 'contain'; // Prevent cropping!
           heroImg.style.margin = '0';
@@ -432,7 +432,7 @@ export async function printLetter(root, onStatus) {
         if (clone.classList.contains('letter__text')) {
            const pTag = clone.querySelector('p');
            if (pTag) {
-             pTag.style.fontSize = (11 * s) + 'pt';
+             pTag.style.fontSize = (12.5 * s) + 'pt';
              pTag.style.margin = '0 0 1.5mm 0';
              pTag.style.lineHeight = '1.4';
              
@@ -452,13 +452,18 @@ export async function printLetter(root, onStatus) {
            }
         }
         if (clone.classList.contains('letter__row')) {
-           clone.style.margin = '1mm 0';
+           clone.style.margin = '0';
            clone.style.gap = '1mm';
+           clone.querySelectorAll('img').forEach(img => {
+               img.style.maxHeight = '35mm'; // Shrink photos to allow much larger text!
+               img.style.width = 'auto';
+               img.style.objectFit = 'contain';
+           });
         }
         if (clone.classList.contains('prayers')) {
            clone.querySelectorAll('.prayers__title').forEach(el => el.style.fontSize = (15 * s) + 'pt');
-           clone.querySelectorAll('.prayers__subtitle').forEach(el => el.style.fontSize = (13 * s) + 'pt');
-           clone.querySelectorAll('.prayers__text').forEach(el => el.style.fontSize = (12 * s) + 'pt');
+           clone.querySelectorAll('.prayers__subtitle').forEach(el => el.style.fontSize = (14 * s) + 'pt');
+           clone.querySelectorAll('.prayers__text').forEach(el => el.style.fontSize = (13 * s) + 'pt');
            clone.style.marginTop = '4mm';
            clone.style.breakBefore = 'column'; // Force it to the right column!
            clone.style.pageBreakBefore = 'always'; // Fallback
@@ -491,10 +496,22 @@ export async function printLetter(root, onStatus) {
   root.style.padding = '0';
   root.style.maxWidth = '100%';
   
-  for (const page of finalPages) {
+  for (let i = 0; i < finalPages.length; i++) {
+    const page = finalPages[i];
     page.style.setProperty('--print-scale', bestScale.toString());
-    page.style.breakAfter = 'page';
-    page.style.pageBreakAfter = 'always';
+    
+    // Prevent 4-page Chrome split bug
+    page.style.height = '100vh';
+    page.style.breakInside = 'avoid';
+    page.style.pageBreakInside = 'avoid';
+    
+    if (i < finalPages.length - 1) {
+      page.style.breakAfter = 'page';
+      page.style.pageBreakAfter = 'always';
+    } else {
+      page.style.breakAfter = 'auto';
+      page.style.pageBreakAfter = 'auto';
+    }
     page.style.margin = '0 auto';
     root.appendChild(page);
   }
