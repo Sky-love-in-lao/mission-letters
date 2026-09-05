@@ -250,7 +250,7 @@ export async function printLetter(root, onStatus) {
   }
   styleEl.innerHTML = `
     @media print {
-      html, body { margin: 0 !important; padding: 0 !important; height: 100% !important; overflow: hidden !important; }
+      html, body { margin: 0 !important; padding: 0 !important; }
       .print-prayer-box {
         background-color: #f0fdf4 !important;
         border: 1px solid #166534 !important;
@@ -517,7 +517,7 @@ export async function printLetter(root, onStatus) {
     
     // Prevent 4-page Chrome split bug using 100vh
     page.style.position = 'relative';
-    page.style.height = '100vh';
+    page.style.height = '296mm';
     page.style.width = '100%';
     page.style.breakInside = 'avoid';
     page.style.pageBreakInside = 'avoid';
@@ -526,10 +526,13 @@ export async function printLetter(root, onStatus) {
     page.style.borderTop = 'none';
     page.style.borderBottom = 'none';
     
-    // REMOVED pageBreakAfter: always. 
-    // Since height is 100vh, natural flow will perfectly paginate without creating blank pages!
-    page.style.breakAfter = 'auto';
-    page.style.pageBreakAfter = 'auto';
+    if (i < finalPages.length - 1) {
+      page.style.breakAfter = 'page';
+      page.style.pageBreakAfter = 'always';
+    } else {
+      page.style.breakAfter = 'auto';
+      page.style.pageBreakAfter = 'auto';
+    }
     page.style.margin = '0 auto';
     
     root.appendChild(page);
