@@ -94,7 +94,7 @@ function prayersHTML(prayers, id) {
       <ol class="prayers__list print-prayer-list">
         ${items.map((p, i) => `
           <li class="prayers__item print-prayer-item">
-            <strong class="prayers__subtitle print-prayer-num" style="color: #dc2626;">${esc((p.title || '').replace(/^\d+\.\s*/, ''))}</strong>
+            <strong class="prayers__subtitle print-prayer-num" style="color: #dc2626;">${esc((p.title || '').replace(/^[\d\s\.]*(라0스|물가|자녀|영육)/, '$1'))}</strong>
             <p class="prayers__text print-prayer-desc">${esc(p.text || '')}</p>
           </li>
         `).join('')}
@@ -433,10 +433,12 @@ export async function printLetter(root, onStatus) {
            
            // Force page break before "노아의 눈치작전"
            if (pTag && pTag.textContent.includes('노아의 눈치작전')) {
-               pageIndex++;
-               currentPage = createPage();
-               container.appendChild(currentPage);
-               pages.push(currentPage);
+               if (currentPage.querySelector(".a4-inner-page").children.length > 0) {
+                   pageIndex++;
+                   currentPage = createPage();
+                   container.appendChild(currentPage);
+                   pages.push(currentPage);
+               }
            }
            if (pTag) {
              pTag.style.fontSize = (11 * s) + 'pt';
@@ -517,7 +519,7 @@ export async function printLetter(root, onStatus) {
     
     // Prevent 4-page Chrome split bug using 100vh
     page.style.position = 'relative';
-    page.style.height = '296mm';
+    page.style.height = '100vh';
     page.style.width = '100%';
     page.style.breakInside = 'avoid';
     page.style.pageBreakInside = 'avoid';
@@ -526,13 +528,8 @@ export async function printLetter(root, onStatus) {
     page.style.borderTop = 'none';
     page.style.borderBottom = 'none';
     
-    if (i < finalPages.length - 1) {
-      page.style.breakAfter = 'page';
-      page.style.pageBreakAfter = 'always';
-    } else {
-      page.style.breakAfter = 'auto';
-      page.style.pageBreakAfter = 'auto';
-    }
+    page.style.breakAfter = 'auto';
+    page.style.pageBreakAfter = 'auto';
     page.style.margin = '0 auto';
     
     root.appendChild(page);
