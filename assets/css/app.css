@@ -487,12 +487,15 @@ textarea { resize: vertical; line-height: 1.8; }
 }
 
 /* 문단 소제목 (굵은 글씨) 스타일 */
-.letter__text strong {
+.letter__text strong.subheading {
   color: #1e88e5;
   font-size: 1.15em;
   display: block;
   margin-top: 0.5em;
   margin-bottom: 0.1em;
+}
+.letter__text strong:not(.subheading) {
+  font-weight: 700;
 }
 .letter__figure { margin: clamp(36px, 5vw, 56px) 0; }
 .letter__figure a { display: block; border-radius: 10px; overflow: hidden; }
