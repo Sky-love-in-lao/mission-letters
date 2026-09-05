@@ -516,14 +516,9 @@ function paintBlocks(root) {
         <div class="block__format" style="margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
           <div style="display: flex; gap: 8px;">
             <button type="button" class="btn btn--sm" data-action="bold" data-i="${index}" style="font-weight: bold;">B 굵게</button>
-            <select class="btn btn--sm" data-action="color" data-i="${index}" style="padding: 0 8px; font-weight: bold;">
-              <option value="">A 색상</option>
-              <option value="#c62828">빨강</option>
-              <option value="#1565c0">파랑</option>
-              <option value="#2e7d32">초록</option>
-              <option value="#e65100">주황</option>
-              <option value="#6a1b9a">보라</option>
-            </select>
+            <button type="button" class="btn btn--sm" data-action="color" data-color="#c62828" data-i="${index}" style="color: #c62828; font-weight: bold;">빨강</button>
+            <button type="button" class="btn btn--sm" data-action="color" data-color="#1565c0" data-i="${index}" style="color: #1565c0; font-weight: bold;">파랑</button>
+            <button type="button" class="btn btn--sm" data-action="color" data-color="#2e7d32" data-i="${index}" style="color: #2e7d32; font-weight: bold;">초록</button>
           </div>
           <span style="font-size: 13px; color: #666; text-align: right; line-height: 1.2;">문단 맨 앞 굵게는 파란 소제목</span>
         </div>
@@ -614,12 +609,12 @@ function paintBlocks(root) {
     };
   });
 
-  $$('.block__format select[data-action=color]', wrap).forEach(select => {
-    select.onchange = () => {
-      const color = select.value;
+  $$('.block__format button[data-action=color]', wrap).forEach(button => {
+    button.onclick = () => {
+      const color = button.dataset.color;
       if (!color) return;
       
-      const i = Number(select.dataset.i);
+      const i = Number(button.dataset.i);
       const textarea = wrap.querySelector(`textarea[data-i="${i}"]`);
       if (!textarea) return;
       
@@ -637,7 +632,6 @@ function paintBlocks(root) {
       state.body.blocks[i].value = newText;
       persist(root);
       
-      select.value = ""; // reset
       textarea.focus();
       textarea.setSelectionRange(start + prefix.length, start + prefix.length + selectedText.length);
     };
