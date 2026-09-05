@@ -431,15 +431,7 @@ export async function printLetter(root, onStatus, isPreview = false) {
         if (clone.classList.contains('letter__text')) {
            const pTag = clone.querySelector('p');
            
-           // Force page break before "노아의 눈치작전"
-           if (pTag && pTag.textContent.includes('노아의 눈치작전')) {
-               if (currentPage.querySelector(".a4-inner-page").children.length > 0) {
-                   pageIndex++;
-                   currentPage = createPage();
-                   container.appendChild(currentPage);
-                   pages.push(currentPage);
-               }
-           }
+
            if (pTag) {
              pTag.style.fontSize = (11 * s) + 'pt';
              pTag.style.margin = '0 0 1.5mm 0';
@@ -474,7 +466,7 @@ export async function printLetter(root, onStatus, isPreview = false) {
                el.style.marginBottom = '4px';
            });
            clone.querySelectorAll('.prayers__text').forEach(el => {
-               el.style.fontSize = (15.5 * s) + 'pt';
+               el.style.fontSize = (16.5 * s) + 'pt';
                el.style.lineHeight = '1.6';
            });
            clone.querySelectorAll('.print-prayer-item').forEach(el => el.style.marginBottom = '22px');
@@ -519,8 +511,8 @@ export async function printLetter(root, onStatus, isPreview = false) {
     
     // Prevent 4-page Chrome split bug using 100vh
     page.style.position = 'relative';
-    page.style.height = '1122px'; // EXACTLY 1px under Chrome A4 pixel height to prevent overflow blank pages!
-    page.style.width = '793px'; // EXACTLY under A4 pixel width
+    page.style.height = '100vh';
+    page.style.width = '100%';
     page.style.breakInside = 'avoid';
     page.style.pageBreakInside = 'avoid';
     // Use inset box-shadow for borders so it NEVER expands the 100vh height!
