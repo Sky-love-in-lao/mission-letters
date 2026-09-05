@@ -192,7 +192,7 @@ export function letterHTML(body, meta = {}) {
         <div class="letter__body">${blocks}</div>
         ${body.closing ? `<div class="letter__closing">${paragraphs(body.closing)}</div>` : ''}
         ${prayersHTML(body.prayers, meta.id)}
-        
+        ${supportHTML(body.support)}
       </div>
     </article>`;
 }
@@ -457,8 +457,8 @@ export async function printLetter(root, onStatus) {
         }
         if (clone.classList.contains('prayers')) {
            clone.querySelectorAll('.prayers__title').forEach(el => el.style.fontSize = (15 * s) + 'pt');
-           clone.querySelectorAll('.prayers__subtitle').forEach(el => el.style.fontSize = (13 * s) + 'pt');
-           clone.querySelectorAll('.prayers__text').forEach(el => el.style.fontSize = (12 * s) + 'pt');
+           clone.querySelectorAll('.prayers__subtitle').forEach(el => el.style.fontSize = (15.5 * s) + 'pt');
+           clone.querySelectorAll('.prayers__text').forEach(el => el.style.fontSize = (14.5 * s) + 'pt');
            clone.style.marginTop = '4mm';
            clone.style.breakBefore = 'column'; // Force it to the right column!
            clone.style.pageBreakBefore = 'always'; // Fallback
@@ -492,25 +492,26 @@ export async function printLetter(root, onStatus) {
   root.style.maxWidth = '100%';
   
   
-  // Ultimate 4-page bug fix: Absolute positioning
-  root.style.position = 'relative';
-  root.style.height = (finalPages.length * 297) + 'mm';
   
   for (let i = 0; i < finalPages.length; i++) {
     const page = finalPages[i];
     page.style.setProperty('--print-scale', bestScale.toString());
     
-    page.style.position = 'absolute';
-    page.style.top = (i * 297) + 'mm';
-    page.style.left = '0';
-    page.style.width = '210mm';
-    page.style.height = '297mm';
-    
+    // Prevent 4-page Chrome split bug using 100vh
+    page.style.position = 'relative';
+    page.style.height = '100vh';
+    page.style.width = '100%';
     page.style.breakInside = 'avoid';
     page.style.pageBreakInside = 'avoid';
-    page.style.breakAfter = 'auto';
-    page.style.pageBreakAfter = 'auto';
-    page.style.margin = '0';
+    
+    if (i < finalPages.length - 1) {
+      page.style.breakAfter = 'page';
+      page.style.pageBreakAfter = 'always';
+    } else {
+      page.style.breakAfter = 'auto';
+      page.style.pageBreakAfter = 'auto';
+    }
+    page.style.margin = '0 auto';
     
     root.appendChild(page);
   }
