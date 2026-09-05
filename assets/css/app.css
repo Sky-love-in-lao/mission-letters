@@ -42,7 +42,7 @@ body {
   font-family: var(--sans);
   font-size: 16px;
   line-height: 1.6;
-  word-break: keep-all;
+  word-break: break-all;
   overflow-wrap: anywhere;
   -webkit-font-smoothing: antialiased;
 }
@@ -473,7 +473,7 @@ textarea { resize: vertical; line-height: 1.8; }
 .letter__author { display: none; }
 .letter__greeting { font-family: var(--serif); font-size: 20px; line-height: 1.7; margin: 0 0 32px; color: var(--ink); }
 .prayers__item-title { font-size: 1.1em; font-weight: 600; margin: 0 0 8px; color: #ce1126; }
-.letter__body { font-size: 18px; line-height: 1.9; text-align: justify; word-break: keep-all; }
+.letter__body { font-size: 18px; line-height: 1.9; text-align: justify; word-break: break-all; }
 .letter__text p { margin: 0 0 1.5em; }
 .letter__text p:last-child { margin-bottom: 0; }
 /* 문단 블록이 이어지면 문단 사이와 같은 숨을 준다 */
@@ -508,7 +508,7 @@ textarea { resize: vertical; line-height: 1.8; }
   padding-top: clamp(24px, 3vw, 32px);
   border-top: 1px solid var(--line);
   text-align: justify;
-  word-break: keep-all;
+  word-break: break-all;
   font-size: 18px;
   line-height: 1.9;
   color: var(--ink);
@@ -882,7 +882,7 @@ body.is-locked {
   /* 본문 서식: 양쪽 맞춤, 단락 간격 및 첫 줄 들여쓰기 */
   .letter__body { 
     text-align: justify; 
-    word-break: keep-all; 
+    word-break: break-all; 
     font-size: calc(10pt * var(--print-scale, 1)) !important; 
     line-height: 1.55 !important; 
   }
@@ -969,7 +969,7 @@ body.is-locked {
     line-height: 1.55; 
     color: #1a1a1a; 
     text-align: justify; 
-    word-break: keep-all; 
+    word-break: break-all; 
     padding-top: 2mm;
     border-top: 1pt solid #ccc;
     margin-top: 3mm;
@@ -1084,7 +1084,7 @@ body.is-locked {
 }
 .is-measuring-print .letter__body { 
   text-align: justify; 
-  word-break: keep-all; 
+  word-break: break-all; 
   font-size: calc(10pt * var(--print-scale, 1)) !important; 
   line-height: 1.55 !important; 
 }
