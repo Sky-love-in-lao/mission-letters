@@ -242,18 +242,30 @@ export async function printLetter(root, onStatus) {
   container.style.position = 'absolute';
   container.style.top = '-99999px';
   container.style.left = '-99999px';
-  container.style.width = '180mm';
+  container.style.width = '210mm';
   container.classList.add('is-measuring-print');
   document.body.appendChild(container);
 
-  const PAGE_HEIGHT_MM = 267;
+  const PAGE_HEIGHT_MM = 297;
   
   const sheet = root.querySelector('.letter__sheet');
   let currentBlocks = [];
   if (sheet) {
     for (const block of Array.from(sheet.children)) {
       if (block.classList.contains('letter__body')) {
-        currentBlocks.push(...Array.from(block.children));
+        // Flatten text blocks to individual paragraphs for perfect pagination
+        for (const textBlock of Array.from(block.children)) {
+          if (textBlock.classList.contains('letter__text')) {
+            for (const p of Array.from(textBlock.children)) {
+              const wrapper = document.createElement('div');
+              wrapper.className = 'letter__text';
+              wrapper.appendChild(p.cloneNode(true));
+              currentBlocks.push(wrapper);
+            }
+          } else {
+            currentBlocks.push(textBlock);
+          }
+        }
       } else {
         currentBlocks.push(block);
       }
@@ -274,14 +286,15 @@ export async function printLetter(root, onStatus) {
       let p = document.createElement('div');
       p.className = 'a4-print-page';
       p.style.height = PAGE_HEIGHT_MM + 'mm';
+      p.style.width = '210mm'; /* Full A4 width */
       p.style.columnCount = '2';
       p.style.columnGap = '7mm';
       p.style.columnFill = 'auto';
       p.style.overflow = 'hidden';
       p.style.position = 'relative';
-      p.style.border = '12px solid transparent';
+      p.style.border = '14px solid transparent'; /* slightly thicker border */
       p.style.borderImage = 'linear-gradient(to bottom, #CE1126 15%, #1e40af 15%, #1e40af 85%, #CE1126 85%) 1';
-      p.style.padding = '0 4mm';
+      p.style.padding = '12mm 10mm'; /* Internal padding replacing the @page margin */
       p.style.boxSizing = 'border-box';
       return p;
     };
