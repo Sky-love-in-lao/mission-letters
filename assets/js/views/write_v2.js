@@ -1,12 +1,12 @@
 // 편지 작성/수정 — PRD v2 §7.2
-import { $, $$, esc, toast, dialog, currentMonthId, periodLabel, copyText } from '../util.js?v=20260906_pdf_v24';
-import { getSettings, saveDraft, loadDraft, clearDraft } from '../store.js?v=20260906_pdf_v24';
-import { emptyBody, openLetter, countPhotos } from '../letters.js?v=20260906_pdf_v24';
-import { checkPassword } from '../crypto.js?v=20260906_pdf_v24';
-import { extractDriveId, verifyDriveImage, loadDriveImage, SHARE_HELP, SHARE_CONFIRM, PHOTO_LIMIT_HINT } from '../drive_v2.js?v=20260906_pdf_v24';
-import { letterHTML, loadLetterImages, bindPrayers, printLetter } from '../render_v2.js?v=20260906_pdf_v24';
-import { shareLink } from '../github.js?v=20260906_pdf_v24';
-import { navigate } from '../router.js?v=20260906_pdf_v24';
+import { $, $$, esc, toast, dialog, currentMonthId, periodLabel, copyText } from '../util.js?v=20260906_pdf_v25';
+import { getSettings, saveDraft, loadDraft, clearDraft } from '../store.js?v=20260906_pdf_v25';
+import { emptyBody, openLetter, countPhotos } from '../letters.js?v=20260906_pdf_v25';
+import { checkPassword } from '../crypto.js?v=20260906_pdf_v25';
+import { extractDriveId, verifyDriveImage, loadDriveImage, SHARE_HELP, SHARE_CONFIRM, PHOTO_LIMIT_HINT } from '../drive_v2.js?v=20260906_pdf_v25';
+import { letterHTML, loadLetterImages, bindPrayers, printLetter } from '../render_v2.js?v=20260906_pdf_v25';
+import { shareLink } from '../github.js?v=20260906_pdf_v25';
+import { navigate } from '../router.js?v=20260906_pdf_v25';
 
 let state = null;
 
@@ -227,6 +227,7 @@ function paint(root) {
       <div class="sticky-bar no-print">
         <span class="sticky-bar__status" id="save-status"></span>
         <button type="button" class="btn btn--ghost" id="preview-btn">미리보기</button>
+        <button type="button" class="btn btn--ghost" id="pdf-preview-btn">PDF 확인</button>
         <button type="button" class="btn btn--ghost" id="pdf-btn">PDF로 저장</button>
         <button type="button" class="btn btn--primary" id="deploy-btn">${state.isEdit ? '수정본 파일 내려받기' : '발행 파일 내려받기'}</button>
       </div>
@@ -253,6 +254,64 @@ function paint(root) {
   };
   $('#preview-btn', root).onclick = () => preview();
   $('#deploy-btn', root).onclick = () => deploy(root);
+  
+  $('#pdf-preview-btn', root).onclick = async e => {
+    e.preventDefault();
+    if (e.target.disabled) return;
+    
+    // Save draft first
+    state.isEdit ? saveEditStatus() : saveStatus();
+    
+    e.target.disabled = true;
+    e.target.textContent = '생성 중...';
+    
+    try {
+      const tempRoot = document.getElementById('temp');
+      tempRoot.innerHTML = '';
+      tempRoot.style.display = 'block';
+      
+      // Hide UI
+      document.getElementById('app').style.display = 'none';
+      
+      // Call printLetter in PREVIEW mode
+      await printLetter(tempRoot, status => {
+         // UI updates if needed
+      }, true);
+      
+      // Add a back button
+      const backBtn = document.createElement('button');
+      backBtn.textContent = '← 편집으로 돌아가기';
+      backBtn.style.position = 'fixed';
+      backBtn.style.top = '20px';
+      backBtn.style.left = '20px';
+      backBtn.style.padding = '12px 24px';
+      backBtn.style.background = '#CE1126';
+      backBtn.style.color = '#fff';
+      backBtn.style.border = 'none';
+      backBtn.style.borderRadius = '5px';
+      backBtn.style.cursor = 'pointer';
+      backBtn.style.zIndex = '9999';
+      backBtn.style.fontSize = '16px';
+      backBtn.style.boxShadow = '0 4px 6px rgba(0,0,0,0.3)';
+      backBtn.onclick = () => {
+          tempRoot.innerHTML = '';
+          tempRoot.style.display = 'none';
+          document.body.style.background = '';
+          document.body.style.padding = '';
+          document.getElementById('app').style.display = '';
+          backBtn.remove();
+      };
+      document.body.appendChild(backBtn);
+      
+    } catch (err) {
+      console.error(err);
+      alert('오류가 발생했습니다.');
+    } finally {
+      e.target.disabled = false;
+      e.target.textContent = 'PDF 확인';
+    }
+  };
+
   $('#pdf-btn', root).onclick = async e => {
     const button = e.currentTarget;
     button.disabled = true;
@@ -904,7 +963,7 @@ function preview() {
   back.onclick = e => { if (e.target === back) close(); };
 }
 
-// ── 배포 — 브라우저는 저장소에 직접 쓰지 않는다(github.js?v=20260906_pdf_v24 writeBlocked).
+// ── 배포 — 브라우저는 저장소에 직접 쓰지 않는다(github.js?v=20260906_pdf_v25 writeBlocked).
 // 여기서는 scripts/publish-letter.mjs 가 그대로 먹는 내용 파일을 내려주고, 발행은 저장소에서 한다.
 function deployFileName() {
   return `letter-${state.id}.json`;
