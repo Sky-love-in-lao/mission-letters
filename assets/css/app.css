@@ -623,7 +623,7 @@ textarea { resize: vertical; line-height: 1.8; }
 /* 히어로 높이 */
 .letter__hero--banner {
   min-height: 0;
-  aspect-ratio: 1024 / 155;
+  aspect-ratio: 1024 / 170;
   background: transparent;
   padding: 0;
 }
@@ -1051,7 +1051,7 @@ body.is-locked {
   }
   .prayers__text p { margin: 0 0 0.5mm; border: none; padding: 0; text-indent: 0; }
 
-  .letter__hero--banner { height: auto; aspect-ratio: 1024 / 155 !important; overflow: hidden; }
+  .letter__hero--banner { height: auto; aspect-ratio: 1024 / 170 !important; overflow: hidden; }
   .letter__hero--banner img { position: relative; height: 100% !important; width: 100% !important; object-fit: cover !important; }
   .letter__hero--banner .letter__hero-overlay,
   .letter__hero--banner .letter__hero-content { display: none !important; }
