@@ -89,7 +89,7 @@ function prayersHTML(prayers, id) {
   return `
     <section class="prayers print-prayer-box">
       <div class="print-prayer-title-wrapper">
-        <h2 class="prayers__title">두손모아주세요요</h2>
+        <h2 class="prayers__title">두 손 모아 기도해 주세요</h2>
       </div>
       <ol class="prayers__list print-prayer-list">
         ${items.map((p, i) => `
@@ -255,10 +255,9 @@ export async function printLetter(root, onStatus) {
   let currentBlocks = [];
   if (sheet) {
     for (const block of Array.from(sheet.children)) {
-      if (block.classList.contains('letter__body')) {
-        // Flatten text blocks to individual paragraphs for perfect pagination
+      if (block.classList.contains('letter__body') || block.classList.contains('letter__closing')) {
         for (const textBlock of Array.from(block.children)) {
-          if (textBlock.classList.contains('letter__text')) {
+          if (textBlock.classList.contains('letter__text') || block.classList.contains('letter__closing')) {
             for (const p of Array.from(textBlock.children)) {
               const wrapper = document.createElement('div');
               wrapper.className = 'letter__text';
@@ -278,21 +277,22 @@ export async function printLetter(root, onStatus) {
   let bestScale = 1.0;
   let finalPages = [];
   
-  for (let s = 1.0; s >= 0.60; s -= 0.04) {
+  for (let s = 1.0; s >= 0.50; s -= 0.04) {
     container.innerHTML = '';
     container.style.setProperty('--print-scale', s.toString());
     
     let pages = [];
     let pageIndex = 0;
+    let isFirstParagraph = true;
     
     const createPage = () => {
       let p = document.createElement('div');
       p.className = 'a4-print-page';
-      p.style.height = '296mm';
+      p.style.height = PAGE_HEIGHT_MM + 'mm';
       p.style.width = '100%';
       p.style.position = 'relative';
       p.style.background = 'linear-gradient(to bottom, #CE1126 15%, #1e40af 15%, #1e40af 85%, #CE1126 85%)';
-      p.style.padding = '12px'; /* Slightly thinner border to save space */
+      p.style.padding = '12px';
       p.style.boxSizing = 'border-box';
       
       let inner = document.createElement('div');
@@ -317,6 +317,22 @@ export async function printLetter(root, onStatus) {
       if (head) {
         const header = head.cloneNode(true);
         header.style.columnSpan = 'all';
+        header.style.marginBottom = '2mm';
+        
+        // Hero Image adjustments
+        const heroImg = header.querySelector('img');
+        if (heroImg) {
+          heroImg.style.maxHeight = '35mm';
+          heroImg.style.width = 'auto';
+          heroImg.style.margin = '0 auto';
+          heroImg.style.display = 'block';
+        }
+        
+        const title = header.querySelector('.letter__title');
+        if (title) {
+          title.style.margin = '0 0 2mm 0';
+        }
+        
         currentPage.querySelector(".a4-inner-page").appendChild(header);
       }
     }
@@ -329,28 +345,41 @@ export async function printLetter(root, onStatus) {
         clone.style.maxWidth = '100%';
         clone.style.boxSizing = 'border-box';
         
-        // Hardcode font size to guarantee scaling works in Chrome Print
         if (clone.classList.contains('letter__text')) {
            const pTag = clone.querySelector('p');
            if (pTag) {
              pTag.style.fontSize = (10 * s) + 'pt';
-             pTag.style.margin = '0 0 1.5mm 0'; // Reduce paragraph spacing
+             pTag.style.margin = '0 0 1.5mm 0';
              pTag.style.lineHeight = '1.4';
+             
+             // First Bible verse red and bold
+             if (isFirstParagraph) {
+               pTag.style.color = '#dc2626';
+               pTag.style.fontWeight = 'bold';
+               isFirstParagraph = false;
+             }
+             
+             // Subheadings
+             const sub = pTag.querySelector('.subheading');
+             if (sub) {
+               pTag.style.marginTop = '4mm';
+               pTag.style.marginBottom = '1mm';
+             }
            }
         }
         if (clone.classList.contains('letter__row')) {
-           clone.style.margin = '1mm 0'; // Reduce photo gap
+           clone.style.margin = '1mm 0';
            clone.style.gap = '1mm';
         }
         if (clone.classList.contains('prayers')) {
-           // scale prayers text
            clone.querySelectorAll('.prayers__subtitle').forEach(el => el.style.fontSize = (11 * s) + 'pt');
            clone.querySelectorAll('.prayers__text').forEach(el => el.style.fontSize = (10 * s) + 'pt');
+           clone.style.marginTop = '4mm';
         }
       }
+      
       currentPage.querySelector(".a4-inner-page").appendChild(clone);
       
-      // Use 15px tolerance for minor flex/grid overflow bugs in Chrome columns
       if (currentPage.querySelector(".a4-inner-page").scrollWidth > currentPage.querySelector(".a4-inner-page").clientWidth + 15) {
         currentPage.querySelector(".a4-inner-page").removeChild(clone);
         pageIndex++;
@@ -361,7 +390,7 @@ export async function printLetter(root, onStatus) {
       }
     }
     
-    if (pages.length <= 2 || s < 0.65) {
+    if (pages.length <= 2 || s < 0.55) {
       bestScale = s;
       finalPages = pages.map(p => p.cloneNode(true));
       break;
