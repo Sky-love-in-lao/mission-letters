@@ -862,6 +862,7 @@ body.is-locked {
     column-gap: 7mm !important;
     max-width: 100%;
     margin: 0 auto;
+    display: block !important;
   }
 
   .letter__head {
@@ -1069,6 +1070,7 @@ body.is-locked {
 .is-measuring-print .letter__sheet {
   column-count: 2 !important;
   column-gap: 7mm !important;
+  display: block !important;
 }
 .is-measuring-print .letter__head,
 .is-measuring-print .letter__hero {
