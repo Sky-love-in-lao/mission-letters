@@ -1,8 +1,8 @@
 // 설정 화면 — PRD v2 §7.4
-import { $, esc, toast } from '../util.js';
-import { getSettings, saveSettings } from '../store.js';
-import { extractDriveId } from '../drive_v2.js';
-import { navigate } from '../router.js';
+import { $, esc, toast } from '../util.js?v=1788590728';
+import { getSettings, saveSettings } from '../store.js?v=1788590728';
+import { extractDriveId } from '../drive_v2.js?v=1788590728';
+import { navigate } from '../router.js?v=1788590728';
 
 export function renderSettings(root) {
   const s = getSettings();

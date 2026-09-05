@@ -1,9 +1,9 @@
 // 지난 편지 (후원자용 보관함) — 최신 편지가 맨 위, 지난 편지도 열 수 있다.
-import { $, $$, esc, periodLabel, formatDate } from '../util.js';
-import { loadIndex, loadLetterFile } from '../letters.js';
-import { decryptBody } from '../crypto.js';
-import { recallReaderPassword } from '../store.js';
-import { navigate } from '../router.js';
+import { $, $$, esc, periodLabel, formatDate } from '../util.js?v=1788590728';
+import { loadIndex, loadLetterFile } from '../letters.js?v=1788590728';
+import { decryptBody } from '../crypto.js?v=1788590728';
+import { recallReaderPassword } from '../store.js?v=1788590728';
+import { navigate } from '../router.js?v=1788590728';
 
 export async function renderArchive(root) {
   document.body.classList.add('mode-reader');
@@ -42,7 +42,7 @@ export async function renderArchive(root) {
     return;
   }
 
-  // index.json 은 최신순으로 저장되지만, 혹시 어긋나도 여기서 한 번 더 맞춘다.
+  // index.js?v=1788590728on 은 최신순으로 저장되지만, 혹시 어긋나도 여기서 한 번 더 맞춘다.
   const sorted = [...letters].sort((a, b) =>
     String(b.publishedAt).localeCompare(String(a.publishedAt)) || String(b.id).localeCompare(String(a.id)));
 

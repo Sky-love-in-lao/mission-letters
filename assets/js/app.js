@@ -1,12 +1,12 @@
 // 진입점 — 라우팅과 화면 전환 (PRD v2 §2.2, §4)
-import { route, setNotFound, start, navigate, currentPath } from './router.js';
-import { $, esc } from './util.js';
-import { isConfigured, getSettings } from './store.js?v=2';
-import { renderSettings } from './views/settings.js';
-import { renderList } from './views/list.js';
-import { renderWrite } from './views/write_v2.js?v=9';
-import { renderLetter } from './views/letter.js?v=3';
-import { renderArchive, latestLetterId } from './views/archive.js';
+import { route, setNotFound, start, navigate, currentPath } from './router.js?v=1788590728';
+import { $, esc } from './util.js?v=1788590728';
+import { isConfigured, getSettings } from './store.js?v=1788590728';
+import { renderSettings } from './views/settings.js?v=1788590728';
+import { renderList } from './views/list.js?v=1788590728';
+import { renderWrite } from './views/write_v2.js?v=1788590728';
+import { renderLetter } from './views/letter.js?v=1788590728';
+import { renderArchive, latestLetterId } from './views/archive.js?v=1788590728';
 
 const root = $('#app');
 

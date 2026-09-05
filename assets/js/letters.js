@@ -1,12 +1,12 @@
 // 편지 데이터 계층 — PRD v2 §3 데이터 모델 + §6.1 발행 절차
 
-import { getFile, putFile, deleteFile, fetchPublicJSON } from './github.js';
-import { encryptBody, decryptBody } from './crypto.js';
-import { todayISODate } from './util.js';
+import { getFile, putFile, deleteFile, fetchPublicJSON } from './github.js?v=1788590728';
+import { encryptBody, decryptBody } from './crypto.js?v=1788590728';
+import { todayISODate } from './util.js?v=1788590728';
 
 export const SCHEMA_VERSION = 1;
-const INDEX_PATH = 'letters/index.json';
-const letterPath = id => `letters/${id}.json`;
+const INDEX_PATH = 'letters/index.js?v=1788590728on';
+const letterPath = id => `letters/${id}.js?v=1788590728on`;
 
 export function emptyBody(missionaryName = '') {
   return {
@@ -52,7 +52,7 @@ export async function openLetter(id, password, options) {
 
 /**
  * 발행 — PRD §6.1
- * 1) 본문 암호화 → 2) letters/{id}.json 커밋 → 3) index.json 갱신 커밋
+ * 1) 본문 암호화 → 2) letters/{id}.js?v=1788590728on 커밋 → 3) index.js?v=1788590728on 갱신 커밋
  * 각 단계는 실패해도 작성 내용을 잃지 않도록 호출 측에서 임시저장을 유지한다.
  */
 export async function publishLetter({ id, body, password, hint, publishedAt }) {
@@ -81,7 +81,7 @@ export async function publishLetter({ id, body, password, hint, publishedAt }) {
   return letterFile;
 }
 
-/** index.json 항목 추가/갱신 — 충돌(409/422) 시 최신본을 다시 읽어 1회 재시도한다. */
+/** index.js?v=1788590728on 항목 추가/갱신 — 충돌(409/422) 시 최신본을 다시 읽어 1회 재시도한다. */
 async function upsertIndexEntry(entry, attempt = 0) {
   const file = await getFile(INDEX_PATH);
   const index = file?.data ?? { schemaVersion: SCHEMA_VERSION, letters: [] };

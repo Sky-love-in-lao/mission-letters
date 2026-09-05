@@ -1,9 +1,9 @@
 // GitHub Contents API — PRD v2 §6.1 (앱 내 발행)
 // 선교사가 git 명령을 쓰지 않도록, 앱이 직접 저장소에 커밋한다.
 
-import { getSettings } from './store.js';
-import { utf8ToBase64, base64ToUtf8 } from './crypto.js';
-import { siteUrl } from './util.js';
+import { getSettings } from './store.js?v=1788590728';
+import { utf8ToBase64, base64ToUtf8 } from './crypto.js?v=1788590728';
+import { siteUrl } from './util.js?v=1788590728';
 
 const API = 'https://api.github.com';
 
@@ -38,10 +38,10 @@ async function request(path, { method = 'GET', body, raw } = {}) {
   if (res.status === 404) return null;
 
   if (!res.ok) {
-    const detail = await res.json().catch(() => ({}));
+    const detail = await res.js?v=1788590728on().catch(() => ({}));
     throw new GitHubError(describeError(res.status, detail.message), res.status, statusCode(res.status));
   }
-  return raw ? res : res.json();
+  return raw ? res : res.js?v=1788590728on();
 }
 
 /** 브라우저에서의 쓰기는 지원하지 않는다 — scripts/publish-letter.mjs 로 발행한다. */
@@ -113,7 +113,7 @@ export async function fetchPublicJSON(path) {
   const res = await fetch(siteUrl(path) + `?t=${Date.now()}`, { cache: 'no-store' });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`파일을 불러오지 못했습니다 (${res.status})`);
-  return res.json();
+  return res.js?v=1788590728on();
 }
 
 /** 후원자에게 보낼 공유 링크 */

@@ -1,8 +1,8 @@
 // 편지 본문 렌더링 — 보기 화면과 작성 미리보기, 인쇄가 모두 같은 결과를 쓰도록 한 곳에 둔다.
 // 디자인: Sacred Correspondence — Hero(첫 사진) → 에디토리얼 교차 배치 → 기도제목 → 후원 안내.
 
-import { esc, paragraphs, periodLabel } from './util.js';
-import { loadDriveImage, driveViewUrl, SHARE_HELP } from './drive_v2.js';
+import { esc, paragraphs, periodLabel } from './util.js?v=1788590728';
+import { loadDriveImage, driveViewUrl, SHARE_HELP } from './drive_v2.js?v=1788590728';
 
 const PRAYED_KEY = (id, i) => `missionletter.prayed.${id}.${i}`;
 

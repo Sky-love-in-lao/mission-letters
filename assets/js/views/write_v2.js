@@ -1,12 +1,12 @@
 // 편지 작성/수정 — PRD v2 §7.2
-import { $, $$, esc, toast, dialog, currentMonthId, periodLabel, copyText } from '../util.js';
-import { getSettings, saveDraft, loadDraft, clearDraft } from '../store.js';
-import { emptyBody, openLetter, countPhotos } from '../letters.js';
-import { checkPassword } from '../crypto.js';
-import { extractDriveId, verifyDriveImage, loadDriveImage, SHARE_HELP, SHARE_CONFIRM, PHOTO_LIMIT_HINT } from '../drive_v2.js';
-import { letterHTML, loadLetterImages, bindPrayers, printLetter } from '../render_v2.js';
-import { shareLink } from '../github.js';
-import { navigate } from '../router.js';
+import { $, $$, esc, toast, dialog, currentMonthId, periodLabel, copyText } from '../util.js?v=1788590728';
+import { getSettings, saveDraft, loadDraft, clearDraft } from '../store.js?v=1788590728';
+import { emptyBody, openLetter, countPhotos } from '../letters.js?v=1788590728';
+import { checkPassword } from '../crypto.js?v=1788590728';
+import { extractDriveId, verifyDriveImage, loadDriveImage, SHARE_HELP, SHARE_CONFIRM, PHOTO_LIMIT_HINT } from '../drive_v2.js?v=1788590728';
+import { letterHTML, loadLetterImages, bindPrayers, printLetter } from '../render_v2.js?v=1788590728';
+import { shareLink } from '../github.js?v=1788590728';
+import { navigate } from '../router.js?v=1788590728';
 
 let state = null;
 
@@ -513,9 +513,19 @@ function paintBlocks(root) {
     return `
       <div class="block block--text" data-i="${index}">
         ${controls}
-        <div class="block__format" style="margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
-          <button type="button" class="btn btn--sm" data-action="bold" data-i="${index}" style="font-weight: bold;">B 굵게 / 제목</button>
-          <span style="font-size: 13px; color: #666;">단어 강조용. 문단 맨 앞줄이면 파란색 소제목이 됩니다.</span>
+        <div class="block__format" style="margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn btn--sm" data-action="bold" data-i="${index}" style="font-weight: bold;">B 굵게</button>
+            <select class="btn btn--sm" data-action="color" data-i="${index}" style="padding: 0 8px; font-weight: bold;">
+              <option value="">A 색상</option>
+              <option value="#c62828">빨강</option>
+              <option value="#1565c0">파랑</option>
+              <option value="#2e7d32">초록</option>
+              <option value="#e65100">주황</option>
+              <option value="#6a1b9a">보라</option>
+            </select>
+          </div>
+          <span style="font-size: 13px; color: #666; text-align: right; line-height: 1.2;">문단 맨 앞 굵게는 파란 소제목</span>
         </div>
         <textarea data-i="${index}" rows="5" placeholder="이곳에 사역 소식을 적어 주세요.&#10;&#10;빈 줄로 나누면 문단이 나뉩니다.">${esc(block.value || '')}</textarea>
       </div>`;
@@ -601,6 +611,35 @@ function paintBlocks(root) {
       
       textarea.focus();
       textarea.setSelectionRange(start + 2, start + 2 + selectedText.length);
+    };
+  });
+
+  $$('.block__format select[data-action=color]', wrap).forEach(select => {
+    select.onchange = () => {
+      const color = select.value;
+      if (!color) return;
+      
+      const i = Number(select.dataset.i);
+      const textarea = wrap.querySelector(`textarea[data-i="${i}"]`);
+      if (!textarea) return;
+      
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const text = textarea.value;
+      
+      let selectedText = text.substring(start, end);
+      if (!selectedText) selectedText = "글자";
+      
+      const prefix = `[c:${color}|`;
+      const suffix = `]`;
+      const newText = text.substring(0, start) + prefix + selectedText + suffix + text.substring(end);
+      textarea.value = newText;
+      state.body.blocks[i].value = newText;
+      persist(root);
+      
+      select.value = ""; // reset
+      textarea.focus();
+      textarea.setSelectionRange(start + prefix.length, start + prefix.length + selectedText.length);
     };
   });
 
@@ -860,10 +899,10 @@ function preview() {
   back.onclick = e => { if (e.target === back) close(); };
 }
 
-// ── 배포 — 브라우저는 저장소에 직접 쓰지 않는다(github.js writeBlocked).
+// ── 배포 — 브라우저는 저장소에 직접 쓰지 않는다(github.js?v=1788590728 writeBlocked).
 // 여기서는 scripts/publish-letter.mjs 가 그대로 먹는 내용 파일을 내려주고, 발행은 저장소에서 한다.
 function deployFileName() {
-  return `letter-${state.id}.json`;
+  return `letter-${state.id}.js?v=1788590728on`;
 }
 
 function deployPayload() {
