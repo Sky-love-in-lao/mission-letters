@@ -586,6 +586,11 @@ function paintBlocks(root) {
     };
   });
 
+  $$('.block__format button', wrap).forEach(button => {
+    button.onmousedown = e => e.preventDefault();
+    button.ontouchstart = e => e.preventDefault();
+  });
+
   $$('.block__format button[data-action=bold]', wrap).forEach(button => {
     button.onclick = () => {
       const i = Number(button.dataset.i);
