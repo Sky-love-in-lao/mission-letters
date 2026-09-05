@@ -659,23 +659,36 @@ textarea { resize: vertical; line-height: 1.8; }
 .prayers__list { list-style: none; counter-reset: prayer; margin: clamp(24px, 3vw, 36px) 0 0; padding: 0; }
 .prayers__item {
   counter-increment: prayer;
-  display: grid;
-  grid-template-columns: 56px 1fr;
-  padding: 28px 0;
+  display: block;
+  padding: 24px 0;
   border-top: 1px solid var(--line);
 }
 .prayers__item:last-child { border-bottom: 1px solid var(--line); }
-.prayers__item > * { grid-column: 2; }
 .prayers__item::before {
-  content: counter(prayer, decimal-leading-zero);
-  grid-column: 1; grid-row: 1;
+  content: counter(prayer, decimal-leading-zero) ". ";
   font-family: var(--serif);
-  font-size: 20px;
-  color: var(--ink-soft);
-  line-height: 1.7;
+  font-size: 21px;
+  color: #cc0000;
+  font-weight: 600;
+  margin-right: 6px;
+  display: inline;
 }
-.prayers__name { font-family: var(--serif); font-size: 21px; font-weight: 600; color: #cc0000; margin: 0 0 8px; line-height: 1.5; }
-.prayers__text { font-size: 17px; line-height: 1.85; color: var(--ink-soft); }
+.prayers__name { 
+  display: inline;
+  font-family: var(--serif); 
+  font-size: 21px; 
+  font-weight: 600; 
+  color: #cc0000; 
+  margin: 0; 
+  line-height: 1.5; 
+}
+.prayers__text { 
+  display: block;
+  font-size: 17px; 
+  line-height: 1.85; 
+  color: var(--ink-soft);
+  margin-top: 12px;
+}
 .prayers__text p { margin: 0 0 .8em; }
 .prayers__text p:last-child { margin-bottom: 0; }
 .prayers__mark {
