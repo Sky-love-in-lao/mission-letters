@@ -507,17 +507,19 @@ textarea { resize: vertical; line-height: 1.8; }
   margin-top: clamp(36px, 5vw, 48px);
   padding-top: clamp(24px, 3vw, 32px);
   border-top: 1px solid var(--line);
-  font-size: 17px;
-  line-height: 1.85;
-  color: var(--ink-soft);
+  text-align: justify;
+  word-break: keep-all;
+  font-size: 18px;
+  line-height: 1.9;
+  color: var(--ink);
 }
-.letter__closing p { margin: 0 0 .9em; }
+.letter__closing p { margin: 0 0 1.5em; }
 
 .reader-actions { display: flex; align-items: center; gap: 14px; justify-content: flex-start; flex-wrap: wrap; margin: clamp(36px, 5vw, 56px) 0 0; }
 .reader-actions__status { font-size: 13px; color: var(--ink-faint); }
 
 @media (max-width: 560px) {
-  .letter__body { font-size: 17px; }
+  .letter__body, .letter__closing { font-size: 17px; }
 }
 
 /* ── 편지지 머리 — 로고·발행처 | 발행 기간 ────────────────────── */
@@ -645,7 +647,7 @@ textarea { resize: vertical; line-height: 1.8; }
 }
 .prayers__title {
   font-family: var(--serif);
-  font-size: clamp(18px, 4.5vw, 26px);
+  font-size: clamp(16px, 4vw, 22px);
   font-weight: 600;
   color: var(--accent);
   margin: 0;
@@ -697,7 +699,7 @@ textarea { resize: vertical; line-height: 1.8; }
 }
 .support__title {
   font-family: var(--serif);
-  font-size: clamp(18px, 4.5vw, 26px);
+  font-size: clamp(16px, 4vw, 22px);
   font-weight: 600;
   color: var(--accent);
   margin: 0 0 20px;
