@@ -443,7 +443,8 @@ textarea { resize: vertical; line-height: 1.8; }
 /* ── 편지 본문 (읽기 최적화 — PRD §7.3) ───────────────────────── */
 .letter {
   background: transparent;
-  border: none;
+  border: 12px solid transparent !important;
+  border-image: linear-gradient(to bottom, #CE1126 15%, #1e40af 15%, #1e40af 85%, #CE1126 85%) 1 !important;
   border-radius: 0;
   box-shadow: none;
   padding: 0 16px;
@@ -845,8 +846,9 @@ body.is-locked {
   body::before, body::after { display: none !important; content: none !important; }
 
   .letter {
-    border: none !important;
-    padding: 0 !important;
+    border: 12px solid transparent !important;
+    border-image: linear-gradient(to bottom, #CE1126 15%, #1e40af 15%, #1e40af 85%, #CE1126 85%) 1 !important;
+    padding: 0 4mm !important;
     max-width: 100% !important;
     margin: 0 auto !important;
     background: transparent !important;
@@ -1060,8 +1062,9 @@ body.is-locked {
   font-size: calc(10pt * var(--print-scale, 1));
 }
 .is-measuring-print .letter {
-  border: none !important;
-  padding: 0 !important;
+  border: 12px solid transparent !important;
+  border-image: linear-gradient(to bottom, #CE1126 15%, #1e40af 15%, #1e40af 85%, #CE1126 85%) 1 !important;
+  padding: 0 4mm !important;
   max-width: 100% !important;
   margin: 0 auto;
   box-sizing: border-box;
