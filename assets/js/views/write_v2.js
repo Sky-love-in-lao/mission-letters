@@ -1,12 +1,12 @@
 // 편지 작성/수정 — PRD v2 §7.2
-import { $, $$, esc, toast, dialog, currentMonthId, periodLabel, copyText } from '../util.js?v=20260906_pdf_v7';
-import { getSettings, saveDraft, loadDraft, clearDraft } from '../store.js?v=20260906_pdf_v7';
-import { emptyBody, openLetter, countPhotos } from '../letters.js?v=20260906_pdf_v7';
-import { checkPassword } from '../crypto.js?v=20260906_pdf_v7';
-import { extractDriveId, verifyDriveImage, loadDriveImage, SHARE_HELP, SHARE_CONFIRM, PHOTO_LIMIT_HINT } from '../drive_v2.js?v=20260906_pdf_v7';
-import { letterHTML, loadLetterImages, bindPrayers, printLetter } from '../render_v2.js?v=20260906_pdf_v7';
-import { shareLink } from '../github.js?v=20260906_pdf_v7';
-import { navigate } from '../router.js?v=20260906_pdf_v7';
+import { $, $$, esc, toast, dialog, currentMonthId, periodLabel, copyText } from '../util.js?v=20260906_pdf_v8';
+import { getSettings, saveDraft, loadDraft, clearDraft } from '../store.js?v=20260906_pdf_v8';
+import { emptyBody, openLetter, countPhotos } from '../letters.js?v=20260906_pdf_v8';
+import { checkPassword } from '../crypto.js?v=20260906_pdf_v8';
+import { extractDriveId, verifyDriveImage, loadDriveImage, SHARE_HELP, SHARE_CONFIRM, PHOTO_LIMIT_HINT } from '../drive_v2.js?v=20260906_pdf_v8';
+import { letterHTML, loadLetterImages, bindPrayers, printLetter } from '../render_v2.js?v=20260906_pdf_v8';
+import { shareLink } from '../github.js?v=20260906_pdf_v8';
+import { navigate } from '../router.js?v=20260906_pdf_v8';
 
 let state = null;
 
@@ -265,11 +265,17 @@ function paint(root) {
       temp.innerHTML = letterHTML(state.body, { id: state.id });
       document.body.appendChild(temp);
       const app = document.getElementById('app');
+      const nav = document.getElementById('nav');
+      const toast = document.getElementById('toast');
       if(app) app.style.display = 'none';
+      if(nav) nav.style.display = 'none';
+      if(toast) toast.style.display = 'none';
       loadLetterImages(temp);
       await printLetter(temp.querySelector('.letter'), message => { status.textContent = message; });
       temp.remove();
       if(app) app.style.display = '';
+      if(nav) nav.style.display = '';
+      if(toast) toast.style.display = '';
     } finally {
       button.disabled = false;
       status.textContent = orig;
@@ -898,7 +904,7 @@ function preview() {
   back.onclick = e => { if (e.target === back) close(); };
 }
 
-// ── 배포 — 브라우저는 저장소에 직접 쓰지 않는다(github.js?v=20260906_pdf_v7 writeBlocked).
+// ── 배포 — 브라우저는 저장소에 직접 쓰지 않는다(github.js?v=20260906_pdf_v8 writeBlocked).
 // 여기서는 scripts/publish-letter.mjs 가 그대로 먹는 내용 파일을 내려주고, 발행은 저장소에서 한다.
 function deployFileName() {
   return `letter-${state.id}.json`;
