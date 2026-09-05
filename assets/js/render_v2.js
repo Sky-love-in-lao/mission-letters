@@ -246,7 +246,7 @@ export async function printLetter(root, onStatus) {
   container.classList.add('is-measuring-print');
   document.body.appendChild(container);
 
-  const PAGE_HEIGHT_MM = 296;
+  const PAGE_HEIGHT_MM = 297;
   
   const sheet = root.querySelector('.letter__sheet');
   let currentBlocks = [];
