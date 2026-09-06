@@ -650,7 +650,7 @@ textarea { resize: vertical; line-height: 1.8; }
 }
 .prayers__title {
   font-family: var(--serif);
-  font-size: clamp(16px, 4vw, 22px);
+  font-size: 26px;
   font-weight: 600;
   color: var(--accent);
   margin: 0;
@@ -721,7 +721,7 @@ textarea { resize: vertical; line-height: 1.8; }
 }
 .support__title {
   font-family: var(--serif);
-  font-size: clamp(16px, 4vw, 22px);
+  font-size: 26px;
   font-weight: 600;
   color: var(--accent);
   margin: 0 0 20px;
@@ -1221,7 +1221,7 @@ body.is-locked {
 }
 .print-prayer-box .prayers__title {
   margin: 0;
-  font-size: 18px;
+  font-size: 26px;
   color: #000;
   font-weight: 800;
 }
