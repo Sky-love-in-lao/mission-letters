@@ -90,7 +90,7 @@ function prayersHTML(prayers, id) {
       <ol class="prayers__list print-prayer-list">
         ${items.map((p, i) => `
           <li class="prayers__item print-prayer-item">
-            <strong class="prayers__subtitle print-prayer-num" style="color: #dc2626;">${esc((p.title || '').replace(/^[\d\s\.]*(라0스|물가|자녀|영육)/, '$1'))}</strong>
+            <strong class="prayers__subtitle print-prayer-num" style="color: #dc2626;">${esc((p.title || '').replace(/^[\d\s\.]*(라0스|라O스|라오스|물가|자녀|영육)/, '$1'))}</strong>
             <p class="prayers__text print-prayer-desc">${esc(p.text || '')}</p>
           </li>
         `).join('')}
