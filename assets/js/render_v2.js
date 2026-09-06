@@ -402,7 +402,7 @@ export async function printLetter(root, onStatus, isPreview = false) {
         // Hero Image adjustments to prevent cropping and push to top
         const heroImg = header.querySelector('img');
         if (heroImg) {
-          heroImg.style.maxHeight = '40mm';
+          heroImg.style.maxHeight = '35mm';
           heroImg.style.width = '100%';
           heroImg.style.objectFit = 'contain'; // Prevent cropping!
           heroImg.style.margin = '0';
@@ -438,7 +438,7 @@ export async function printLetter(root, onStatus, isPreview = false) {
            
 
            if (pTag) {
-             pTag.style.fontSize = (11 * s) + 'pt';
+             pTag.style.fontSize = (13 * s) + 'pt';
              pTag.style.margin = '0 0 1.5mm 0';
              pTag.style.lineHeight = '1.4';
              
@@ -462,19 +462,22 @@ export async function printLetter(root, onStatus, isPreview = false) {
            clone.style.gap = '1mm';
         }
         if (clone.classList.contains('prayers')) {
-           clone.querySelectorAll('.prayers__title, .print-prayer-title-wrapper').forEach(el => el.style.fontSize = (15 * s) + 'pt');
-           clone.querySelectorAll('.prayers__title, .print-prayer-title-wrapper').forEach(el => el.style.fontSize = (22 * s) + 'pt');
+           clone.style.padding = '12px 16px'; // Shrink box padding
+           clone.querySelectorAll('.prayers__title, .print-prayer-title-wrapper').forEach(el => {
+               el.style.fontSize = (28 * s) + 'pt';
+               el.style.marginBottom = '10px';
+           });
            clone.querySelectorAll('.prayers__subtitle').forEach(el => {
-               el.style.fontSize = (20 * s) + 'pt';
-               el.style.lineHeight = '1.4';
+               el.style.fontSize = (21 * s) + 'pt';
+               el.style.lineHeight = '1.25'; // Tight line height to save box height!
                el.style.display = 'block';
-               el.style.marginBottom = '4px';
+               el.style.marginBottom = '2px';
            });
            clone.querySelectorAll('.prayers__text').forEach(el => {
-               el.style.fontSize = (18.5 * s) + 'pt';
-               el.style.lineHeight = '1.6';
+               el.style.fontSize = (19.5 * s) + 'pt';
+               el.style.lineHeight = '1.35'; // Tight line height!
            });
-           clone.querySelectorAll('.print-prayer-item').forEach(el => el.style.marginBottom = '22px');
+           clone.querySelectorAll('.print-prayer-item').forEach(el => el.style.marginBottom = '12px'); // Drastically reduce margin!
            
            clone.style.marginTop = '2mm';
            clone.style.breakBefore = 'column'; // Force it to the next column safely!
