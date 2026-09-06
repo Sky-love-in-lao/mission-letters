@@ -462,22 +462,25 @@ export async function printLetter(root, onStatus, isPreview = false) {
            clone.style.gap = '1mm';
         }
         if (clone.classList.contains('prayers')) {
-           clone.style.padding = '8px 12px'; // Extreme shrink box padding
+           clone.style.boxSizing = 'border-box'; // MUST BE BORDER-BOX OR IT OVERFLOWS HORIZONTALLY!
+           clone.style.width = '100%';
+           clone.style.maxWidth = '100%';
+           clone.style.padding = '8px 12px';
            clone.querySelectorAll('.prayers__title, .print-prayer-title-wrapper').forEach(el => {
-               el.style.fontSize = (30 * s) + 'pt';
+               el.style.fontSize = (26 * s) + 'pt'; // Adjusted to fit perfectly
                el.style.marginBottom = '6px';
            });
            clone.querySelectorAll('.prayers__subtitle').forEach(el => {
-               el.style.fontSize = (22 * s) + 'pt';
-               el.style.lineHeight = '1.1'; // Extremely tight line height
+               el.style.fontSize = (18 * s) + 'pt';
+               el.style.lineHeight = '1.15'; 
                el.style.display = 'block';
                el.style.marginBottom = '1px';
            });
            clone.querySelectorAll('.prayers__text').forEach(el => {
-               el.style.fontSize = (20 * s) + 'pt';
-               el.style.lineHeight = '1.25'; // Extremely tight line height
+               el.style.fontSize = (16 * s) + 'pt';
+               el.style.lineHeight = '1.3'; 
            });
-           clone.querySelectorAll('.print-prayer-item').forEach(el => el.style.marginBottom = '6px'); // Extreme margin reduction!
+           clone.querySelectorAll('.print-prayer-item').forEach(el => el.style.marginBottom = '8px');
            
            clone.style.marginTop = '2mm';
            clone.style.breakBefore = 'column'; // Force it to the next column safely!
