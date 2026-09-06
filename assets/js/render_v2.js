@@ -36,9 +36,7 @@ function figureHTML(block, extraClass = '') {
   const href = block.image ? esc(block.image) : esc(driveViewUrl(block.driveId));
   return `
     <figure class="letter__figure ${extraClass}">
-      <a href="${href}" target="_blank" rel="noopener noreferrer">
-        ${imgSrc}
-      </a>
+      ${imgSrc}
       <div class="letter__photo-fallback" hidden>${SHARE_HELP}</div>
       ${block.caption ? `<figcaption>${esc(block.caption)}</figcaption>` : ''}
     </figure>`;
@@ -58,9 +56,7 @@ function heroHTML(src, size, body) {
   const isPath = /[/.]/.test(src);
   const photo = isPath
     ? `<img class="letter__hero-photo" src="${esc(src)}" alt="">`
-    : `<a class="letter__hero-link" href="${esc(driveViewUrl(src))}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
-         <img class="letter__hero-photo" data-drive-id="${esc(src)}" alt="" referrerpolicy="no-referrer">
-       </a>`;
+    : `<img class="letter__hero-photo" data-drive-id="${esc(src)}" alt="" referrerpolicy="no-referrer">`;
   return `
     <header class="letter__hero ${sizeClass('letter__hero', size, HERO_SIZES)}">
       ${photo}
