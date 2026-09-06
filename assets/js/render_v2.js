@@ -52,7 +52,7 @@ function mastheadHTML(body, period) {
 }
 
 /** 머리말 — 머리글 사진 위에 제목을 얹는다(Hero). */
-function heroHTML(src, size, body) {
+function heroHTML(src, size, body, period) {
   const isPath = /[/.]/.test(src);
   const photo = isPath
     ? `<img class="letter__hero-photo" src="${esc(src)}" alt="">`
@@ -183,7 +183,7 @@ export function letterHTML(body, meta = {}) {
   return `
     <article class="letter${heroSrc ? ' letter--hero' : ''}">
       ${mastheadHTML(body, period)}
-      ${heroSrc ? heroHTML(heroSrc, heroSize, body) : plainHeadHTML(body, period)}
+      ${heroSrc ? heroHTML(heroSrc, heroSize, body, period) : plainHeadHTML(body, period)}
       <div class="letter__sheet">
         <div class="letter__body">${blocks}</div>
         ${body.closing ? `<div class="letter__closing">${paragraphs(body.closing)}</div>` : ''}
