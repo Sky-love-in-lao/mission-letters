@@ -58,12 +58,12 @@ function showLock(root, meta, id) {
         <p class="lock__period">${esc(period)}</p>
         <h1 class="lock__title">라O스 박OO, 김OO ㅅ교편지</h1>
         <p class="lock__desc">비밀번호를 입력하면 편지를 읽을 수 있습니다.</p>
+        ${meta.hint ? `<p class="lock__hint">힌트: ${esc(meta.hint)}</p>` : ''}
         <form class="lock__form" id="lock-form">
           <input type="password" id="pw" placeholder="비밀번호" autocomplete="off"
                  autocapitalize="none" spellcheck="false" enterkeyhint="go" aria-label="비밀번호">
           <button type="submit" class="btn btn--primary btn--lg">편지 열기</button>
         </form>
-        ${meta.hint ? `<p class="lock__hint">힌트: ${esc(meta.hint)}</p>` : ''}
         <p class="lock__error" id="lock-error" role="alert"></p>
         <a class="lock__archive" href="#/archive">지난 편지 모두 보기</a>
       </div>

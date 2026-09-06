@@ -432,20 +432,16 @@ textarea { resize: vertical; line-height: 1.8; }
   font-size: 13px; color: var(--ink-soft); font-weight: 500;
   letter-spacing: .16em; text-transform: uppercase; margin: 0 0 12px;
 }
-.lock__title { font-family: var(--serif); font-size: clamp(26px, 3.6vw, 32px); font-weight: 700; color: var(--accent); margin: 0 0 10px; line-height: 1.4; }
-.lock__desc { font-size: 18px; color: #2563eb; font-weight: 600; margin: 0 0 28px; line-height: 1.75; }
+.lock__title { font-family: var(--serif); font-size: clamp(22px, 3.2vw, 26px); font-weight: 700; color: var(--accent); margin: 0 0 10px; line-height: 1.4; }
+.lock__desc { font-size: 18px; color: #2563eb; font-weight: 600; margin: 0 0 8px; line-height: 1.75; }
 .lock__form { display: grid; gap: 14px; }
 .lock__hint { 
   font-size: 18px; 
   color: #dc2626; 
   font-weight: bold;
-  margin: 18px 0 0; 
-  animation: hint-blink 1.2s infinite;
+  margin: 0 0 28px; 
 }
-@keyframes hint-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.2; }
-}
+
 .lock__remember { margin-top: 16px; font-size: 14px; }
 .lock__error { color: var(--bad); font-size: 14px; margin: 14px 0 0; min-height: 20px; }
 .lock__archive { display: inline-block; margin-top: 24px; font-size: 14px; color: var(--ink-soft); }
