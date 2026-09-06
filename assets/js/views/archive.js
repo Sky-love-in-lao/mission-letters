@@ -11,7 +11,7 @@ export async function renderArchive(root) {
   root.innerHTML = `
     <div class="page page--reader">
       <header class="archive__head">
-        <h1 class="archive__title">지난 선교편지</h1>
+        <h1 class="archive__title">지난 ㅅ교편지</h1>
         <p class="archive__lead">최신 편지가 맨 위에 있습니다.</p>
       </header>
       <div id="archive-body">
@@ -64,8 +64,7 @@ export async function renderArchive(root) {
     row.querySelector('.archive__link').onclick = () => navigate(`/letter/${row.dataset.id}`);
   });
 
-  $('#archive-body', root).insertAdjacentHTML('beforeend',
-    '<p class="reader-foot"><a href="#/settings">선교사님이신가요? 편지 쓰러 가기</a></p>');
+  
 
   revealTitles(root, sorted);
 }

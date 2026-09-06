@@ -1,12 +1,12 @@
 // 진입점 — 라우팅과 화면 전환 (PRD v2 §2.2, §4)
-import { route, setNotFound, start, navigate, currentPath } from './router.js?v=20260906_pdf_v33';
-import { $, esc } from './util.js?v=20260906_pdf_v33';
-import { isConfigured, getSettings } from './store.js?v=20260906_pdf_v33';
-import { renderSettings } from './views/settings.js?v=20260906_pdf_v33';
-import { renderList } from './views/list.js?v=20260906_pdf_v33';
-import { renderWrite } from './views/write_v2.js?v=20260906_pdf_v33';
-import { renderLetter } from './views/letter.js?v=20260906_pdf_v33';
-import { renderArchive, latestLetterId } from './views/archive.js?v=20260906_pdf_v33';
+import { route, setNotFound, start, navigate, currentPath } from './router.js?v=20260906_pdf_v34';
+import { $, esc } from './util.js?v=20260906_pdf_v34';
+import { isConfigured, getSettings } from './store.js?v=20260906_pdf_v34';
+import { renderSettings } from './views/settings.js?v=20260906_pdf_v34';
+import { renderList } from './views/list.js?v=20260906_pdf_v34';
+import { renderWrite } from './views/write_v2.js?v=20260906_pdf_v34';
+import { renderLetter } from './views/letter.js?v=20260906_pdf_v34';
+import { renderArchive, latestLetterId } from './views/archive.js?v=20260906_pdf_v34';
 
 const root = $('#app');
 
@@ -27,7 +27,7 @@ function paintNav() {
   nav.hidden = false;
   nav.innerHTML = `
     <div class="nav__inner">
-      <a class="nav__brand" href="#/list">선교편지</a>
+      <a class="nav__brand" href="#/list">ㅅ교편지</a>
       <div class="nav__links">
         ${items.map(([href, label]) =>
           `<a class="nav__link${path.startsWith(href) ? ' is-on' : ''}" href="#${href}">${esc(label)}</a>`
@@ -90,7 +90,7 @@ function renderLanding() {
     <div class="page page--narrow">
       <div class="empty">
         <div class="empty__mark" aria-hidden="true">✉︎</div>
-        <h1 class="empty__title">선교편지</h1>
+        <h1 class="empty__title">ㅅ교편지</h1>
         <p class="empty__desc">
           아직 발행된 편지가 없습니다.<br>
           선교사님은 설정을 마치면 편지를 쓸 수 있습니다.

@@ -64,7 +64,7 @@ function heroHTML(src, size, body, period) {
       <div class="letter__hero-veil" aria-hidden="true"></div>
       <div class="letter__hero-text">
         ${period ? `<div class="letter__period print-only">${esc(period)}</div>` : ''}
-      <h1 class="letter__title">${esc(body.title || '선교편지')}</h1>
+      <h1 class="letter__title">${esc(body.title || 'ㅅ교편지')}</h1>
         ${body.authorName ? `<p class="letter__author">${esc(body.authorName)}</p>` : ''}
       </div>
     </header>`;
@@ -74,7 +74,7 @@ function plainHeadHTML(body, period) {
   return `
     <header class="letter__head">
       ${period ? `<div class="letter__period print-only">${esc(period)}</div>` : ''}
-      <h1 class="letter__title">${esc(body.title || '선교편지')}</h1>
+      <h1 class="letter__title">${esc(body.title || 'ㅅ교편지')}</h1>
       ${body.authorName ? `<p class="letter__author">${esc(body.authorName)}</p>` : ''}
     </header>`;
 }
