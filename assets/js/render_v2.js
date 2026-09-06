@@ -85,7 +85,7 @@ function prayersHTML(prayers, id) {
   return `
     <section class="prayers print-prayer-box">
       <div class="print-prayer-title-wrapper">
-        <h2 class="prayers__title">ㄱ도해 주세요!</h2>
+        <h2 class="prayers__title">🙏 ㄱ도해 주세요!</h2>
       </div>
       <ol class="prayers__list print-prayer-list">
         ${items.map((p, i) => `
@@ -109,7 +109,7 @@ function supportHTML(support) {
 
   return `
     <section class="support">
-      <h2 class="support__title">사역에 동참하기</h2>
+      <h2 class="support__title">💌 사역에 동참하기</h2>
       ${rows.length ? `
         <dl class="support__account">
           ${rows.map(([label, value]) => `

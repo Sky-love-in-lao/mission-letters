@@ -683,18 +683,17 @@ textarea { resize: vertical; line-height: 1.8; }
   line-height: 1.5; 
 }
 .prayers__subtitle {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
-  display: block;
-  margin-bottom: 4px;
+  display: inline;
 }
 .prayers__text { 
   display: block;
-  font-size: 18px; 
+  font-size: 20px; 
   line-height: 1.7; 
   color: var(--ink-soft);
   margin-top: 8px;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 .prayers__text p { margin: 0 0 .8em; }
 .prayers__text p:last-child { margin-bottom: 0; }
