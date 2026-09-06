@@ -59,7 +59,7 @@ export async function publishLetter({ id, body, password, hint, publishedAt }) {
   const encrypted = await encryptBody(body, password);
   const now = new Date().toISOString();
 
-  const existing = await loadLetterFile(id, { preferApi: true });
+  const existing = await loadLetterFile(id, { preferApi: false });
   const published = publishedAt || existing?.file?.publishedAt || todayISODate();
 
   const letterFile = {

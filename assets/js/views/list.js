@@ -104,7 +104,7 @@ async function revealTitles(root, letters) {
       return;
     }
     try {
-      const found = await loadLetterFile(item.id, { preferApi: true });
+      const found = await loadLetterFile(item.id, { preferApi: false });
       const body = await decryptBody(found.file, password);
       cell.textContent = body.title || '(제목 없음)';
     } catch {
