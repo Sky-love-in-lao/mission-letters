@@ -56,7 +56,7 @@ function showLock(root, meta, id) {
       <div class="lock">
         <div class="lock__mark" aria-hidden="true">✉︎</div>
         <p class="lock__period">${esc(period)}</p>
-        <h1 class="lock__title">ㅅ교편지</h1>
+        <h1 class="lock__title">라O스 박OO, 김OO ㅅ교편지</h1>
         <p class="lock__desc">비밀번호를 입력하면 편지를 읽을 수 있습니다.</p>
         <form class="lock__form" id="lock-form">
           <input type="password" id="pw" placeholder="비밀번호" autocomplete="off"

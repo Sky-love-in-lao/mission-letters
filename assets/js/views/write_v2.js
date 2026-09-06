@@ -1,12 +1,12 @@
 // 편지 작성/수정 — PRD v2 §7.2
-import { $, $$, esc, toast, dialog, currentMonthId, periodLabel, copyText } from '../util.js?v=20260906_pdf_v38';
-import { getSettings, saveDraft, loadDraft, clearDraft } from '../store.js?v=20260906_pdf_v38';
-import { emptyBody, openLetter, countPhotos } from '../letters.js?v=20260906_pdf_v38';
-import { checkPassword } from '../crypto.js?v=20260906_pdf_v38';
-import { extractDriveId, verifyDriveImage, loadDriveImage, SHARE_HELP, SHARE_CONFIRM, PHOTO_LIMIT_HINT } from '../drive_v2.js?v=20260906_pdf_v38';
-import { letterHTML, loadLetterImages, bindPrayers, printLetter } from '../render_v2.js?v=20260906_pdf_v38';
-import { shareLink } from '../github.js?v=20260906_pdf_v38';
-import { navigate } from '../router.js?v=20260906_pdf_v38';
+import { $, $$, esc, toast, dialog, currentMonthId, periodLabel, copyText } from '../util.js?v=20260906_pdf_v39';
+import { getSettings, saveDraft, loadDraft, clearDraft } from '../store.js?v=20260906_pdf_v39';
+import { emptyBody, openLetter, countPhotos } from '../letters.js?v=20260906_pdf_v39';
+import { checkPassword } from '../crypto.js?v=20260906_pdf_v39';
+import { extractDriveId, verifyDriveImage, loadDriveImage, SHARE_HELP, SHARE_CONFIRM, PHOTO_LIMIT_HINT } from '../drive_v2.js?v=20260906_pdf_v39';
+import { letterHTML, loadLetterImages, bindPrayers, printLetter } from '../render_v2.js?v=20260906_pdf_v39';
+import { shareLink } from '../github.js?v=20260906_pdf_v39';
+import { navigate } from '../router.js?v=20260906_pdf_v39';
 
 let state = null;
 
@@ -963,7 +963,7 @@ function preview() {
   back.onclick = e => { if (e.target === back) close(); };
 }
 
-// ── 배포 — 브라우저는 저장소에 직접 쓰지 않는다(github.js?v=20260906_pdf_v38 writeBlocked).
+// ── 배포 — 브라우저는 저장소에 직접 쓰지 않는다(github.js?v=20260906_pdf_v39 writeBlocked).
 // 여기서는 scripts/publish-letter.mjs 가 그대로 먹는 내용 파일을 내려주고, 발행은 저장소에서 한다.
 function deployFileName() {
   return `letter-${state.id}.json`;
