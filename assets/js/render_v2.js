@@ -110,6 +110,7 @@ function supportHTML(support) {
   return `
     <section class="support">
       <h2 class="support__title">💌 사역에 동참하기</h2>
+      <p class="support__alert" style="color: #dc2626; font-weight: bold; font-size: 15px; margin: 0 0 16px; word-break: keep-all; line-height: 1.5;">첫 송금시 ㅅ교국(02-3459-1031~4)으로 전화 후 박OO/김OO ㅅ교사 후원임을 꼭 알려주세요!</p>
       ${rows.length ? `
         <dl class="support__account">
           ${rows.map(([label, value]) => `
