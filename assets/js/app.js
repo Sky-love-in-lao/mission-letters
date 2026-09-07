@@ -1,12 +1,12 @@
 // 진입점 — 라우팅과 화면 전환 (PRD v2 §2.2, §4)
-import { route, setNotFound, start, navigate, currentPath } from './router.js?v=20260907_pdf_v41';
-import { $, esc } from './util.js?v=20260907_pdf_v41';
-import { isConfigured, getSettings } from './store.js?v=20260907_pdf_v41';
-import { renderSettings } from './views/settings.js?v=20260907_pdf_v41';
-import { renderList } from './views/list.js?v=20260907_pdf_v41';
-import { renderWrite } from './views/write_v2.js?v=20260907_pdf_v41';
-import { renderLetter } from './views/letter.js?v=20260907_pdf_v41';
-import { renderArchive, latestLetterId } from './views/archive.js?v=20260907_pdf_v41';
+import { route, setNotFound, start, navigate, currentPath } from './router.js?v=20260907_pdf_v43';
+import { $, esc } from './util.js?v=20260907_pdf_v43';
+import { isConfigured, getSettings } from './store.js?v=20260907_pdf_v43';
+import { renderSettings } from './views/settings.js?v=20260907_pdf_v43';
+import { renderList } from './views/list.js?v=20260907_pdf_v43';
+import { renderWrite } from './views/write_v2.js?v=20260907_pdf_v43';
+import { renderLetter } from './views/letter.js?v=20260907_pdf_v43';
+import { renderArchive, latestLetterId } from './views/archive.js?v=20260907_pdf_v43';
 
 const root = $('#app');
 
