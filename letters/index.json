@@ -2,6 +2,11 @@
   "schemaVersion": 1,
   "letters": [
     {
+      "id": "2026-10",
+      "publishedAt": "2026-10-03",
+      "updatedAt": "2026-10-03T03:34:38.110224Z"
+    },
+    {
       "id": "2026-09",
       "publishedAt": "2026-09-01",
       "updatedAt": "2026-09-06T05:10:54.736881Z"
