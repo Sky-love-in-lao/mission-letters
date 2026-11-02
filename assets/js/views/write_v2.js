@@ -51,12 +51,30 @@ export async function renderWrite(root, editId) {
     }
   } else {
     // 임시저장 복구 — 새로고침·브라우저 종료 후에도 내용을 잃지 않는다.
-    const draft = loadDraft(state.id);
+    let draft = loadDraft(state.id);
+
+    // 로컬스토리지에 저장된 내용이 없거나 비어있는 경우, 서버의 최신 초안(draft_XX.json)을 자동으로 가져와 채운다.
+    const isDraftEmpty = !draft?.body?.title || (!draft.body.blocks?.[0]?.value && !draft.body.closing);
+    if (isDraftEmpty) {
+      try {
+        const monthNum = state.id.split('-')[1];
+        let res = await fetch(`draft_${monthNum}.json?_t=${Date.now()}`);
+        if (!res.ok) res = await fetch(`draft.json?_t=${Date.now()}`);
+        if (res.ok) {
+          const serverDraft = await res.json();
+          draft = serverDraft;
+          saveDraft(state.id, { body: draft.body, password: draft.password, hint: draft.hint });
+        }
+      } catch (e) {
+        console.warn('Failed to auto-fetch draft:', e);
+      }
+    }
+
     if (draft?.body) {
       state.body = draft.body;
       state.password = draft.password || state.password;
       state.hint = draft.hint || '';
-      toast('작성 중이던 내용을 복구했습니다.', 'info');
+      toast('작성된 편지 초안을 불러왔습니다.', 'info');
     }
     if (!state.body.period) state.body.period = periodLabel(state.id);
   }
