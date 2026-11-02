@@ -2,14 +2,12 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>임시저장 불러오기</title>
+  <title>11월 임시저장 불러오기</title>
 </head>
 <body>
-  <p>작성된 편지 초안을 불러오고 있습니다...</p>
+  <p>작성된 11월 편지 초안을 불러오고 있습니다...</p>
   <script>
-    fetch('draft_10.json').then(r => r.json()).then(data => {
-      // Write to localStorage for write_v2.js to load
-      // write_v2.js uses DRAFT(id) -> 'missionletter.draft.2026-10'
+    fetch('draft_11.json').then(r => r.json()).then(data => {
       const id = data.id;
       const draftKey = 'missionletter.draft.' + id;
       
