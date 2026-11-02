@@ -1,10 +1,10 @@
 // 편지 보기 (후원자용) — PRD v2 §7.3
-import { $, esc, periodLabel, toast } from '../util.js?v=1788590728';
-import { getSettings, rememberReaderPassword, recallReaderPassword, forgetReaderPassword } from '../store.js?v=1788590728';
-import { loadLetterFile } from '../letters.js?v=1788590728';
-import { decryptBody } from '../crypto.js?v=1788590728';
-import { letterHTML, loadLetterImages, printLetter, bindPrayers } from '../render_v2.js?v=1788590728';
-import { findNeighbors } from './archive.js?v=1788590728';
+import { $, esc, periodLabel, toast } from '../util.js?v=20261102_v45';
+import { getSettings, rememberReaderPassword, recallReaderPassword, forgetReaderPassword } from '../store.js?v=20261102_v45';
+import { loadLetterFile } from '../letters.js?v=20261102_v45';
+import { decryptBody } from '../crypto.js?v=20261102_v45';
+import { letterHTML, loadLetterImages, printLetter, bindPrayers } from '../render_v2.js?v=20261102_v45';
+import { findNeighbors } from './archive.js?v=20261102_v45';
 
 export async function renderLetter(root, id) {
   document.body.classList.add('mode-reader');
