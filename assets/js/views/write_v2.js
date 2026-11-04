@@ -1,12 +1,12 @@
 // 편지 작성/수정 — PRD v2 §7.2
-import { $, $$, esc, toast, dialog, currentMonthId, periodLabel, copyText } from '../util.js?v=20261103_v47';
-import { getSettings, saveDraft, loadDraft, clearDraft } from '../store.js?v=20261103_v47';
-import { emptyBody, openLetter, countPhotos } from '../letters.js?v=20261103_v47';
-import { checkPassword } from '../crypto.js?v=20261103_v47';
-import { extractDriveId, verifyDriveImage, loadDriveImage, SHARE_HELP, SHARE_CONFIRM, PHOTO_LIMIT_HINT } from '../drive_v2.js?v=20261103_v47';
-import { letterHTML, loadLetterImages, bindPrayers, printLetter } from '../render_v2.js?v=20261103_v47';
-import { shareLink } from '../github.js?v=20261103_v47';
-import { navigate } from '../router.js?v=20261103_v47';
+import { $, $$, esc, toast, dialog, currentMonthId, periodLabel, copyText } from '../util.js?v=20261104_v48';
+import { getSettings, saveDraft, loadDraft, clearDraft } from '../store.js?v=20261104_v48';
+import { emptyBody, openLetter, countPhotos } from '../letters.js?v=20261104_v48';
+import { checkPassword } from '../crypto.js?v=20261104_v48';
+import { extractDriveId, verifyDriveImage, loadDriveImage, SHARE_HELP, SHARE_CONFIRM, PHOTO_LIMIT_HINT } from '../drive_v2.js?v=20261104_v48';
+import { letterHTML, loadLetterImages, bindPrayers, printLetter } from '../render_v2.js?v=20261104_v48';
+import { shareLink } from '../github.js?v=20261104_v48';
+import { navigate } from '../router.js?v=20261104_v48';
 
 let state = null;
 
@@ -53,28 +53,29 @@ export async function renderWrite(root, editId) {
     // 임시저장 복구 — 새로고침·브라우저 종료 후에도 내용을 잃지 않는다.
     let draft = loadDraft(state.id);
 
-    // 로컬스토리지에 저장된 내용이 없거나 비어있는 경우, 서버의 최신 초안(draft_XX.json)을 자동으로 가져와 채운다.
-    const isDraftEmpty = !draft?.body?.title || (!draft.body.blocks?.[0]?.value && !draft.body.closing);
-    if (isDraftEmpty) {
-      try {
-        const monthNum = state.id.split('-')[1];
-        let res = await fetch(`draft_${monthNum}.json?_t=${Date.now()}`);
-        if (!res.ok) res = await fetch(`draft.json?_t=${Date.now()}`);
-        if (res.ok) {
-          const serverDraft = await res.json();
+    // 서버에 더 새로운 초안이 있거나 로컬스토리지가 빈 경우, 자동으로 동기화한다.
+    try {
+      const monthNum = state.id.split('-')[1];
+      let res = await fetch(`draft_${monthNum}.json?_t=${Date.now()}`);
+      if (!res.ok) res = await fetch(`draft.json?_t=${Date.now()}`);
+      if (res.ok) {
+        const serverDraft = await res.json();
+        const isDraftEmpty = !draft?.body?.title || (!draft.body.blocks?.[0]?.value && !draft.body.closing);
+        const serverIsNewer = serverDraft.savedAt && (!draft?.savedAt || serverDraft.savedAt > draft.savedAt);
+        if (isDraftEmpty || serverIsNewer) {
           draft = serverDraft;
-          saveDraft(state.id, { body: draft.body, password: draft.password, hint: draft.hint });
+          saveDraft(state.id, { body: draft.body, password: draft.password, hint: draft.hint, savedAt: draft.savedAt });
         }
-      } catch (e) {
-        console.warn('Failed to auto-fetch draft:', e);
       }
+    } catch (e) {
+      console.warn('Failed to sync server draft:', e);
     }
 
     if (draft?.body) {
       state.body = draft.body;
       state.password = draft.password || state.password;
       state.hint = draft.hint || '';
-      toast('작성된 편지 초안을 불러왔습니다.', 'info');
+      toast('최신 편지 초안을 불러왔습니다.', 'info');
     }
     if (!state.body.period) state.body.period = periodLabel(state.id);
   }
@@ -981,7 +982,7 @@ function preview() {
   back.onclick = e => { if (e.target === back) close(); };
 }
 
-// ── 배포 — 브라우저는 저장소에 직접 쓰지 않는다(github.js?v=20261103_v47 writeBlocked).
+// ── 배포 — 브라우저는 저장소에 직접 쓰지 않는다(github.js?v=20261104_v48 writeBlocked).
 // 여기서는 scripts/publish-letter.mjs 가 그대로 먹는 내용 파일을 내려주고, 발행은 저장소에서 한다.
 function deployFileName() {
   return `letter-${state.id}.json`;
